@@ -17,6 +17,7 @@ const config: Config = {
       colors: {
         "color-primary": "#00A6FB",
         "color-secondary": "#2AC28E",
+        "color-third": "#E0F5FF",
         "color-deepblue": "#4589F4",
         "para-color": "#5C728E",
         "color-black": "#031D36",

@@ -6,7 +6,7 @@ const Service = () => {
 
     return (
         <div className="bg-[url('../images/service_bg.jpg')]" >
-            <div className="px-4 lg:px-64 py-10" style={{ backgroundColor: "#ffffff9c" }}>
+            <div className="px-4 lg:px-64 py-24" style={{ backgroundColor: "#ffffff9c" }}>
                 <div className="text-center">
                     <p className="py-4 text-xl font-dm-sans font-bold text-color-primary leading-tight">
                         | Our Service
