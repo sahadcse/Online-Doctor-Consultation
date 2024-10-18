@@ -22,6 +22,8 @@ const config: Config = {
         "para-color": "#5C728E",
         "color-black": "#031D36",
         "color-white": "#ffffff",
+        "color-check-up": "#F7588D",
+        "color-report": "#FFC422",
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
