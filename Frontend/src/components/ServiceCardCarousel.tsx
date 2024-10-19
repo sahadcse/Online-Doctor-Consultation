@@ -1,6 +1,8 @@
-import { Autoplay, Pagination, Scrollbar, A11y } from 'swiper/modules';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
+import { Scrollbar } from 'swiper/modules';
+import { A11y } from 'swiper/modules';
 
 // Import Swiper styles
 import 'swiper/css';
