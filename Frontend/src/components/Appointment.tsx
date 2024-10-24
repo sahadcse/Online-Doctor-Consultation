@@ -6,6 +6,16 @@ import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headless
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import DoctorImg from '../images/appoinment_img.png';
 import Image from 'next/image';
+import { list } from 'postcss';
+import Select from 'react-select'
+
+
+const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+]
+
 
 // Sample data for the listbox
 const people = [
@@ -43,29 +53,25 @@ const Appointment = () => {
     const isInView = useInView(ref, { once: true });
 
     return (
-        <motion.div
-            ref={ref}
-            className="relative mx-auto max-w-7xl bg-[url('../images/appointment_bg.jpg')] bg-cover bg-center"
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            variants={containerVariants}
+        <div
+            className="relative my-5 lg:my-24 mx-auto max-w-7xl bg-[url('../images/appointment_bg.jpg')] bg-no-repeat"
         >
             {/* Background overlay */}
             <div className="absolute inset-0 bg-[#00a6fbde] z-0"></div>
 
             {/* Content section */}
-            <div className="relative py-10 lg:py-16 flex flex-col items-center">
+            <div className="relative flex flex-col items-center">
 
 
-                <div className="flex flex-col lg:flex-row items-center lg:justify-between gap-8 w-full lg:w-3/4">
-                    <div className="w-full lg:w-1/2 ">
+                <div className="flex flex-col lg:flex-row lg:justify-between gap-8 w-full lg:w-3/4">
+                    <div className="w-full lg:w-1/2 py-24">
                         <div className="text-center mb-8">
                             <p className="text-white text-xl font-bold">| Appointment</p>
                             <h1 className="text-white text-3xl lg:text-4xl font-semibold">
                                 Apply For Free Now
                             </h1>
                         </div>
-                        <div className='flex '>
+                        <div className='flex gap-5'>
 
                             {/* Form Section */}
                             <form className="w-full lg:w-1/2 space-y-4">
@@ -89,6 +95,8 @@ const Appointment = () => {
                                                 <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                             </span>
                                         </ListboxButton>
+
+                                        <Select className='rounded-full' options={options} />
 
                                         <ListboxOptions className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                                             {people.map((person) => (
@@ -205,12 +213,12 @@ const Appointment = () => {
                     </div>
 
                     {/* Image Section */}
-                    <div className="w-full lg:w-1/2 flex items-center justify-center lg:justify-end">
-                        <Image src={DoctorImg} alt="Doctor" className="max-w-full h-auto" />
+                    <div className="w-full lg:w-1/2 flex items-center justify-center lg:justify-end relative">
+                        <Image src={DoctorImg} alt="Doctor" className="max-w-full h-auto" style={{ position: "absolute", top: "-2", bottom: "0" }} />
                     </div>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 };
 
