@@ -54,7 +54,7 @@ const Appointment = () => {
 
     return (
         <div
-            className="relative my-5 lg:my-24 mx-auto max-w-7xl bg-[url('../images/appointment_bg.jpg')] bg-no-repeat"
+            className="relative my-5 lg:my-32 mx-auto max-w-7xl bg-[url('../images/appointment_bg.jpg')] bg-no-repeat"
         >
             {/* Background overlay */}
             <div className="absolute inset-0 bg-[#00a6fbde] z-0"></div>
