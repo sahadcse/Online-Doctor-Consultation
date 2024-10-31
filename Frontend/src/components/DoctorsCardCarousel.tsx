@@ -58,7 +58,7 @@ export const DoctorsCardCarosusel = () => {
         >
 
             {doctors.map((doctor) => (
-                <SwiperSlide>
+                <SwiperSlide key={doctor.id}>
                     <div className="card bg-base-100 w-96 shadow-xl">
                         <figure>
                             <Image src={doctor.image} alt={doctor.name} className="rounded-xl" />

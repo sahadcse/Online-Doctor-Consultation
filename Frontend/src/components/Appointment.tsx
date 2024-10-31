@@ -1,7 +1,5 @@
 "use client";
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import DoctorImg from '../images/appoinment_img.png';
@@ -36,8 +34,6 @@ const validationSchema = Yup.object({
 });
 
 const Appointment = () => {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true });
 
     return (
         <div className="relative my-5 lg:my-32 mx-auto max-w-7xl bg-[url('../images/appointment_bg.jpg')] bg-no-repeat">

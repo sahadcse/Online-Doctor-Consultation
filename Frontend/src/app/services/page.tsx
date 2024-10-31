@@ -1,37 +1,43 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
-import { Pagination } from 'swiper/modules';
-import { Scrollbar } from 'swiper/modules';
-import { A11y } from 'swiper/modules';
+import Link from "next/link";
+import Image from "next/image";
+import styles from "./services.module.css"; // Importing CSS module
+import ImgFile from "../../images/breadcrumb_bg.jpg";
+import service1 from "../../images/service-1.jpg";
+import service2 from "../../images/service-2.jpg";
+import service3 from "../../images/service-3.jpg";
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 
-import service1 from "../images/service-1.jpg";
-import service2 from "../images/service-2.jpg";
-import service3 from "../images/service-3.jpg";
-import Image from 'next/image';
-
-export const ServiceCardCarousel = () => {
+const ServicesPage = () => {
     return (
-        <Swiper
-            // install Swiper modules
-            modules={[Autoplay, Pagination, Scrollbar, A11y]}
-            spaceBetween={50}
-            slidesPerView={3}
-            navigation={false}
-            pagination={{ clickable: true }}
-            scrollbar={{ draggable: true }}
-            autoplay={{
-                delay: 3000, // Delay between slides in ms (3 seconds)
-                disableOnInteraction: false, // Autoplay won't stop on user interactions
-            }}
-            onSwiper={(swiper) => console.log(swiper)}
-            onSlideChange={() => console.log('slide change')}
-        >
-            <SwiperSlide>
+        <div>
+            <div className={`${styles.ourTeamTopContainer} relative`}>
+                <Image
+                    src={ImgFile}
+                    alt="Breadcrumb background"
+                    layout="fill"
+                    objectFit="cover"
+                    quality={75}
+                    className="absolute z-[-1]"
+                />
+                <div className={`${styles.containerEffect} absolute inset-0`} />
+                <div className="absolute inset-0 flex flex-col justify-center items-center h-full">
+                    <ul className="flex items-center space-x-4 text-black">
+                        <li>
+                            <Link href="/about">About</Link>
+                        </li>
+                        <li className="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 mr-1">
+                                <path fillRule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                            </svg>
+                            <Link href="">Our Services</Link>
+                        </li>
+                    </ul>
+                    <h1 className="text-4xl font-bold text-black mt-4">Our Services</h1>
+                </div>
+
+            </div>
+
+            <section className="grid lg:grid-cols-3 grid-cols-1 gap-16 item-self-center justify-self-center py-16">
                 <div className="card bg-base-100 w-96 shadow-xl">
                     <figure className="px-5 pt-5">
                         <Image
@@ -50,8 +56,6 @@ export const ServiceCardCarousel = () => {
                         </div>
                     </div>
                 </div>
-            </SwiperSlide>
-            <SwiperSlide>
                 <div className="card bg-base-100 w-96 shadow-xl">
                     <figure className="px-5 pt-5">
                         <Image
@@ -70,8 +74,6 @@ export const ServiceCardCarousel = () => {
                         </div>
                     </div>
                 </div>
-            </SwiperSlide>
-            <SwiperSlide>
                 <div className="card bg-base-100 w-96 shadow-xl">
                 <figure className="px-5 pt-5">
                     <Image
@@ -90,9 +92,7 @@ export const ServiceCardCarousel = () => {
                     </div>
                 </div>
             </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
+            <div className="card bg-base-100 w-96 shadow-xl">
                 <figure className="px-5 pt-5">
                     <Image
                         src={service2}
@@ -110,9 +110,7 @@ export const ServiceCardCarousel = () => {
                     </div>
                 </div>
             </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
+            <div className="card bg-base-100 w-96 shadow-xl">
                     <figure className="px-5 pt-5">
                         <Image
                             src={service1}
@@ -130,8 +128,6 @@ export const ServiceCardCarousel = () => {
                         </div>
                     </div>
                 </div>
-            </SwiperSlide>
-            <SwiperSlide>
                 <div className="card bg-base-100 w-96 shadow-xl">
                     <figure className="px-5 pt-5">
                         <Image
@@ -150,9 +146,9 @@ export const ServiceCardCarousel = () => {
                         </div>
                     </div>
                 </div>
-            </SwiperSlide>
-
-            ...
-        </Swiper>
+            </section>
+        </div>
     );
 };
+
+export default ServicesPage;

@@ -7,7 +7,6 @@ import Hero from "@/components/Hero";
 import Service from "@/components/Service";
 import Testimonial from "@/components/Testimonials";
 import WorkingProcess from "@/components/WorkingProcess";
-import Image from "next/image";
 
 export default function Home() {
   return (

@@ -3,15 +3,15 @@
 import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import TopNavbar from './TopBanners'
 import Image from 'next/image'
 import Logo from "../images/DaktarBari Transparent BG.png";
+import Link from 'next/link'
 
 const navigation = [
     { name: 'HOME', href: '/' },
     { name: 'ABOUT', href: '/about' },
-    { name: 'SERVICES', href: '#' },
-    { name: 'CONTACT', href: '#' },
+    { name: 'SERVICES', href: '/services' },
+    { name: 'CONTACT', href: '/contact' },
 ]
 
 const Navbar = () => {
@@ -49,9 +49,9 @@ const Navbar = () => {
                         </div>
                         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
 
-                            <button className="btn rounded-full lg:w-48 bg-color-primary text-color-white text-base mt-2 sm:mt-4 ">
+                            <Link href="/appointment"><button className="btn rounded-full lg:w-48 bg-color-primary text-color-white text-base mt-2 sm:mt-4 ">
                                 APPOINMENT
-                            </button>
+                            </button></Link>
                         </div>
                     </nav>
                     <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">

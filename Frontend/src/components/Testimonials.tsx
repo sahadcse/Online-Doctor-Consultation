@@ -1,6 +1,5 @@
 'use client'
 
-import { ServiceCardCarousel } from "./ServiceCardCarousel";
 import { TestimonialCardCarousel } from "./TestimonialsCardCarousel";
 
 const Testimonial = () => {

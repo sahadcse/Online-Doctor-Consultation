@@ -4,7 +4,19 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import Image from 'next/image';
 
-export const TestimonialCardCarousel = ({ data }) => {
+interface ITestimonia {
+    id: number;
+    name: string;
+    title: string;
+    testimonial: string;
+    image: string;
+}
+
+interface TestimonialCardCarouselProps {
+    data: ITestimonia[];
+}
+
+export const TestimonialCardCarousel = ({ data }: TestimonialCardCarouselProps) => {
     return (
         <Swiper
             modules={[Autoplay, Pagination, Scrollbar, A11y]}
