@@ -3,7 +3,7 @@ import Link from "next/link";
 import im from "@/images/breadcrumb_bg.jpg";
 
 const AboutTop = () => {
-    return <div className="ourTeam-top-container bg-[url('../../images/service-3.jpg')]">
+    return <div className="ourTeam-top-container service-3">
         <div className="container-effect"></div>
         <div className="absolute left-0 right-0  flex flex-col justify-center items-center h-full">
             <ul className="flex text-white">

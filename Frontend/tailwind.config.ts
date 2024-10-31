@@ -27,6 +27,9 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      backgroundImage: {
+        'service-3': "url('./images/breadcrumb_bg.jpg')", // Update path if needed
+      },
     },
   },
   plugins: [

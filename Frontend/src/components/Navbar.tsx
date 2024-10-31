@@ -5,7 +5,7 @@ import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import TopNavbar from './TopBanners'
 import Image from 'next/image'
-import Logo from "../images/DaktarGhor Transparent BG.png";
+import Logo from "../images/DaktarBari Transparent BG.png";
 
 const navigation = [
     { name: 'HOME', href: '/' },
@@ -27,7 +27,7 @@ const Navbar = () => {
                         <div className="flex lg:flex-1">
                             <a href="#" className="-m-1.5 p-1.5">
                                 <span className="sr-only">Your Company</span>
-                                <Image src={Logo} alt='Logo' width={180} height={100} />
+                                <Image src={Logo} alt='Logo' width={150} height={100} />
                             </a>
                         </div>
                         <div className="flex lg:hidden">

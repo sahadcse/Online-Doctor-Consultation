@@ -3,7 +3,6 @@ import Appointment from "@/components/Appointment";
 import Doctors from "@/components/Doctors";
 import EmergencyContact from "@/components/EmergencyContact";
 import FAQ from "@/components/FAQ";
-import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Service from "@/components/Service";
 import Testimonial from "@/components/Testimonials";
@@ -22,7 +21,6 @@ export default function Home() {
       <EmergencyContact />
       <Doctors />
       <Testimonial />
-      <Footer />
     </div>
   );
 }

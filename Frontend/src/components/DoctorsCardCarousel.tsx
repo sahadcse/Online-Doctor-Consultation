@@ -33,9 +33,9 @@ export const DoctorsCardCarosusel = () => {
         },
         {
             id: 3,
-            name: 'Diagnose & Research',
+            name: 'Tazy Farzana',
             specialty: 'Research Specialty',
-            qualifications: 'N/A',
+            qualifications: 'MBBS, FCPS, FRCS',
             image: service3,
         },
     ];
