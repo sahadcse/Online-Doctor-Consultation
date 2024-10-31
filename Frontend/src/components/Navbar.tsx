@@ -4,10 +4,12 @@ import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import TopNavbar from './TopBanners'
+import Image from 'next/image'
+import Logo from "../images/DaktarGhor Transparent BG.png";
 
 const navigation = [
-    { name: 'HOME', href: '#' },
-    { name: 'ABOUT', href: '#' },
+    { name: 'HOME', href: '/' },
+    { name: 'ABOUT', href: '/about' },
     { name: 'SERVICES', href: '#' },
     { name: 'CONTACT', href: '#' },
 ]
@@ -19,18 +21,13 @@ const Navbar = () => {
         <>
 
             <div className="bg-white">
-               
                 <header className="absolute inset-x-0 top-0 z-50">
                 {/* <TopNavbar /> */}
-                    <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-64 text-xl">
+                    <nav aria-label="Global" className="flex items-center justify-between p-6 my-0 py-0 lg:px-64 text-xl">
                         <div className="flex lg:flex-1">
                             <a href="#" className="-m-1.5 p-1.5">
                                 <span className="sr-only">Your Company</span>
-                                <img
-                                    alt=""
-                                    src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                                    className="h-8 w-auto"
-                                />
+                                <Image src={Logo} alt='Logo' width={180} height={100} />
                             </a>
                         </div>
                         <div className="flex lg:hidden">

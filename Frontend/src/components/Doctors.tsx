@@ -1,7 +1,8 @@
 'use client'
 
-import { DoctorsCardCarosusel } from "./DoctorsCardCarousel";
 import { motion } from 'framer-motion'
+import { DoctorsCardCarosusel } from './DoctorsCardCarousel';
+
 
 const Doctors = () => {
 

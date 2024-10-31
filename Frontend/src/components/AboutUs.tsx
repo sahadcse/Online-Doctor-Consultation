@@ -36,6 +36,32 @@ const AboutUs = () => {
                     <p className="py-4 text-lg lg:text-xl font-dm-sans leading-relaxed">
                         At Online Doctor, we are committed to delivering top-notch healthcare services with a patient-first approach. Our dedicated team of experienced professionals strives to provide personalized and compassionate care to every individual who walks through our doors. With state-of-the-art facilities and a comprehensive range of medical services, we ensure our patients receive the highest standard of care.
                     </p>
+                    <div className="font-dm-sans lg:text-xl">
+                        <div className="flex justify-start items-center gap-5 mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="size-6 bg-color-primary rounded-full p-1 ">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                            </svg>
+                            <p>
+                                24/7 Contact Our Hospital.
+                            </p>
+                        </div>
+                        <div className="flex justify-start items-center gap-5 mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="size-6 bg-color-primary rounded-full p-1 ">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                            </svg>
+                            <p>
+                                24 hours Open Our Hospital.
+                            </p>
+                        </div>
+                        <div className="flex justify-start items-center gap-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="size-6 bg-color-primary rounded-full p-1 ">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                            </svg>
+                            <p>
+                                Emergency Contact Our Phone Number.
+                            </p>
+                        </div>
+                    </div>
                     <motion.button className="btn rounded-full bg-color-primary text-color-white text-base mt-4 lg:w-48"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}

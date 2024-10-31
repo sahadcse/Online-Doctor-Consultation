@@ -1,6 +1,6 @@
 'use client'
 
-import BannerImg from "../images/banner_img.png"
+import BannerImg from "../images/home-banner-tow.png"
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 
@@ -20,7 +20,7 @@ const Hero = () => {
           className="w-full lg:w-1/2 flex justify-center lg:justify-end"
         >
           <div className="w-full lg:w-auto">
-            <Image src={BannerImg} className="w-full lg:w-auto" alt="Banner Img" />
+            <Image src={BannerImg} className="w-full lg:w-9/12" alt="Banner Img" />
           </div>
         </motion.div>
 

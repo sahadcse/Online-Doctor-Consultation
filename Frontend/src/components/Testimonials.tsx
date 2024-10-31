@@ -4,6 +4,43 @@ import { ServiceCardCarousel } from "./ServiceCardCarousel";
 import { TestimonialCardCarousel } from "./TestimonialsCardCarousel";
 
 const Testimonial = () => {
+    const testimonials = [
+        {
+            id: 1,
+            name: "Rezwan Rahim",
+            title: "Patient",
+            testimonial: "This platform has transformed our workflow, improving efficiency and team collaboration. Highly recommended!",
+            image: "https://rezwan-rahim.web.app/static/media/profile.821f5e54547ab118ba77.jpg",
+        },
+        {
+            id: 2,
+            name: "Jane Smith",
+            title: "Patient",
+            testimonial: "Amazing service and user experience! Our productivity has skyrocketed since we started using this app.",
+            image: "https://example.com/images/jane.jpg",
+        },
+        {
+            id: 3,
+            name: "Alice Johnson",
+            title: "Patient",
+            testimonial: "I appreciate the support and constant updates. This platform always has new features that benefit us.",
+            image: "https://example.com/images/alice.jpg",
+        },
+        {
+            id: 4,
+            name: "Mark Williams",
+            title: "Patient",
+            testimonial: "I love how easy it is to navigate and use. It saves me so much time on a daily basis!",
+            image: "https://example.com/images/mark.jpg",
+        },
+        {
+            id: 5,
+            name: "Sophia Brown",
+            title: "Patient",
+            testimonial: "Exceptional platform with fantastic tools that have streamlined our data analysis processes.",
+            image: "https://example.com/images/sophia.jpg",
+        },
+    ];
 
     return (
         <div className="" >
@@ -18,7 +55,7 @@ const Testimonial = () => {
                 </div>
 
                 <div className="my-12">
-                    <TestimonialCardCarousel />
+                    <TestimonialCardCarousel data={testimonials} />
                 </div>
             </div>
         </div >

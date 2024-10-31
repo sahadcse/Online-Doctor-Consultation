@@ -1,164 +1,62 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
-import { Pagination } from 'swiper/modules';
-import { Scrollbar } from 'swiper/modules';
-import { A11y } from 'swiper/modules';
-
-// Import Swiper styles
+import { Autoplay, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import 'swiper/css';
-import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-
-import service1 from "../images/service-1.jpg";
-import service2 from "../images/service-2.jpg";
-import service3 from "../images/service-3.jpg";
 import Image from 'next/image';
 
-export const TestimonialCardCarousel = () => {
+export const TestimonialCardCarousel = ({ data }) => {
     return (
         <Swiper
-            // install Swiper modules
             modules={[Autoplay, Pagination, Scrollbar, A11y]}
-            spaceBetween={50}
+            spaceBetween={30}
             slidesPerView={3}
-            navigation={false}
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
             autoplay={{
-                delay: 3000, // Delay between slides in ms (3 seconds)
-                disableOnInteraction: false, // Autoplay won't stop on user interactions
+                delay: 3000,
+                disableOnInteraction: false,
             }}
-            onSwiper={(swiper) => console.log(swiper)}
-            onSlideChange={() => console.log('slide change')}
+            onSlideChange={() => console.log('Slide changed')}
         >
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                    <div className='flex'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                        </svg>
-
-                    </div>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus sapiente animi reprehenderit ducimus est odit cumque assumenda mollitia omnis consequuntur.</p>
-                    <div>
-
-                        <div>
-                            <h1>Rezwan Rahim</h1>
-                            <p>Customer</p>
+            {data.map((testimonial) => (
+                <SwiperSlide key={testimonial.id}>
+                    <div className="card bg-base-100 w-full shadow-xl p-6 text-work-sans">
+                        <div className="flex gap-1">
+                            {[...Array(5)].map((_, index) => (
+                                <svg
+                                    key={index}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill={index < 3 ? "currentColor" : "none"}
+                                    stroke={index >= 3 ? "currentColor" : "none"}
+                                    className="w-6 h-6 text-amber-400"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                            ))}
+                        </div>
+                        <p className="my-4">{testimonial.testimonial}</p>
+                        <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 relative rounded-full overflow-hidden">
+                                <Image
+                                    src={testimonial.image}
+                                    alt={testimonial.name}
+                                    layout="fill"
+                                    objectFit="cover"
+                                />
+                            </div>
+                            <div>
+                                <h2 className="text-lg font-semibold">{testimonial.name}</h2>
+                                <p className="text-sm text-gray-600">{testimonial.title}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                    <figure className="px-5 pt-5">
-                        <Image
-                            src={service2}
-                            alt="Shoes"
-                            className="rounded-xl" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title font-work-sans text-color-black text-2xl">
-                            Holter Heart Surgery
-                        </h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div className="card-actions justify-start">
-                            <div className="badge badge-outline">Read More</div>
-
-                        </div>
-                    </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide><div className="card bg-base-100 w-96 shadow-xl">
-                <figure className="px-5 pt-5">
-                    <Image
-                        src={service3}
-                        alt="Shoes"
-                        className="rounded-xl" />
-                </figure>
-                <div className="card-body">
-                    <h2 className="card-title font-work-sans text-color-black text-2xl">
-                        Diagnose & Research
-                    </h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-start">
-                        <div className="badge badge-outline">Read More</div>
-
-                    </div>
-                </div>
-            </div></SwiperSlide>
-            <SwiperSlide><div className="card bg-base-100 w-96 shadow-xl">
-                <figure className="px-5 pt-5">
-                    <Image
-                        src={service2}
-                        alt="Shoes"
-                        className="rounded-xl" />
-                </figure>
-                <div className="card-body">
-                    <h2 className="card-title font-work-sans text-color-black text-2xl">
-                        Online Monitoring
-                    </h2>
-                    <p className='font-dm-sans'>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-start">
-                        <div className="badge badge-outline">Read More</div>
-
-                    </div>
-                </div>
-            </div></SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                    <figure className="px-5 pt-5">
-                        <Image
-                            src={service1}
-                            alt="Shoes"
-                            className="rounded-xl" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title font-work-sans text-color-black text-2xl">
-                            Online Monitoring
-                        </h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div className="card-actions justify-start">
-                            <div className="badge badge-outline">Read More</div>
-
-                        </div>
-                    </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                    <figure className="px-5 pt-5">
-                        <Image
-                            src={service2}
-                            alt="Shoes"
-                            className="rounded-xl" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title font-work-sans text-color-black text-2xl">
-                            Holter Heart Surgery
-                        </h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div className="card-actions justify-start">
-                            <div className="badge badge-outline">Read More</div>
-
-                        </div>
-                    </div>
-                </div>
-            </SwiperSlide>
-
-            ...
+                </SwiperSlide>
+            ))}
         </Swiper>
     );
 };

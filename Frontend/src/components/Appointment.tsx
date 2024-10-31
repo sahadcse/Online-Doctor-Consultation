@@ -1,215 +1,163 @@
 "use client";
 
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+import { useRef } from 'react';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import DoctorImg from '../images/appoinment_img.png';
 import Image from 'next/image';
-import { list } from 'postcss';
-import Select from 'react-select'
 
-
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-]
-
-
-// Sample data for the listbox
-const people = [
-    { id: 0, name: 'Select Doctor' },
-    { id: 1, name: 'Wade Cooper', avatar: 'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?auto=format&w=256&q=80' },
-    { id: 2, name: 'Arlene Mccoy', avatar: 'https://images.unsplash.com/photo-1550525811-e5869dd03032?auto=format&w=256&q=80' },
-    // More items...
+// Sample data for dropdowns
+const doctors = [
+    { id: '', name: 'Select Doctor' },
+    { id: '1', name: 'Dr. Wade Cooper' },
+    { id: '2', name: 'Dr. Arlene Mccoy' },
 ];
 
 const times = [
-    { id: 0, name: 'Select Time' },
-    // More items...
+    { id: '', name: 'Select Time' },
+    { id: '9:00 AM', name: '9:00 AM' },
+    { id: '10:00 AM', name: '10:00 AM' },
 ];
 
-const doctors = [
-    { id: 0, name: 'Select Doctor' },
-    { id: 1, name: 'Dr. Wade Cooper', avatar: 'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?auto=format&w=256&q=80' },
-    { id: 2, name: 'Dr. Arlene Mccoy', avatar: 'https://images.unsplash.com/photo-1550525811-e5869dd03032?auto=format&w=256&q=80' },
-    // More items...
+const departments = [
+    { id: '', name: 'Select Department' },
+    { id: 'cardiology', name: 'Cardiology' },
+    { id: 'neurology', name: 'Neurology' },
 ];
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.3 },
-    },
-};
+const validationSchema = Yup.object({
+    patientName: Yup.string().required('Patient name is required'),
+    email: Yup.string().email('Invalid email address').required('Email is required'),
+    doctor: Yup.string().required('Selecting a doctor is required'),
+    time: Yup.string().required('Selecting a time is required'),
+    department: Yup.string().required('Selecting a department is required'),
+    date: Yup.date().required('Date is required'),
+});
 
 const Appointment = () => {
-    const [selected, setSelected] = useState(people[0]);
-    const [selectedTime, setSelectedTime] = useState(times[0]);
-    const [selectedDoctor, setSelectedDoctor] = useState(people[0]);
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
 
     return (
-        <div
-            className="relative my-5 lg:my-32 mx-auto max-w-7xl bg-[url('../images/appointment_bg.jpg')] bg-no-repeat"
-        >
+        <div className="relative my-5 lg:my-32 mx-auto max-w-7xl bg-[url('../images/appointment_bg.jpg')] bg-no-repeat">
             {/* Background overlay */}
             <div className="absolute inset-0 bg-[#00a6fbde] z-0"></div>
 
             {/* Content section */}
             <div className="relative flex flex-col items-center">
-
-
                 <div className="flex flex-col lg:flex-row lg:justify-between gap-8 w-full lg:w-3/4">
-                    <div className="w-full lg:w-1/2 py-24">
+                    <div className="w-full lg:w-1/2 py-24 flex flex-col items-center">
                         <div className="text-center mb-8">
                             <p className="text-white text-xl font-bold">| Appointment</p>
-                            <h1 className="text-white text-3xl lg:text-4xl font-semibold">
-                                Apply For Free Now
-                            </h1>
+                            <h1 className="text-white text-3xl lg:text-4xl font-semibold">Apply For Free Now</h1>
                         </div>
-                        <div className='flex gap-5'>
 
-                            {/* Form Section */}
-                            <form className="w-full lg:w-1/2 space-y-4">
-                                <input
-                                    type="text"
-                                    placeholder="Patient Name*"
-                                    className="block w-full rounded-full border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-indigo-600"
-                                />
-                                <input
-                                    type="email"
-                                    placeholder="Email Address*"
-                                    className="block w-full rounded-full border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-indigo-600"
-                                />
-
-                                {/* Doctor Dropdown */}
-                                <Listbox value={selected} onChange={setSelected}>
-                                    <div className="relative">
-                                        <ListboxButton className="relative w-full cursor-default rounded-full bg-white py-1.5 pl-3 pr-10 text-left shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500">
-                                            <span className="block truncate">{selected.name}</span>
-                                            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                                                <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                            </span>
-                                        </ListboxButton>
-
-                                        <Select className='rounded-full' options={options} />
-
-                                        <ListboxOptions className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                            {people.map((person) => (
-                                                <ListboxOption key={person.id} value={person} className="relative cursor-default select-none py-2 pl-3 pr-9">
-                                                    <div className="flex items-center">
-                                                        <span className="ml-3 block truncate">{person.name}</span>
-                                                    </div>
-                                                    {selected.id === person.id && (
-                                                        <span className="absolute inset-y-0 right-0 flex items-center pr-4">
-                                                            <CheckIcon className="h-5 w-5 text-indigo-600" aria-hidden="true" />
-                                                        </span>
-                                                    )}
-                                                </ListboxOption>
-                                            ))}
-                                        </ListboxOptions>
+                        {/* Formik Form */}
+                        <Formik
+                            initialValues={{
+                                patientName: '',
+                                email: '',
+                                doctor: '',
+                                time: '',
+                                department: '',
+                                date: '',
+                            }}
+                            validationSchema={validationSchema}
+                            onSubmit={(values) => {
+                                console.log('Form data:', values);
+                            }}
+                        >
+                            {() => (
+                                <Form className="space-y-4 w-full">
+                                    {/* Patient Name */}
+                                    <div>
+                                        <Field
+                                            type="text"
+                                            name="patientName"
+                                            placeholder="Patient Name*"
+                                            className="block w-full rounded-full border-0 py-2.5 pl-4 pr-10 text-gray-900 ring-1 ring-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-indigo-600"
+                                        />
+                                        <ErrorMessage name="patientName" component="div" className="text-red-500 text-sm" />
                                     </div>
-                                </Listbox>
 
-                                {/* Time Dropdown */}
-                                <Listbox value={selectedTime} onChange={setSelectedTime}>
-                                    <div className="relative">
-                                        <ListboxButton className="relative w-full cursor-default rounded-full bg-white py-1.5 pl-3 pr-10 text-left shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500">
-                                            <span className="block truncate">{selectedTime.name}</span>
-                                            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                                                <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                            </span>
-                                        </ListboxButton>
+                                    {/* Email */}
+                                    <div>
+                                        <Field
+                                            type="email"
+                                            name="email"
+                                            placeholder="Email Address*"
+                                            className="block w-full rounded-full border-0 py-2.5 pl-4 pr-10 text-gray-900 ring-1 ring-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-indigo-600"
+                                        />
+                                        <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
+                                    </div>
 
-                                        <ListboxOptions className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                    {/* Doctor Dropdown */}
+                                    <div>
+                                        <Field
+                                            as="select"
+                                            name="doctor"
+                                            className="block w-full rounded-full bg-white py-2.5 pl-3 pr-10 text-left shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500"
+                                        >
+                                            {doctors.map((doc) => (
+                                                <option key={doc.id} value={doc.id}>
+                                                    {doc.name}
+                                                </option>
+                                            ))}
+                                        </Field>
+                                        <ErrorMessage name="doctor" component="div" className="text-red-500 text-sm" />
+                                    </div>
+
+                                    {/* Time Dropdown */}
+                                    <div>
+                                        <Field
+                                            as="select"
+                                            name="time"
+                                            className="block w-full rounded-full bg-white py-2.5 pl-3 pr-10 text-left shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500"
+                                        >
                                             {times.map((time) => (
-                                                <ListboxOption key={time.id} value={time} className="relative cursor-default select-none py-2 pl-3 pr-9">
-                                                    <div className="flex items-center">
-                                                        <span className="ml-3 block truncate">{time.name}</span>
-                                                    </div>
-                                                    {selectedTime.id === time.id && (
-                                                        <span className="absolute inset-y-0 right-0 flex items-center pr-4">
-                                                            <CheckIcon className="h-5 w-5 text-indigo-600" aria-hidden="true" />
-                                                        </span>
-                                                    )}
-                                                </ListboxOption>
+                                                <option key={time.id} value={time.id}>
+                                                    {time.name}
+                                                </option>
                                             ))}
-                                        </ListboxOptions>
+                                        </Field>
+                                        <ErrorMessage name="time" component="div" className="text-red-500 text-sm" />
                                     </div>
-                                </Listbox>
 
-
-                            </form>
-                            <div className="w-full lg:w-1/2 space-y-4">
-                                <input
-                                    type="email"
-                                    placeholder="Email Address*"
-                                    className="block w-full rounded-full border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-indigo-600"
-                                />
-
-                                {/* Doctor Dropdown */}
-                                <Listbox value={selected} onChange={setSelected}>
-                                    <div className="relative">
-                                        <ListboxButton className="relative w-full cursor-default rounded-full bg-white py-1.5 pl-3 pr-10 text-left shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500">
-                                            <span className="block truncate">{selected.name}</span>
-                                            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                                                <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                            </span>
-                                        </ListboxButton>
-
-                                        <ListboxOptions className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                            {people.map((person) => (
-                                                <ListboxOption key={person.id} value={person} className="relative cursor-default select-none py-2 pl-3 pr-9">
-                                                    <div className="flex items-center">
-                                                        <span className="ml-3 block truncate">{person.name}</span>
-                                                    </div>
-                                                    {selected.id === person.id && (
-                                                        <span className="absolute inset-y-0 right-0 flex items-center pr-4">
-                                                            <CheckIcon className="h-5 w-5 text-indigo-600" aria-hidden="true" />
-                                                        </span>
-                                                    )}
-                                                </ListboxOption>
+                                    {/* Department Dropdown */}
+                                    <div>
+                                        <Field
+                                            as="select"
+                                            name="department"
+                                            className="block w-full rounded-full bg-white py-2.5 pl-3 pr-10 text-left shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500"
+                                        >
+                                            {departments.map((dept) => (
+                                                <option key={dept.id} value={dept.id}>
+                                                    {dept.name}
+                                                </option>
                                             ))}
-                                        </ListboxOptions>
+                                        </Field>
+                                        <ErrorMessage name="department" component="div" className="text-red-500 text-sm" />
                                     </div>
-                                </Listbox>
 
-                                {/* Time Dropdown */}
-                                <Listbox value={selectedTime} onChange={setSelectedTime}>
-                                    <div className="relative">
-                                        <ListboxButton className="relative w-full cursor-default rounded-full bg-white py-1.5 pl-3 pr-10 text-left shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500">
-                                            <span className="block truncate">{selectedTime.name}</span>
-                                            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                                                <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                            </span>
-                                        </ListboxButton>
-
-                                        <ListboxOptions className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                            {times.map((time) => (
-                                                <ListboxOption key={time.id} value={time} className="relative cursor-default select-none py-2 pl-3 pr-9">
-                                                    <div className="flex items-center">
-                                                        <span className="ml-3 block truncate">{time.name}</span>
-                                                    </div>
-                                                    {selectedTime.id === time.id && (
-                                                        <span className="absolute inset-y-0 right-0 flex items-center pr-4">
-                                                            <CheckIcon className="h-5 w-5 text-indigo-600" aria-hidden="true" />
-                                                        </span>
-                                                    )}
-                                                </ListboxOption>
-                                            ))}
-                                        </ListboxOptions>
+                                    {/* Date */}
+                                    <div>
+                                        <Field
+                                            type="date"
+                                            name="date"
+                                            className="block w-full rounded-full border-0 py-2.5 pl-4 pr-10 text-gray-900 ring-1 ring-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-indigo-600"
+                                        />
+                                        <ErrorMessage name="date" component="div" className="text-red-500 text-sm" />
                                     </div>
-                                </Listbox>
 
-                                <button className="btn rounded-full bg-white text-black text-base mt-4 lg:w-48">
-                                    Apply Now
-                                </button>
-                            </div>
-                        </div>
+                                    <div className='text-center'>
+                                        <button type="submit" className="btn rounded-full bg-white text-black text-base mt-4  lg:w-72">
+                                            Apply Now
+                                        </button>
+                                    </div>
+                                </Form>
+                            )}
+                        </Formik>
                     </div>
 
                     {/* Image Section */}

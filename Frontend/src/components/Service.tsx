@@ -9,10 +9,10 @@ const Service = () => {
             <div className="px-4 lg:px-64 py-24" style={{ backgroundColor: "#ffffff9c" }}>
                 <div className="text-center">
                     <p className="py-4 text-xl font-dm-sans font-bold text-color-primary leading-tight">
-                        | Our Service
+                        | Our Services
                     </p>
                     <h1 className="text-4xl lg:text-5xl font-semibold font-work-sans text-color-black leading-tight">
-                        Our Madical Service
+                        Our Madical Services
                     </h1>
                 </div>
 

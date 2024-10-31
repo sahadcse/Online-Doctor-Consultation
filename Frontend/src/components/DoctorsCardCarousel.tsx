@@ -9,12 +9,37 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import service1 from "../images/service-1.jpg";
-import service2 from "../images/service-2.jpg";
-import service3 from "../images/service-3.jpg";
+import service1 from "../images/team-2.jpg";
+import service2 from "../images/team-3.jpg";
+import service3 from "../images/team-4.jpg";
 import Image from 'next/image';
 
 export const DoctorsCardCarosusel = () => {
+
+    const doctors = [
+        {
+            id: 1,
+            name: 'Toma Islam',
+            specialty: 'Ophthalmology',
+            qualifications: 'MBBS, FCPS, FRCS',
+            image: service1,
+        },
+        {
+            id: 2,
+            name: 'Rezwan Rahim',
+            specialty: 'Ophthalmology',
+            qualifications: 'MBBS, FCPS, FRCS',
+            image: service2,
+        },
+        {
+            id: 3,
+            name: 'Diagnose & Research',
+            specialty: 'Research Specialty',
+            qualifications: 'N/A',
+            image: service3,
+        },
+    ];
+
     return (
         <Swiper
             // install Swiper modules
@@ -31,123 +56,25 @@ export const DoctorsCardCarosusel = () => {
             onSwiper={(swiper) => console.log(swiper)}
             onSlideChange={() => console.log('slide change')}
         >
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                    <figure className="px-5 pt-5">
-                        <Image
-                            src={service1}
-                            alt="Shoes"
-                            className="rounded-xl" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title font-work-sans text-color-black text-2xl">
-                            Online Monitoring
-                        </h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div className="card-actions justify-start">
-                            <div className="badge badge-outline">Appointmnet</div>
 
+            {doctors.map((doctor) => (
+                <SwiperSlide>
+                    <div className="card bg-base-100 w-96 shadow-xl">
+                        <figure>
+                            <Image src={doctor.image} alt={doctor.name} className="rounded-xl" />
+                        </figure>
+                        <div className="card-body text-start">
+                            <h2 className="card-title">{doctor.name}</h2>
+                            <p>{doctor.specialty}</p>
+                            <p>{doctor.qualifications}</p>
+                            <div className="card-actions justify-start">
+                                <button className="btn bg-color-primary text-white">Appointment</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                    <figure className="px-5 pt-5">
-                        <Image
-                            src={service2}
-                            alt="Shoes"
-                            className="rounded-xl" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title font-work-sans text-color-black text-2xl">
-                            Holter Heart Surgery
-                        </h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div className="card-actions justify-start">
-                            <div className="badge badge-outline">Appointmnet</div>
+                </SwiperSlide>
 
-                        </div>
-                    </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide><div className="card bg-base-100 w-96 shadow-xl">
-                <figure className="px-5 pt-5">
-                    <Image
-                        src={service3}
-                        alt="Shoes"
-                        className="rounded-xl" />
-                </figure>
-                <div className="card-body">
-                    <h2 className="card-title font-work-sans text-color-black text-2xl">
-                        Diagnose & Research
-                    </h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-start">
-                        <div className="badge badge-outline">Appointmnet</div>
-
-                    </div>
-                </div>
-            </div></SwiperSlide>
-            <SwiperSlide><div className="card bg-base-100 w-96 shadow-xl">
-                <figure className="px-5 pt-5">
-                    <Image
-                        src={service2}
-                        alt="Shoes"
-                        className="rounded-xl" />
-                </figure>
-                <div className="card-body">
-                    <h2 className="card-title font-work-sans text-color-black text-2xl">
-                        Online Monitoring
-                    </h2>
-                    <p className='font-dm-sans'>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-start">
-                        <div className="badge badge-outline">Appointmnet</div>
-
-                    </div>
-                </div>
-            </div></SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                    <figure className="px-5 pt-5">
-                        <Image
-                            src={service1}
-                            alt="Shoes"
-                            className="rounded-xl" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title font-work-sans text-color-black text-2xl">
-                            Online Monitoring
-                        </h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div className="card-actions justify-start">
-                            <div className="badge badge-outline">Appointmnet</div>
-
-                        </div>
-                    </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                    <figure className="px-5 pt-5">
-                        <Image
-                            src={service2}
-                            alt="Shoes"
-                            className="rounded-xl" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title font-work-sans text-color-black text-2xl">
-                            Holter Heart Surgery
-                        </h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div className="card-actions justify-start">
-                            <div className="badge badge-outline">Appointmnet</div>
-
-                        </div>
-                    </div>
-                </div>
-            </SwiperSlide>
-
+            ))}
             ...
         </Swiper>
     );
