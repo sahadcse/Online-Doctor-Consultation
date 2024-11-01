@@ -12,7 +12,7 @@ const Service = () => {
                         | Our Services
                     </p>
                     <h1 className="text-4xl lg:text-5xl font-semibold font-work-sans text-color-black leading-tight">
-                        Our Madical Services
+                        Our Medical Services
                     </h1>
                 </div>
 
