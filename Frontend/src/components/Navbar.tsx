@@ -12,6 +12,7 @@ const navigation = [
     { name: 'ABOUT', href: '/about' },
     { name: 'SERVICES', href: '/services' },
     { name: 'CONTACT', href: '/contact' },
+    { name: 'APPOINTMENT', href: '/appointment' },
 ]
 
 const Navbar = () => {
@@ -22,7 +23,7 @@ const Navbar = () => {
 
             <div className="bg-white">
                 <header className="absolute inset-x-0 top-0 z-50">
-                {/* <TopNavbar /> */}
+                    {/* <TopNavbar /> */}
                     <nav aria-label="Global" className="flex items-center justify-between p-6 my-0 py-0 lg:px-64 text-xl">
                         <div className="flex lg:flex-1">
                             <a href="#" className="-m-1.5 p-1.5">
@@ -47,10 +48,10 @@ const Navbar = () => {
                                 </a>
                             ))}
                         </div>
-                        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                        <div className="hidde n lg:flex lg:flex-1 lg:justify-end">
 
-                            <Link href="/appointment"><button className="btn rounded-full lg:w-48 bg-color-primary text-color-white text-base mt-2 sm:mt-4 ">
-                                APPOINMENT
+                            <Link href="/login"><button className="btn rounded-full lg:w-48 bg-color-primary text-color-white text-base mt-2 sm:mt-4 ">
+                                LOGIN
                             </button></Link>
                         </div>
                     </nav>
@@ -60,11 +61,7 @@ const Navbar = () => {
                             <div className="flex items-center justify-between">
                                 <a href="#" className="-m-1.5 p-1.5">
                                     <span className="sr-only">Your Company</span>
-                                    <img
-                                        alt=""
-                                        src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-                                        className="h-8 w-auto"
-                                    />
+                                    <Image src={Logo} alt='Logo' width={150} height={100} />7
                                 </a>
                                 <button
                                     type="button"
@@ -89,12 +86,9 @@ const Navbar = () => {
                                         ))}
                                     </div>
                                     <div className="py-6">
-                                        <a
-                                            href="#"
-                                            className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                        >
-                                            Log in
-                                        </a>
+                                        <Link href="/login"><button className="btn rounded-full lg:w-48 bg-color-primary text-color-white text-base mt-2 sm:mt-4 ">
+                                            LOGIN
+                                        </button></Link>
                                     </div>
                                 </div>
                             </div>
