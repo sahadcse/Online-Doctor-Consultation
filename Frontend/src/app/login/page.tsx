@@ -30,7 +30,7 @@ const LoginPage = () => {
             setError(null);
 
             try {
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/login`, values);
+                const response = await axios.post(`https://odcp-backend-production.up.railway.app/api/users/login`, values);
                 const token = response.data.token;
 
                 // Store JWT in cookies
