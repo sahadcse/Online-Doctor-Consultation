@@ -5,7 +5,11 @@ import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import Logo from "../images/DaktarBari Transparent BG.png";
-import Link from 'next/link'
+import Link from 'next/link';
+import useisAuthenticated from '../hooks/useIsAuthenticated';
+import useUserData from '../hooks/useUserData';
+import { useDispatch } from 'react-redux'
+import { logout } from '@/redux/slices/userSlice'
 
 const navigation = [
     { name: 'HOME', href: '/' },
@@ -16,7 +20,25 @@ const navigation = [
 ]
 
 const Navbar = () => {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const isAuth = useisAuthenticated();
+    const userData = useUserData();
+    const dispatch = useDispatch();
+
+    if (isAuth) {
+        const check = navigation.find(item => item.name === 'DASHBOARD');
+        if (!check) {
+            if (userData.role === 'doctor') navigation.push({ name: 'DASHBOARD', href: '/doctor/dashboard' })
+            else if (userData.role === 'patient') navigation.push({ name: 'DASHBOARD', href: '/patient/dashboard' })
+            else if (userData.role === 'admin') navigation.push({ name: 'DASHBOARD', href: '/admin/dashboard' })
+        }
+    }
+
+    const handleLogout = () => {
+        dispatch(logout());
+        window.location.href = '/login';
+    }
+
 
     return (
         <>
@@ -50,9 +72,17 @@ const Navbar = () => {
                         </div>
                         <div className="hidde n lg:flex lg:flex-1 lg:justify-end">
 
-                            <Link href="/login"><button className="btn rounded-full lg:w-48 bg-color-primary text-color-white text-base mt-2 sm:mt-4 ">
-                                LOGIN
-                            </button></Link>
+                            {
+                                isAuth ? (
+                                    <Link href="/login"><button className="btn rounded-full lg:w-48 bg-color-primary text-color-white text-base mt-2 sm:mt-4 " onClick={() => handleLogout()}>
+                                        LOGOUT
+                                    </button></Link>
+                                ) : (
+                                    <Link href="/login"><button className="btn rounded-full lg:w-48 bg-color-primary text-color-white text-base mt-2 sm:mt-4 ">
+                                        LOGIN
+                                    </button></Link>
+                                )
+                            }
                         </div>
                     </nav>
                     <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
@@ -86,9 +116,18 @@ const Navbar = () => {
                                         ))}
                                     </div>
                                     <div className="py-6">
-                                        <Link href="/login"><button className="btn rounded-full lg:w-48 bg-color-primary text-color-white text-base mt-2 sm:mt-4 ">
-                                            LOGIN
-                                        </button></Link>
+
+                                        {
+                                            isAuth ? (
+                                                <Link href="/login"><button className="btn rounded-full lg:w-48 bg-color-primary text-color-white text-base mt-2 sm:mt-4 " onClick={() => handleLogout()}>
+                                                    LOGOUT
+                                                </button></Link>
+                                            ) : (
+                                                <Link href="/login"><button className="btn rounded-full lg:w-48 bg-color-primary text-color-white text-base mt-2 sm:mt-4 ">
+                                                    LOGIN
+                                                </button></Link>
+                                            )
+                                        }
                                     </div>
                                 </div>
                             </div>

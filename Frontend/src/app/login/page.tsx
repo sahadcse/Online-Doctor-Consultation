@@ -5,12 +5,14 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useFormik } from 'formik';
-import Cookies from 'js-cookie';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/slices/userSlice';
 
 const LoginPage = () => {
     const [error, setError] = useState(null);
     const router = useRouter();
+    const dispatch = useDispatch();
 
     // Formik setup
     const formik = useFormik({
@@ -31,21 +33,9 @@ const LoginPage = () => {
 
             try {
                 const response = await axios.post(`https://odcp-backend-production.up.railway.app/api/users/login`, values);
-                const token = response.data.token;
-
-                // Store JWT in cookies
-                Cookies.set('token', token);
-
-                // Decode token to get user role
-                const userRole = JSON.parse(atob(token.split('.')[1])).role;
-
-
-                // Redirect based on user role
-                if (userRole === 'admin') {
-                    // router.push('/admin/dashboard'); // Redirect to admin dashboard
-                    window.location.href = '/admin/dashboard';
-                } else {
-                    // router.push('/'); // Redirect to user dashboard
+                const data = response.data;
+                if (data) {
+                    dispatch(login(data));
                     window.location.href = '/';
                 }
             } catch (err) {
