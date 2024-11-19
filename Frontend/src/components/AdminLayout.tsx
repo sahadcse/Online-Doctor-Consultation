@@ -20,18 +20,18 @@ const AdminLayout = ({ children }) => {
                 <ul className="menu p-4 w-60  h-full bg-white text-base-content font-medium text-base">
 
                     <li className={isActive('/admin/rooms/new') ? 'bg-sky-200 rounded' : ''}>
-                        <Link href="/admin/rooms/new" passHref>
-                            Create New Room
+                        <Link href="/admin/doctors/new" passHref>
+                            Create New Doctor
                         </Link>
                     </li>
                     <li className={isActive('/admin/rooms/all') ? 'bg-sky-200 rounded' : ''}>
                         <Link href="/admin/rooms/all" passHref>
-                            All Rooms
+                            All Doctors
                         </Link>
                     </li>
                     <li className={isActive('/admin/booking/all') ? 'bg-sky-200 rounded' : ''}>
                         <Link href="/admin/booking/all" passHref>
-                            All Bookings
+                            All Appointments
                         </Link>
                     </li>
                 </ul>
