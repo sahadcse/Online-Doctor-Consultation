@@ -20,15 +20,28 @@ export const TestimonialCardCarousel = ({ data }: TestimonialCardCarouselProps) 
     return (
         <Swiper
             modules={[Autoplay, Pagination, Scrollbar, A11y]}
-            spaceBetween={30}
-            slidesPerView={3}
+            spaceBetween={20} // Smaller space between slides
+            slidesPerView={3} // Default to 3 slides per view
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
             autoplay={{
                 delay: 3000,
                 disableOnInteraction: false,
             }}
-            onSlideChange={() => console.log('Slide changed')}
+            breakpoints={{
+                320: {
+                    slidesPerView: 1, // 1 slide on mobile
+                    spaceBetween: 10, // Reduced space on mobile
+                },
+                640: {
+                    slidesPerView: 2, // 2 slides on tablet
+                    spaceBetween: 15, // Adjust space for tablets
+                },
+                1024: {
+                    slidesPerView: 3, // 3 slides on desktop
+                    spaceBetween: 30, // More space on desktop
+                },
+            }}
         >
             {data.map((testimonial) => (
                 <SwiperSlide key={testimonial.id}>
@@ -51,7 +64,7 @@ export const TestimonialCardCarousel = ({ data }: TestimonialCardCarouselProps) 
                                 </svg>
                             ))}
                         </div>
-                        <p className="my-4">{testimonial.testimonial}</p>
+                        <p className="my-4 text-sm sm:text-base">{testimonial.testimonial}</p>
                         <div className="flex items-center gap-4">
                             <div className="w-12 h-12 relative rounded-full overflow-hidden">
                                 <Image

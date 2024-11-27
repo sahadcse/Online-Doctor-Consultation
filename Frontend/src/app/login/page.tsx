@@ -17,13 +17,12 @@ const LoginPage = () => {
     // Formik setup
     const formik = useFormik({
         initialValues: {
-            email: '',
+            phone_number: '',
             password: '',
         },
         validationSchema: Yup.object({
-            email: Yup.string()
-                .email('Invalid email format')
-                .required('Email is required'),
+            phone_number: Yup.string()
+                .required('phone number is required'),
             password: Yup.string()
                 .min(6, 'Password must be at least 6 characters')
                 .required('Password is required'),
@@ -32,7 +31,7 @@ const LoginPage = () => {
             setError(null);
 
             try {
-                const response = await axios.post(`https://odcp-backend-production.up.railway.app/api/users/login`, values);
+                const response = await axios.post(`https://doctor.erestora.net/api/login`, values);
                 const data = response.data;
                 if (data) {
                     dispatch(login(data));
@@ -56,19 +55,19 @@ const LoginPage = () => {
                             <form onSubmit={formik.handleSubmit}>
                                 <div className="form-control">
                                     <label className="label">
-                                        <span className="label-text">Email</span>
+                                        <span className="label-text">Phone Number</span>
                                     </label>
                                     <input
-                                        name="email"
+                                        name="phone_number"
                                         type="text"
-                                        placeholder="email"
-                                        className={`input input-bordered ${formik.touched.email && formik.errors.email ? 'input-error' : ''}`}
+                                        placeholder="phone number"
+                                        className={`input input-bordered ${formik.touched.phone_number && formik.errors.phone_number ? 'input-error' : ''}`}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        value={formik.values.email}
+                                        value={formik.values.phone_number}
                                     />
-                                    {formik.touched.email && formik.errors.email ? (
-                                        <p className="text-red-500 text-xs">{formik.errors.email}</p>
+                                    {formik.touched.phone_number && formik.errors.phone_number ? (
+                                        <p className="text-red-500 text-xs">{formik.errors.phone_number}</p>
                                     ) : null}
                                 </div>
                                 <div className="form-control">

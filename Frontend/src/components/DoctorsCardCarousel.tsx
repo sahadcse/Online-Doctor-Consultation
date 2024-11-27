@@ -42,9 +42,9 @@ export const DoctorsCardCarosusel = () => {
 
     return (
         <Swiper
-            // install Swiper modules
+            // Install Swiper modules
             modules={[Autoplay, Pagination, Scrollbar, A11y]}
-            spaceBetween={50}
+            spaceBetween={30}
             slidesPerView={3}
             navigation={false}
             pagination={{ clickable: true }}
@@ -53,13 +53,27 @@ export const DoctorsCardCarosusel = () => {
                 delay: 3000, // Delay between slides in ms (3 seconds)
                 disableOnInteraction: false, // Autoplay won't stop on user interactions
             }}
+            breakpoints={{
+                320: {
+                    slidesPerView: 1,  // 1 slide on mobile
+                    spaceBetween: 10,  // Space between slides on mobile
+                },
+                640: {
+                    slidesPerView: 2,  // 2 slides on tablet
+                    spaceBetween: 20,  // Space between slides on tablet
+                },
+                1024: {
+                    slidesPerView: 3,  // 3 slides on desktop
+                    spaceBetween: 30,  // Space between slides on desktop
+                },
+            }}
             onSwiper={(swiper) => console.log(swiper)}
             onSlideChange={() => console.log('slide change')}
         >
 
             {doctors.map((doctor) => (
                 <SwiperSlide key={doctor.id}>
-                    <div className="card bg-base-100 w-96 shadow-xl">
+                    <div className="card bg-base-100 w-full sm:w-96 shadow-xl">
                         <figure>
                             <Image src={doctor.image} alt={doctor.name} className="rounded-xl" />
                         </figure>
@@ -73,9 +87,7 @@ export const DoctorsCardCarosusel = () => {
                         </div>
                     </div>
                 </SwiperSlide>
-
             ))}
-            ...
         </Swiper>
     );
 };

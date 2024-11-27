@@ -1,10 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
-import { Pagination } from 'swiper/modules';
-import { Scrollbar } from 'swiper/modules';
-import { A11y } from 'swiper/modules';
-
-// Import Swiper styles
+import { Autoplay, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -17,142 +12,55 @@ import Image from 'next/image';
 export const ServiceCardCarousel = () => {
     return (
         <Swiper
-            // install Swiper modules
             modules={[Autoplay, Pagination, Scrollbar, A11y]}
-            spaceBetween={50}
-            slidesPerView={3}
-            navigation={false}
+            spaceBetween={20} // Adjust space between slides for mobile
+            slidesPerView={1} // Default to showing 1 slide
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
             autoplay={{
-                delay: 3000, // Delay between slides in ms (3 seconds)
-                disableOnInteraction: false, // Autoplay won't stop on user interactions
+                delay: 3000,
+                disableOnInteraction: false,
             }}
-            onSwiper={(swiper) => console.log(swiper)}
-            onSlideChange={() => console.log('slide change')}
+            breakpoints={{
+                // Adjust the number of slides visible based on screen width
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 40,
+                },
+            }}
         >
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                    <figure className="px-5 pt-5">
-                        <Image
-                            src={service1}
-                            alt="Shoes"
-                            className="rounded-xl" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title font-work-sans text-color-black text-2xl">
-                            Online Monitoring
-                        </h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div className="card-actions justify-start">
-                            <div className="badge badge-outline">Read More</div>
-
+            {[service1, service2, service3, service2, service1].map((image, index) => (
+                <SwiperSlide key={index}>
+                    <div className="card bg-base-100 shadow-xl mx-auto max-w-sm">
+                        <figure className="px-5 pt-5">
+                            <Image
+                                src={image}
+                                alt="Service"
+                                className="rounded-xl"
+                            />
+                        </figure>
+                        <div className="card-body">
+                            <h2 className="card-title font-work-sans text-color-black text-xl md:text-2xl">
+                                Service Title {index + 1}
+                            </h2>
+                            <p className="font-dm-sans text-sm md:text-base">
+                                Sample description text for the service. Customize as needed.
+                            </p>
+                            <div className="card-actions justify-start">
+                                <div className="badge badge-outline">Read More</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                    <figure className="px-5 pt-5">
-                        <Image
-                            src={service2}
-                            alt="Shoes"
-                            className="rounded-xl" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title font-work-sans text-color-black text-2xl">
-                            Holter Heart Surgery
-                        </h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div className="card-actions justify-start">
-                            <div className="badge badge-outline">Read More</div>
-
-                        </div>
-                    </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                <figure className="px-5 pt-5">
-                    <Image
-                        src={service3}
-                        alt="Shoes"
-                        className="rounded-xl" />
-                </figure>
-                <div className="card-body">
-                    <h2 className="card-title font-work-sans text-color-black text-2xl">
-                        Diagnose & Research
-                    </h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-start">
-                        <div className="badge badge-outline">Read More</div>
-
-                    </div>
-                </div>
-            </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                <figure className="px-5 pt-5">
-                    <Image
-                        src={service2}
-                        alt="Shoes"
-                        className="rounded-xl" />
-                </figure>
-                <div className="card-body">
-                    <h2 className="card-title font-work-sans text-color-black text-2xl">
-                        Online Monitoring
-                    </h2>
-                    <p className='font-dm-sans'>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-start">
-                        <div className="badge badge-outline">Read More</div>
-
-                    </div>
-                </div>
-            </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                    <figure className="px-5 pt-5">
-                        <Image
-                            src={service1}
-                            alt="Shoes"
-                            className="rounded-xl" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title font-work-sans text-color-black text-2xl">
-                            Online Monitoring
-                        </h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div className="card-actions justify-start">
-                            <div className="badge badge-outline">Read More</div>
-
-                        </div>
-                    </div>
-                </div>
-            </SwiperSlide>
-            <SwiperSlide>
-                <div className="card bg-base-100 w-96 shadow-xl">
-                    <figure className="px-5 pt-5">
-                        <Image
-                            src={service2}
-                            alt="Shoes"
-                            className="rounded-xl" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title font-work-sans text-color-black text-2xl">
-                            Holter Heart Surgery
-                        </h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div className="card-actions justify-start">
-                            <div className="badge badge-outline">Read More</div>
-
-                        </div>
-                    </div>
-                </div>
-            </SwiperSlide>
-
-            ...
+                </SwiperSlide>
+            ))}
         </Swiper>
     );
 };

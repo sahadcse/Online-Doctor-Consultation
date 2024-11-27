@@ -22,6 +22,7 @@ const RegistrationPage = () => {
             name: '',
             email: '',
             password: '',
+            phone_number: '',
             role: 'patient'
         },
         validationSchema: Yup.object({
@@ -34,12 +35,22 @@ const RegistrationPage = () => {
             password: Yup.string()
                 .min(6, 'Password must be at least 6 characters')
                 .required('Password is required'),
+            phone_number: Yup.string()
+                .required('Password is required'),
         }),
         onSubmit: async (values) => {
             setError(null);
 
+            const formatData = {
+                name: values.name,
+                email: values.email,
+                phone_number: values.phone_number,
+                password: values.password,
+                role_type: values.role
+            }
+
             try {
-                const response = await axios.post(`https://odcp-backend-production.up.railway.app/api/users/register`, values);
+                const response = await axios.post(`https://doctor.erestora.net/api/patient/registration`, formatData);
                 const data = response.data;
                 if (data) {
                     dispatch(login(data));
@@ -57,7 +68,7 @@ const RegistrationPage = () => {
             <Navbar />
             <div>
                 <div className="hero min-h-screen ">
-                    <div className="hero-content flex-col w-full">8
+                    <div className="hero-content flex-col w-full">
                         <div className="text-center">
                             <h1 className="text-2xl mt-3 font-bold">Registration</h1>
                         </div>
@@ -97,6 +108,23 @@ const RegistrationPage = () => {
                                         />
                                         {formik.touched.email && formik.errors.email ? (
                                             <p className="text-red-500 text-xs">{formik.errors.email}</p>
+                                        ) : null}
+                                    </div>
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Phone Number</span>
+                                        </label>
+                                        <input
+                                            name="phone_number"
+                                            type="text"
+                                            placeholder="phone number"
+                                            className={`input input-bordered ${formik.touched.phone_number && formik.errors.phone_number ? 'input-error' : ''}`}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.phone_number}
+                                        />
+                                        {formik.touched.phone_number && formik.errors.phone_number ? (
+                                            <p className="text-red-500 text-xs">{formik.errors.phone_number}</p>
                                         ) : null}
                                     </div>
 

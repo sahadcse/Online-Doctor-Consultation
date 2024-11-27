@@ -43,7 +43,7 @@ const Appointment = () => {
             {/* Content section */}
             <div className="relative flex flex-col items-center">
                 <div className="flex flex-col lg:flex-row lg:justify-between gap-8 w-full lg:w-3/4">
-                    <div className="w-full lg:w-1/2 py-24 flex flex-col items-center">
+                    <div className="w-full lg:w-1/2 py-24 p-10 flex flex-col items-center">
                         <div className="text-center mb-8">
                             <p className="text-white text-xl font-bold">| Appointment</p>
                             <h1 className="text-white text-3xl lg:text-4xl font-semibold">Apply For Free Now</h1>
@@ -157,7 +157,7 @@ const Appointment = () => {
                     </div>
 
                     {/* Image Section */}
-                    <div className="w-full lg:w-1/2 flex items-center justify-center lg:justify-end relative">
+                    <div className="hidden lg:block w-full lg:w-1/2 flex items-center justify-center lg:justify-end relative">
                         <Image src={DoctorImg} alt="Doctor" className="max-w-full h-auto" style={{ position: "absolute", top: "-2", bottom: "0" }} />
                     </div>
                 </div>
