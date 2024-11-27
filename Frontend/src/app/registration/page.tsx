@@ -13,7 +13,6 @@ import Footer from "@/components/Footer";
 
 const RegistrationPage = () => {
     const [error, setError] = useState(null);
-    const router = useRouter();
     const dispatch = useDispatch();
 
     // Formik setup

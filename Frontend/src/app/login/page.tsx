@@ -11,7 +11,6 @@ import { login } from '../../redux/slices/userSlice';
 
 const LoginPage = () => {
     const [error, setError] = useState(null);
-    const router = useRouter();
     const dispatch = useDispatch();
 
     // Formik setup
