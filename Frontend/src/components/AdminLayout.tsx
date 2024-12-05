@@ -19,18 +19,28 @@ const AdminLayout = ({ children }) => {
                 <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
                 <ul className="menu p-4 w-60  h-full bg-white text-base-content font-medium text-base">
 
-                    <li className={isActive('/admin/rooms/new') ? 'bg-sky-200 rounded' : ''}>
+                    <li className={isActive('/admin/doctors/new') ? 'bg-sky-200 rounded' : ''}>
                         <Link href="/admin/doctors/new" passHref>
                             Create New Doctor
                         </Link>
                     </li>
-                    <li className={isActive('/admin/rooms/all') ? 'bg-sky-200 rounded' : ''}>
-                        <Link href="/admin/rooms/all" passHref>
+                    <li className={isActive('/admin/doctors/list') ? 'bg-sky-200 rounded' : ''}>
+                        <Link href="/admin/doctors/list" passHref>
                             All Doctors
                         </Link>
                     </li>
+                    <li className={isActive('/admin/service/new') ? 'bg-sky-200 rounded' : ''}>
+                        <Link href="/admin/service/new" passHref>
+                            Create New Service
+                        </Link>
+                    </li>
+                    <li className={isActive('/admin/service/list') ? 'bg-sky-200 rounded' : ''}>
+                        <Link href="/admin/service/list" passHref>
+                            All Services
+                        </Link>
+                    </li>
                     <li className={isActive('/admin/booking/all') ? 'bg-sky-200 rounded' : ''}>
-                        <Link href="/admin/booking/all" passHref>
+                        <Link href="/admin/appointment/list" passHref>
                             All Appointments
                         </Link>
                     </li>

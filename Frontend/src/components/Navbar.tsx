@@ -28,9 +28,9 @@ const Navbar = () => {
                 {
                     name: 'DASHBOARD',
                     href:
-                        userData.user_type === 2
+                        userData.user_type == 2
                             ? '/doctor/dashboard'
-                            : userData.user_type === 3
+                            : userData.user_type == 3
                                 ? '/patient/dashboard'
                                 : '/admin/dashboard',
                 },
