@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import AdminLayout from "@/components/AdminLayout";
 
@@ -37,12 +36,12 @@ const AppointmentList = () => {
     },
   ]);
 
-  const handleEdit = (appointmentId) => {
+  const handleEdit = (appointmentId:any) => {
     console.log("Edit appointment ID:", appointmentId);
     // Add logic for editing the appointment
   };
 
-  const handleDelete = (appointmentId) => {
+  const handleDelete = (appointmentId:any) => {
     if (confirm("Are you sure you want to delete this appointment?")) {
       setAppointments(appointments.filter((app) => app.id !== appointmentId));
       alert("Appointment deleted successfully!");
