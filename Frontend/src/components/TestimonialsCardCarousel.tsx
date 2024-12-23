@@ -70,8 +70,9 @@ export const TestimonialCardCarousel = ({ data }: TestimonialCardCarouselProps) 
                                 <Image
                                     src={testimonial.image}
                                     alt={testimonial.name}
-                                    layout="fill"
-                                    objectFit="cover"
+                                    width={48}
+                                    height={48}
+                                    style={{ objectFit: "cover" }}
                                 />
                             </div>
                             <div>

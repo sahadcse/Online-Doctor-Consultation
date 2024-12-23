@@ -28,9 +28,9 @@ const Navbar = () => {
                 {
                     name: 'DASHBOARD',
                     href:
-                        userData.user_type == 2
+                        userData?.role == 'doctor'
                             ? '/doctor/dashboard'
-                            : userData.user_type == 3
+                            : userData?.role == 'patient'
                                 ? '/patient/dashboard'
                                 : '/admin/dashboard',
                 },
@@ -48,11 +48,11 @@ const Navbar = () => {
             <header className="relative lg:absolute inset-x-0 top-0 z-50">
                 <nav
                     aria-label="Global"
-                    className="flex items-center justify-between p-4 lg:px-64 text-xl"
+                    className="flex items-center justify-between p-4 lg:px-44 text-xl"
                 >
                     <div className="flex lg:flex-1">
                         <Link href="/" className="-m-1.5 p-1.5">
-                            <Image src={Logo} alt="Logo" width={150} height={100} />
+                            <Image src={Logo} alt="Logo" width={150} style={{height: 'auto'}} priority />
                         </Link>
                     </div>
                     <div className="flex lg:hidden">

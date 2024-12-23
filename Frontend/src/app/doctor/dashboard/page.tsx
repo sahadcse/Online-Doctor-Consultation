@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Link from 'next/link';
@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation';
 
 import { ReactNode } from 'react';
 
-const PatientLayout = ({ children }: { children: ReactNode }) => {
+
+const DoctorLayout = ({ children }: { children: ReactNode }) => {
     const pathname = usePathname();
 
     const isActive = (path) => pathname === path;
@@ -23,39 +24,39 @@ const PatientLayout = ({ children }: { children: ReactNode }) => {
                     {/* <label htmlFor="my-drawer-2" className="drawer-overlay">oifuo</label> */}
                     <ul className="menu p-4 w-60  h-full bg-white text-base-content font-medium text-base">
                         <div className="">
-                            <li className={isActive('/patient/appointment/pending') ? 'bg-sky-200 rounded' : ''}>
-                                <Link href="/patient/appointment/pending" passHref>
+                            <li className={isActive('/doctor/dashboard') ? 'bg-sky-200 rounded' : ''}>
+                                <Link href="/doctor/dashboard" passHref>
+                                    Dashboard
+                                </Link>
+                            </li>
+                            <li className={isActive('/doctor/appointment/pending') ? 'bg-sky-200 rounded' : ''}>
+                                <Link href="/doctor/appointment/pending" passHref>
                                     Up-coming Appoinment
                                 </Link>
                             </li>
-                            <li className={isActive('/patient/appointment/previous') ? 'bg-sky-200 rounded' : ''}>
-                                <Link href="/patient/appointment/previous" passHref>
+                            <li className={isActive('/doctor/appointment/previous') ? 'bg-sky-200 rounded' : ''}>
+                                <Link href="/doctor/appointment/previous" passHref>
                                     Previous Appoinment
                                 </Link>
                             </li>
-                            <li className={isActive('/admin/booking/all') ? 'bg-sky-200 rounded' : ''}>
-                                <Link href="/patient/MedicalHistory" passHref>
-                                    Medical History
+                            <li className={isActive('/doctor/booking/all') ? 'bg-sky-200 rounded' : ''}>
+                                <Link href="/doctor/Billing" passHref>
+                                    Payment
                                 </Link>
                             </li>
-                            <li className={isActive('/admin/booking/all') ? 'bg-sky-200 rounded' : ''}>
-                                <Link href="/patient/Billing" passHref>
-                                    Billing & Payment
-                                </Link>
-                            </li>
-                            <li className={isActive('/admin/booking/all') ? 'bg-sky-200 rounded' : ''}>
-                                <Link href="/patient/Notifications" passHref>
+                            <li className={isActive('/doctor/booking/all') ? 'bg-sky-200 rounded' : ''}>
+                                <Link href="/doctor/Notifications" passHref>
                                     Notifications
                                 </Link>
                             </li>
-                            <li className={isActive('/admin/booking/all') ? 'bg-sky-200 rounded' : ''}>
-                                <Link href="/patient/profile" passHref>
+                            <li className={isActive('/doctor/booking/all') ? 'bg-sky-200 rounded' : ''}>
+                                <Link href="/doctor/profile" passHref>
                                     Profile Info
                                 </Link>
                             </li>
                         </div>
                         <div className="logout">
-                            <li className={isActive('/admin/booking/all') ? 'bg-sky-200 rounded' : ''}>
+                            <li className={isActive('/doctor/booking/all') ? 'bg-sky-200 rounded' : ''}>
                                 <Link href="/login" passHref>
                                     Logout
                                 </Link>
@@ -66,6 +67,6 @@ const PatientLayout = ({ children }: { children: ReactNode }) => {
             </div>
         </>
     );
-};
+}
 
-export default PatientLayout;
+export default DoctorLayout;
