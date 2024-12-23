@@ -8,7 +8,7 @@ const Hero = () => {
   return (
     <div className="bg-[url('../images/banner_bg.jpg')] bg-cover bg-center pt-8 pb-12 sm:pt-16 sm:pb-20">
       <motion.div
-        className="flex flex-col-reverse lg:flex-row-reverse items-center justify-between min-h-screen px-4 sm:px-8 lg:px-64 space-y-6 lg:space-y-0 lg:space-x-12"
+        className="flex flex-col-reverse lg:flex-row-reverse items-center justify-between min-h-screen px-4 sm:px-8 lg:px-48 space-y-6 lg:space-y-0 lg:space-x-12"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -21,7 +21,7 @@ const Hero = () => {
           className="w-full lg:w-1/2 flex justify-center lg:justify-end"
         >
           <div className="w-11/12 sm:w-9/12 lg:w-auto">
-            <Image src={BannerImg} className="w-full" alt="Banner Image" />
+            <Image src={BannerImg} className="w-full" alt="Banner Image" priority />
           </div>
         </motion.div>
 

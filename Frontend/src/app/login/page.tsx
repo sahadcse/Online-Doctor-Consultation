@@ -7,6 +7,10 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/slices/userSlice';
+import { redirect } from 'next/dist/server/api-utils';
+
+const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 
 const LoginPage = () => {
     const [error, setError] = useState(null);
@@ -15,28 +19,45 @@ const LoginPage = () => {
     // Formik setup
     const formik = useFormik({
         initialValues: {
-            phone_number: '',
+            email: '',
             password: '',
         },
         validationSchema: Yup.object({
-            phone_number: Yup.string()
-                .required('phone number is required'),
+            email: Yup.string()
+                .required('Email number is required'),
             password: Yup.string()
                 .min(6, 'Password must be at least 6 characters')
                 .required('Password is required'),
         }),
         onSubmit: async (values) => {
-            setError(null);
-
+            console.log('values: ', values);	
+            // setError(null);
             try {
-                const response = await axios.post(`https://doctor.erestora.net/api/login`, values);
-                const data = response.data;
-                if (data) {
-                    dispatch(login(data));
-                    window.location.href = '/';
+                if (!BACKEND_API_URL) {
+                    console.log('API URL is not defined');
+                    throw new Error('API URL is not defined');
+                }
+                // console.log('NEXT_PUBLIC_API_URL: ', BACKEND_API_URL);
+                const response = await axios.post(`${BACKEND_API_URL}/api/users/login`, values);
+                const data: { role: 'doctor' | 'patient' | 'admin' } = response.data;
+                // console.log('data: ', data);
+
+                const roleRedirects = {
+                    doctor: '/doctor/dashboard',
+                    patient: '/patient/dashboard',
+                    admin: '/admin/dashboard',
+                };
+
+
+                if (roleRedirects[data.role]) {
+                    window.location.href = roleRedirects[data.role];
+                    console.log(`${data.role.charAt(0).toUpperCase() + data.role.slice(1)} login`);
+                } else {
+                    console.log('Invalid role');
+                    throw new Error('Invalid role');
                 }
             } catch (err) {
-                setError(err.response?.data?.message);
+                setError((err as any).response?.data?.message);
             }
         },
     });
@@ -53,19 +74,19 @@ const LoginPage = () => {
                             <form onSubmit={formik.handleSubmit}>
                                 <div className="form-control">
                                     <label className="label">
-                                        <span className="label-text">Phone Number</span>
+                                        <span className="label-text">Email</span>
                                     </label>
                                     <input
-                                        name="phone_number"
+                                        name="email"
                                         type="text"
-                                        placeholder="phone number"
-                                        className={`input input-bordered ${formik.touched.phone_number && formik.errors.phone_number ? 'input-error' : ''}`}
+                                        placeholder="Email"
+                                        className={`input input-bordered ${formik.touched.email && formik.errors.email ? 'input-error' : ''}`}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        value={formik.values.phone_number}
+                                        value={formik.values.email}
                                     />
-                                    {formik.touched.phone_number && formik.errors.phone_number ? (
-                                        <p className="text-red-500 text-xs">{formik.errors.phone_number}</p>
+                                    {formik.touched.email && formik.errors.email ? (
+                                        <p className="text-red-500 text-xs">{formik.errors.email}</p>
                                     ) : null}
                                 </div>
                                 <div className="form-control">
