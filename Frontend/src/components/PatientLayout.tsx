@@ -9,7 +9,7 @@ import { ReactNode } from 'react';
 const PatientLayout = ({ children }: { children: ReactNode }) => {
     const pathname = usePathname();
 
-    const isActive = (path) => pathname === path;
+    const isActive = (path: string): boolean => pathname === path;
 
     return (
         <>

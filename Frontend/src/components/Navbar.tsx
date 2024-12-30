@@ -84,11 +84,18 @@ const Navbar = () => {
                                 LOGOUT
                             </button>
                         ) : (
-                            <Link href="/login">
-                                <button className="rounded-full bg-blue-600 px-4 py-2 text-white text-base">
-                                    LOGIN
-                                </button>
-                            </Link>
+                            <div className="flex text-sm">
+                                <Link href="/login">
+                                    <button className="border border-sky-700 py-1 px-2 rounded-md mr-2">
+                                        LOGIN
+                                    </button>
+                                </Link>
+                                <Link href="/registration">
+                                    <button className="border border-sky-700 py-1 px-2 rounded-md mr-2">
+                                        REGISTER
+                                    </button>
+                                </Link>
+                            </div>
                         )}
                     </div>
                 </nav>
@@ -129,11 +136,18 @@ const Navbar = () => {
                                         LOGOUT
                                     </button>
                                 ) : (
-                                    <Link href="/login">
-                                        <button className="w-full rounded-full bg-blue-600 px-4 py-2 text-white text-base">
-                                            LOGIN
-                                        </button>
-                                    </Link>
+                                    <>
+                                        <Link href="/login">
+                                            <button className="w-full rounded-full bg-blue-600 px-4 py-2 text-white text-base">
+                                                LOGIN
+                                            </button>
+                                        </Link>
+                                        <Link href="/register">
+                                            <button className="w-full mt-4 rounded-full bg-green-600 px-4 py-2 text-white text-base">
+                                                REGISTER
+                                            </button>
+                                        </Link>
+                                    </>
                                 )}
                             </div>
                         </div>
