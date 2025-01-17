@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
-import Logo from "../images/DaktarBari Transparent BG.png"
+import Logo from "../images/Logo (2).png";
 import Link from 'next/link'
 import useisAuthenticated from '../hooks/useIsAuthenticated'
 import useUserData from '../hooks/useUserData'
