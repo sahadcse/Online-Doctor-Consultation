@@ -45,7 +45,7 @@ const Navbar = () => {
 
     return (
         <div className="">
-            <header className="relative lg:absolute inset-x-0 top-0 z-50">
+            <header className="sticky top-0 z-50 bg-white shadow-md">
                 <nav
                     aria-label="Global"
                     className="flex items-center justify-between p-4 lg:px-44 text-xl"
@@ -99,6 +99,8 @@ const Navbar = () => {
                         )}
                     </div>
                 </nav>
+
+
                 {/* Mobile Menu */}
                 <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
                     <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full bg-white px-6 py-6 overflow-y-auto sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
@@ -142,7 +144,7 @@ const Navbar = () => {
                                                 LOGIN
                                             </button>
                                         </Link>
-                                        <Link href="/register">
+                                        <Link href="/registration">
                                             <button className="w-full mt-4 rounded-full bg-green-600 px-4 py-2 text-white text-base">
                                                 REGISTER
                                             </button>

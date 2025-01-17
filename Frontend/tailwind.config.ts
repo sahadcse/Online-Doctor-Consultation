@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 const config: Config = {
   content: [
@@ -13,6 +14,10 @@ const config: Config = {
         'work-sans': ['var(--font-work-sans)', 'sans-serif'],
         'geist-sans': ['var(--font-geist-sans)', 'sans-serif'],
         'geist-mono': ['var(--font-geist-mono)', 'monospace'],
+        sans: ['var(--font-geist-sans)', ...defaultTheme.fontFamily.sans],
+        mono: ['var(--font-geist-mono)', ...defaultTheme.fontFamily.mono],
+        dm: ['var(--font-dm-sans)', ...defaultTheme.fontFamily.sans],
+        work: ['var(--font-work-sans)', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         "color-primary": "#00A6FB",
