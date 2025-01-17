@@ -13,7 +13,7 @@ interface AppointmentRequestProps {
 const AppointmentRequest = ({ appointments }: AppointmentRequestProps) => {
 
   return (
-    <div className="w-full max-w-md flex flex-col justify-center h-full">
+    <div className="w-full max-w-md flex flex-col justify-center h-a">
       {/* <h2 className="text-blue-600 font-semibold mb-4">Appointment Request</h2> */}
       <div className="space-y-4">
         {appointments.slice(0, 2).map((appointment, index) => (

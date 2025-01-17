@@ -7,10 +7,9 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/slices/userSlice';
-import { redirect } from 'next/dist/server/api-utils';
+import Cookies from 'js-cookie';
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 
 const LoginPage = () => {
     const [error, setError] = useState(null);
@@ -24,23 +23,24 @@ const LoginPage = () => {
         },
         validationSchema: Yup.object({
             email: Yup.string()
-                .required('Email number is required'),
+                .required('Email is required'),
             password: Yup.string()
                 .min(6, 'Password must be at least 6 characters')
                 .required('Password is required'),
         }),
         onSubmit: async (values) => {
-            console.log('values: ', values);	
-            // setError(null);
+            setError(null);
             try {
                 if (!BACKEND_API_URL) {
-                    console.log('API URL is not defined');
                     throw new Error('API URL is not defined');
                 }
-                // console.log('NEXT_PUBLIC_API_URL: ', BACKEND_API_URL);
                 const response = await axios.post(`${BACKEND_API_URL}/api/users/login`, values);
-                const data: { role: 'doctor' | 'patient' | 'admin' } = response.data;
-                // console.log('data: ', data);
+                const data: { token: string; role: 'doctor' | 'patient' | 'admin' } = response.data;
+
+                // Store the token in cookies
+                Cookies.set('token', data.token);
+
+                dispatch(login(data));
 
                 const roleRedirects = {
                     doctor: '/doctor/dashboard',
@@ -48,12 +48,9 @@ const LoginPage = () => {
                     admin: '/admin/dashboard',
                 };
 
-
                 if (roleRedirects[data.role]) {
                     window.location.href = roleRedirects[data.role];
-                    console.log(`${data.role.charAt(0).toUpperCase() + data.role.slice(1)} login`);
                 } else {
-                    console.log('Invalid role');
                     throw new Error('Invalid role');
                 }
             } catch (err) {

@@ -8,7 +8,6 @@ export const authHeader = (isFormData = false) => {
             Authorization: "Bearer " + token,
         };
 
-       
         if (!isFormData) {
             headers["Content-Type"] = "application/json";
         }

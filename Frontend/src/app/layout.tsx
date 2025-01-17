@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { DM_Sans, Work_Sans } from '@next/font/google';
+import { DM_Sans, Work_Sans } from 'next/font/google';
 import localFont from "next/font/local";
 import "./globals.css";
 import ClientProvider from "@/common/ClientProvider";
 
 // Local Fonts
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "/fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "/fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
