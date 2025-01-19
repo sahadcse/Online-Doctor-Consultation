@@ -1,70 +1,78 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Link from 'next/link';
-import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
+import { useFormik } from 'formik';
 import { login } from '../../redux/slices/userSlice';
 import Cookies from 'js-cookie';
+import Navbar from "@/components/Navbar";
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const LoginPage = () => {
-    const [error, setError] = useState(null);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const router = useRouter();
     const dispatch = useDispatch();
+    const [userC, setUserC] = useState('');
+    const [error, setError] = useState('');
 
-    // Formik setup
+    
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
         },
         validationSchema: Yup.object({
-            email: Yup.string()
-                .required('Email is required'),
-            password: Yup.string()
-                .min(6, 'Password must be at least 6 characters')
-                .required('Password is required'),
+            email: Yup.string().email('Invalid email address').required('Required'),
+            password: Yup.string().required('Required'),
         }),
         onSubmit: async (values) => {
-            setError(null);
             try {
-                if (!BACKEND_API_URL) {
-                    throw new Error('API URL is not defined');
-                }
-                const response = await axios.post(`${BACKEND_API_URL}/api/users/login`, values);
-                const data: { token: string; role: 'doctor' | 'patient' | 'admin' } = response.data;
-
-                // Store the token in cookies
-                Cookies.set('token', data.token);
-
-                dispatch(login(data));
-
-                const roleRedirects = {
-                    doctor: '/doctor/dashboard',
-                    patient: '/patient/dashboard',
-                    admin: '/admin/dashboard',
-                };
-
-                if (roleRedirects[data.role]) {
-                    window.location.href = roleRedirects[data.role];
+                const res = await axios.post(`${BACKEND_API_URL}/api/users/${userC}/login`, {
+                    email: values.email,
+                    password: values.password
+                });
+                dispatch(login(res.data));
+                Cookies.set('token', res.data.token);
+                Cookies.set('user', JSON.stringify(res.data));
+                if (userC === 'doctor') {
+                    router.push('/doctor/dashboard');
                 } else {
-                    throw new Error('Invalid role');
+                    router.push('/patient/dashboard');
                 }
-            } catch (err) {
-                setError((err as any).response?.data?.message);
+                console.log(res.data);
+            } catch (error) {
+                setError((error as any).response.data.error);
             }
         },
     });
 
+
+
     return (
         <div>
+            <Navbar />
             <div className="hero min-h-screen">
                 <div className="hero-content flex-col">
-                    <div className="text-center">
-                        <h1 className="text-2xl mt-3 font-bold">Login</h1>
+                    <div className="flex justify-center items-center">
+                        {/* <h1 className="text-2xl mt-3 font-bold">Login</h1> */}
+                            <label className="label">
+                                <span className="text-xl">Login as:</span>
+                            </label>
+                            <select
+                                className=" select select-bordered"
+                                value={userC}
+                                onChange={(e) => setUserC(e.target.value)}
+                            >
+                                <option value="" disabled>Select role</option>
+                                <option value="doctor">Doctor</option>
+                                <option value="patient">Patient</option>
+                            </select>
                     </div>
                     <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100">
                         <div className="card-body">
