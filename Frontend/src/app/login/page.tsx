@@ -10,7 +10,6 @@ import { useFormik } from 'formik';
 import { login } from '../../redux/slices/userSlice';
 import Cookies from 'js-cookie';
 import Navbar from "@/components/Navbar";
-import Footer from '@/components/Footer';
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -75,16 +74,61 @@ const LoginPage = () => {
                                 <option value="patient">Patient</option>
                             </select>
                     </div>
-                    <div className="flex-1 bg-color-primary text-center hidden lg:flex">
-                        <div className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
-                            style={{backgroundImage: `url('/images/login.png')`}}>
+                    <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100">
+                        <div className="card-body">
+                            <form onSubmit={formik.handleSubmit}>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Email</span>
+                                    </label>
+                                    <input
+                                        name="email"
+                                        type="text"
+                                        placeholder="Email"
+                                        className={`input input-bordered ${formik.touched.email && formik.errors.email ? 'input-error' : ''}`}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.email}
+                                    />
+                                    {formik.touched.email && formik.errors.email ? (
+                                        <p className="text-red-500 text-xs">{formik.errors.email}</p>
+                                    ) : null}
+                                </div>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Password</span>
+                                    </label>
+                                    <input
+                                        name="password"
+                                        type="password"
+                                        placeholder="password"
+                                        className={`input input-bordered ${formik.touched.password && formik.errors.password ? 'input-error' : ''}`}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.password}
+                                    />
+                                    {formik.touched.password && formik.errors.password ? (
+                                        <p className="text-red-500 text-xs">{formik.errors.password}</p>
+                                    ) : null}
+                                </div>
+                                {error && <p className="text-red-500 text-xs">{error}</p>}
+                                <div className="form-control mt-6">
+                                    <button type="submit" className="btn btn-primary">
+                                        Login
+                                    </button>
+                                </div>
+                            </form>
+                            <button>
+                                Don’t have an account?{" "}
+                                <Link href="/registration" className="text-secondary">
+                                    Create an account
+                                </Link>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
-
     );
 };
 
