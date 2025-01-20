@@ -13,6 +13,7 @@ import NextPatientDetails from "@/components/DoctorHero/NextPatientDetails";
 import BarChart from "@/components/DoctorHero/BarChart";
 import AppointmentRequest from "@/components/DoctorHero/AppointmentRequest";
 import Calander from "@/components/DoctorHero/Calander";
+import withAuth from "../../../common/WithAuth";
 
 const chartData = [
   { label: 'Excellent', percentage: 80 },
@@ -49,7 +50,7 @@ const DoctorDashboard = () => {
   return (
     <DoctorLayout>
       {/* Hero Card Section */}
-      <DashboardHeroNav headName="Dashboard [Doctor]" />
+      <DashboardHeroNav headName="Welcome To Your Dashboard" />
 
       {/* Card section of Tota Patient, Today Patient, Today Appintments */}
       <div className="p-6">
@@ -124,4 +125,4 @@ const DoctorDashboard = () => {
   );
 };
 
-export default DoctorDashboard;
+export default withAuth(DoctorDashboard, ['doctor']);

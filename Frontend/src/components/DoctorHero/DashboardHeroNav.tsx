@@ -8,7 +8,7 @@ const DashboardHeroNav = ({ headName }: DashboardHeroNavProps) => {
 return (
     <header className="flex justify-between items-center mb-3 border border-gray-200 p-3 rounded-lg bg-gray-100">
       <h1 className="text-2xl font-semibold">
-        {headName.split(' ')[0]} [ {headName.split(' ')[1].toUpperCase()} ]
+        {headName}
       </h1>
       <div className="flex items-center gap-4">
         <input

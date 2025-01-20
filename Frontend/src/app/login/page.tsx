@@ -14,14 +14,12 @@ import Navbar from "@/components/Navbar";
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const LoginPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const router = useRouter();
     const dispatch = useDispatch();
     const [userC, setUserC] = useState('');
     const [error, setError] = useState('');
 
-    
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -37,15 +35,16 @@ const LoginPage = () => {
                     email: values.email,
                     password: values.password
                 });
-                dispatch(login(res.data));
+                dispatch(login({ data: res.data, role: userC }));
                 Cookies.set('token', res.data.token);
-                Cookies.set('user', JSON.stringify(res.data));
+
                 if (userC === 'doctor') {
+                    Cookies.set('user', JSON.stringify(res.data.doctor));
                     router.push('/doctor/dashboard');
                 } else {
+                    Cookies.set('user', JSON.stringify(res.data.patient));
                     router.push('/patient/dashboard');
                 }
-                console.log(res.data);
             } catch (error) {
                 setError((error as any).response.data.error);
             }
@@ -61,18 +60,18 @@ const LoginPage = () => {
                 <div className="hero-content flex-col">
                     <div className="flex justify-center items-center">
                         {/* <h1 className="text-2xl mt-3 font-bold">Login</h1> */}
-                            <label className="label">
-                                <span className="text-xl">Login as:</span>
-                            </label>
-                            <select
-                                className=" select select-bordered"
-                                value={userC}
-                                onChange={(e) => setUserC(e.target.value)}
-                            >
-                                <option value="" disabled>Select role</option>
-                                <option value="doctor">Doctor</option>
-                                <option value="patient">Patient</option>
-                            </select>
+                        <label className="label">
+                            <span className="text-xl">Login as:</span>
+                        </label>
+                        <select
+                            className=" select select-bordered"
+                            value={userC}
+                            onChange={(e) => setUserC(e.target.value)}
+                        >
+                            <option value="" disabled>Select role</option>
+                            <option value="doctor">Doctor</option>
+                            <option value="patient">Patient</option>
+                        </select>
                     </div>
                     <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100">
                         <div className="card-body">
