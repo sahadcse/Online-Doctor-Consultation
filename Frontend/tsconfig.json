@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/utils/index.js"
-  ],
+, "src/app/doctor/appointments/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

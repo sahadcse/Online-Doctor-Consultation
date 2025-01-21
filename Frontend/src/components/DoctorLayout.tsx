@@ -43,11 +43,26 @@ const DoctorLayout = ({ children }: { children: ReactNode }) => {
                                     <MdDashboard /> Dashboard
                                 </Link>
                             </li>
-                            <li className={isActive('/doctor/appointments') ? 'bg-sky-200 rounded' : ''}>
-                                <Link href="/doctor/appointments" passHref>
+                            <li >
+                                <Link href="" passHref>
                                     <MdCalendarMonth /> Appointments
                                 </Link>
+                                {/* Child links */}
+                                <ul className="ml-4 mt-2">
+                                    <li>
+                                        <Link href="/doctor/appointments" passHref>
+                                            Today's Appointments
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link href="/doctor/appointments/upcoming" passHref>
+                                            Upcoming Appointments
+                                        </Link>
+                                    </li>
+                                    
+                                </ul>
                             </li>
+
                             <li className={isActive('/doctor/patientRecords') ? 'bg-sky-200 rounded' : ''}>
                                 <Link href="/doctor/patientRecords" passHref>
                                     <MdOutlineFiberSmartRecord /> Patient Records
