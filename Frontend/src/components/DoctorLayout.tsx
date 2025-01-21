@@ -36,7 +36,7 @@ const DoctorLayout = ({ children }: { children: ReactNode }) => {
                                 <p className="text-xs text-gray-500">{bio}</p>
                             </div>
                         </div>
-                        {/* Navigation */}
+
                         <div className="gap-3 flex flex-col menu">
                             <li className={isActive('/doctor/dashboard') ? 'bg-sky-200 rounded' : ''}>
                                 <Link href="/doctor/dashboard" passHref>
@@ -49,17 +49,17 @@ const DoctorLayout = ({ children }: { children: ReactNode }) => {
                                 </Link>
                                 {/* Child links */}
                                 <ul className="ml-4 mt-2">
-                                    <li>
+                                    <li className={isActive('/doctor/appointments') ? 'bg-sky-200 rounded' : ''}>
                                         <Link href="/doctor/appointments" passHref>
                                             Today's Appointments
                                         </Link>
                                     </li>
-                                    <li>
+                                    <li className={isActive('/doctor/appointments/upcoming') ? 'bg-sky-200 rounded' : ''}>
                                         <Link href="/doctor/appointments/upcoming" passHref>
                                             Upcoming Appointments
                                         </Link>
                                     </li>
-                                    
+
                                 </ul>
                             </li>
 
@@ -70,8 +70,23 @@ const DoctorLayout = ({ children }: { children: ReactNode }) => {
                             </li>
                             <li className={isActive('/doctor/consultHistory') ? 'bg-sky-200 rounded' : ''}>
                                 <Link href="/doctor/consultHistory" passHref>
-                                    <MdHistory /> Consult History
+                                    <MdHistory /> Consultations
                                 </Link>
+
+                                {/* Child links */}
+                                <ul className="ml-4 mt-2">
+                                    <li className={isActive('/doctor/consultations/todays') ? 'bg-sky-200 rounded' : ''}>
+                                        <Link href="/doctor/consultations/todays" passHref>
+                                            Today's Consultations
+                                        </Link>
+                                    </li>
+                                    <li className={isActive('/doctor/appointments/upcoming') ? 'bg-sky-200 rounded' : ''}>
+                                        <Link href="/doctor/appointments/upcoming" passHref>
+                                            Upcoming Appointments
+                                        </Link>
+                                    </li>
+
+                                </ul>
                             </li>
                             <li className={isActive('/doctor/avilability') ? 'bg-sky-200 rounded' : ''}>
                                 <Link href="/doctor/avilability" passHref>
