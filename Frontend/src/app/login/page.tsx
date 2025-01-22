@@ -11,6 +11,7 @@ import { login } from '../../redux/slices/userSlice';
 import Cookies from 'js-cookie';
 import Navbar from "@/components/Navbar";
 
+
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const LoginPage = () => {
@@ -56,73 +57,92 @@ const LoginPage = () => {
     return (
         <div>
             <Navbar />
-            <div className="hero min-h-screen">
-                <div className="hero-content flex-col">
-                    <div className="flex justify-center items-center">
-                        {/* <h1 className="text-2xl mt-3 font-bold">Login</h1> */}
-                        <label className="label">
-                            <span className="text-xl">Login as:</span>
-                        </label>
-                        <select
-                            className=" select select-bordered"
-                            value={userC}
-                            onChange={(e) => setUserC(e.target.value)}
-                        >
-                            <option value="" disabled>Select role</option>
-                            <option value="doctor">Doctor</option>
-                            <option value="patient">Patient</option>
-                        </select>
+
+            <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+                <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
+                    <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+                        <div>
+                            <img src="../../images/Logo (2).png"
+                                className="w-mx-auto" />
+                        </div>
+                        <div className="mt-12 flex flex-col items-center">
+                            <div className="w-full flex-1 mt-8">
+                                <div className="my-12 border-b text-center">
+                                    <div
+                                        className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
+                                        Or sign In with Cartesian E-mail
+                                    </div>
+                                </div>
+
+                                <div className="mx-auto max-w-xs">
+                                    <form onSubmit={formik.handleSubmit}>
+                                        <select
+                                            className="w-full px-8 py-4 mb-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white "
+                                            value={userC}
+                                            onChange={(e) => setUserC(e.target.value)}
+                                        >
+                                            <option value="" disabled>Select role</option>
+                                            <option value="doctor">Doctor</option>
+                                            <option value="patient">Patient</option>
+                                        </select>
+
+                                        <input
+                                            name="email"
+                                            type="text"
+                                            placeholder="Email"
+                                            className={`w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white ${formik.touched.email && formik.errors.email ? 'input-error' : ''}`}
+
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.email}
+                                        />
+                                        {formik.touched.email && formik.errors.email ? (
+                                            <p className="text-red-500 text-xs">{formik.errors.email}</p>
+                                        ) : null}
+
+                                        <input
+                                            name="password"
+                                            type="password"
+                                            placeholder="password"
+                                            className={`w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white ${formik.touched.password && formik.errors.password ? 'input-error' : ''}`}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            value={formik.values.password}
+                                        />
+                                        {formik.touched.password && formik.errors.password ? (
+                                            <p className="text-red-500 text-xs">{formik.errors.password}</p>
+                                        ) : null}
+                                        {error && <p className="text-red-500 text-xs">{error}</p>}
+                                        <button
+                                            className="mt-5 tracking-wide font-semibold bg-color-primary text-white-500 w-full py-4 rounded-lg hover:bg-color-secondary transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                                            <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                                                <circle cx="8.5" cy="7" r="4" />
+                                                <path d="M20 8v6M23 11h-6" />
+                                            </svg>
+                                            <span className="ml- text-white-600">
+                                                Sign In
+                                            </span>
+                                        </button>
+
+                                    </form>
+
+                                    <p className="mt-6 text-xs text-gray-600 text-center">
+                                        Don’t have an account?{" "}
+                                        
+                                        <Link href="/registration" className="border-b border-gray-500 border-dotted">
+                                            Create an account
+                                        </Link>
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="card flex-shrink-0 w-full max-w-md shadow-2xl bg-base-100">
-                        <div className="card-body">
-                            <form onSubmit={formik.handleSubmit}>
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Email</span>
-                                    </label>
-                                    <input
-                                        name="email"
-                                        type="text"
-                                        placeholder="Email"
-                                        className={`input input-bordered ${formik.touched.email && formik.errors.email ? 'input-error' : ''}`}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.email}
-                                    />
-                                    {formik.touched.email && formik.errors.email ? (
-                                        <p className="text-red-500 text-xs">{formik.errors.email}</p>
-                                    ) : null}
-                                </div>
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Password</span>
-                                    </label>
-                                    <input
-                                        name="password"
-                                        type="password"
-                                        placeholder="password"
-                                        className={`input input-bordered ${formik.touched.password && formik.errors.password ? 'input-error' : ''}`}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.password}
-                                    />
-                                    {formik.touched.password && formik.errors.password ? (
-                                        <p className="text-red-500 text-xs">{formik.errors.password}</p>
-                                    ) : null}
-                                </div>
-                                {error && <p className="text-red-500 text-xs">{error}</p>}
-                                <div className="form-control mt-6">
-                                    <button type="submit" className="btn btn-primary">
-                                        Login
-                                    </button>
-                                </div>
-                            </form>
-                            <button>
-                                Don’t have an account?{" "}
-                                <Link href="/registration" className="text-secondary">
-                                    Create an account
-                                </Link>
-                            </button>
+                    <div className="flex-1 bg-green-100 text-center hidden lg:flex">
+                        <div className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
+                            style={{ backgroundImage: `url('https://drive.google.com/uc?export=view&id=1KZ_Ub_2lZ0dHbKV0fAIhxVhiQA183RCz')` }}>
                         </div>
                     </div>
                 </div>
