@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { DoctorsCardCarosusel } from './DoctorsCardCarousel';
+import Link from 'next/link';
 
 
 const Doctors = () => {
@@ -21,12 +22,12 @@ const Doctors = () => {
                 <div className="my-12">
                     <DoctorsCardCarosusel />
                 </div>
-                <motion.button className="btn rounded-full bg-color-primary text-color-white text-base mt-4 lg:w-48"
+                <Link href="/doctor"><motion.button className="btn rounded-full bg-color-primary text-color-white text-base mt-4 lg:w-48"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                 >
                     View More
-                </motion.button>
+                </motion.button></Link>
             </div>
         </div >
 

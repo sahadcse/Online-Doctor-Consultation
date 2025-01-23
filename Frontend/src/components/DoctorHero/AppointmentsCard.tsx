@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 const AppointmentsCard = () => {
     const appointments = [
         {
@@ -70,20 +72,20 @@ const AppointmentsCard = () => {
 
     return (
         <div className="bg-white rounded-lg shadow p-6 w-full max-w-sm h-full items-start">
-            <h2 className="text-blue-600 font-semibold mb-4">Today Appointment</h2>
+            <h2 className="text-color-secondary font-semibold mb-4">Today Appointment</h2>
             <div className="space-y-4 max-h-96 overflow-y-auto">
                 <div className="flex justify-between text-gray-500 text-sm font-semibold">
+                    {/* <p>Patient</p> */}
                     <p>Patient</p>
-                    <p>Name/Diagnosis</p>
                     <p>Time</p>
                 </div>
                 {appointments.slice(0, 5).map((appointment, index) => (
                     <div key={appointment.id} className="flex items-center gap-4">
-                        <img
+                        {/* <img
                             src={appointment.image}
                             alt={appointment.name}
                             className="w-10 h-10 rounded-full object-cover"
-                        />
+                        /> */}
                         <div className="flex-1">
                             <h3 className="font-semibold text-gray-800">
                                 {appointment.name}
@@ -91,16 +93,16 @@ const AppointmentsCard = () => {
                             <p className="text-sm text-gray-500">{appointment.diagnosis}</p>
                         </div>
                         <span
-                            className={`text-white text-xs font-medium px-3 py-1 rounded-full ${appointment.statusColor}`}
+                            className={`text-white text-xs font-medium px-3 py-1 rounded-full bg-color-primary`}
                         >
                             {appointment.time}
                         </span>
                     </div>
                 ))}
                 {appointments.length > 5 && (
-                    <p className="text-blue-500 text-sm font-medium cursor-pointer hover:underline">
+                    <Link href="/doctor/appointments" className="text-color-primary text-sm font-medium cursor-pointer hover:underline">
                         See All
-                    </p>
+                    </Link>
                 )}
             </div>
         </div>

@@ -182,7 +182,7 @@ const ConsultationsDetails = () => {
                         </div>
                     </div>
                     <div className="mt-6 flex space-x-4">
-                        {!isStarted ? (
+                        {!isStarted  ? (
                             <button
                                 onClick={handleStart}
                                 className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"

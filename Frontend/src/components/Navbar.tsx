@@ -58,7 +58,7 @@ const Navbar = () => {
                 {/* Logo Section */}
                 <div className="flex items-center flex-1 h-12 w-12 lg:h-16 lg:w-16 ps-16">
                     <Link href="/" >
-                        <Image src={Logo} alt="Logo" height={100} width={100} priority />
+                        <Image src={Logo} alt="Logo" height={50} width={172} priority />
                     </Link>
                 </div>
 

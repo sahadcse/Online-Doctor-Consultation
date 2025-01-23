@@ -18,7 +18,7 @@ const DonutChart = () => {
       {
         label: 'Patients',
         data: [30, 40, 50],
-        backgroundColor: ['#D7E3FC', '#FEC260', '#1E3A8A'],
+        backgroundColor: ['#D7E3FC', '#08595a', '#15b697'],
         hoverOffset: 4,
       },
     ],

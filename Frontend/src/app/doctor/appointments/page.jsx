@@ -28,7 +28,7 @@ const AppointmentsDoc = () => {
         const data = await response.json();
         const filterData = data.filter((appointment) => {
           const today = new Date();
-          const appointmentDate = new Date(appointment.appointment_date);
+          const appointmentDate = new Date(appointment.appointment.appointment_date);
           return today.toDateString() === appointmentDate.toDateString();
         });
         setAppointments(filterData);
@@ -201,7 +201,8 @@ const AppointmentsDoc = () => {
                 <tbody>
                   {appointments.map((appointment) => (
                     <tr key={appointment._id} className="hover:bg-gray-50">
-                      <td className="px-4 py-2 border">{appointment.patient_id}</td>
+                      <td className="px-4 py-2 border">{appointment.appointment.full_name
+                      }</td>
                       <td className="px-4 py-2 border">{appointment.start_time}</td>
                       <td className="px-4 py-2 border">{appointment.consultation_type}</td>
                       <td className="px-4 py-2 border">
