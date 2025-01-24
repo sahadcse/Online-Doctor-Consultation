@@ -6,6 +6,7 @@ import DashboardHeroNav from "@/components/DoctorHero/DashboardHeroNav";
 import { authHeader } from "@/utils";
 import withAuth from "@/common/WithAuth";
 import { useParams } from "next/navigation";
+import Swal from "sweetalert2";
 
 const ConsultationsDetails = () => {
     const [consultation, setConsultation] = useState(null);
@@ -142,6 +143,11 @@ const ConsultationsDetails = () => {
                 throw new Error("Failed to submit prescription");
             }
             setSubmitStatus("Prescription submitted successfully!");
+            Swal.fire({
+                title: "Success!",
+                text: "Prescription submitted successfully!",
+                icon: "success"
+            });
         } catch (err) {
             setSubmitStatus(`Error: ${err.message}`);
         }

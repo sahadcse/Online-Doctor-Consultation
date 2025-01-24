@@ -10,7 +10,7 @@ const userSlice = createSlice({
     },
     reducers: {
         login: (state, action) => {
-            console.log("test", action.payload)
+         
             if (action.payload.role === 'doctor') {
                 state.userInfo = action.payload.data.doctor;
             } else if (action.payload.role === 'patient') {

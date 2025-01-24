@@ -65,7 +65,7 @@ const AppointmentsDoc = () => {
             if (result.isConfirmed) {
                 try {
                     const response = await fetch(
-                        `${BACKEND_API_URL}/api/users/doctor/appointments/${selectedAppointment._id}/confirm`,
+                        `${BACKEND_API_URL}/api/users/doctor/appointments/${selectedAppointment.appointment._id}/confirm`,
                         {
                             method: "PUT",
                             headers: {
@@ -80,12 +80,12 @@ const AppointmentsDoc = () => {
                         throw new Error("Failed to approve the appointment");
                     }
 
-                    const updatedAppointments = appointments.map((appointment) =>
-                        appointment._id === selectedAppointment._id
-                            ? { ...appointment, status: "Confirmed" }
-                            : appointment
-                    );
-                    setAppointments(updatedAppointments);
+                    // const updatedAppointments = appointments.map((appointment) =>
+                    //     appointment.appointment._id === selectedAppointment.appointment._id
+                    //         ? { ...appointments.appointment, status: "Confirmed" }
+                    //         : appointment
+                    // );
+                    // setAppointments(updatedAppointments);
                     setIsModalOpen(false);
 
                     Swal.fire({
@@ -120,7 +120,7 @@ const AppointmentsDoc = () => {
             if (result.isConfirmed) {
                 try {
                     const response = await fetch(
-                        `${BACKEND_API_URL}/api/users/doctor/appointments/${selectedAppointment._id}/cancel`,
+                        `${BACKEND_API_URL}/api/users/doctor/appointments/${selectedAppointment.appointment._id}/cancel`,
                         {
                             method: "PUT",
                             headers: {
@@ -135,12 +135,12 @@ const AppointmentsDoc = () => {
                         throw new Error("Failed to cancel the appointment");
                     }
 
-                    const updatedAppointments = appointments.map((appointment) =>
-                        appointment._id === selectedAppointment._id
-                            ? { ...appointment, status: "Cancelled" }
-                            : appointment
-                    );
-                    setAppointments(updatedAppointments);
+                    // const updatedAppointments = appointments.map((appointment) =>
+                    //     appointment._id === selectedAppointment._id
+                    //         ? { ...appointment, status: "Cancelled" }
+                    //         : appointment
+                    // );
+                    // setAppointments(updatedAppointments);
                     setIsModalOpen(false);
 
                     Swal.fire({

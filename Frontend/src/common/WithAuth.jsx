@@ -8,7 +8,8 @@ import useUserData from "@/hooks/useUserData";
 export default function withAuth(Component, allowedRoles = []) {
     return function ProtectedPage(props) {
         const isAuthenticated = useIsAuthenticated();
-        const { role } = useUserData() || null;
+        const userData = useUserData();
+        const role = userData?.role || null; // Safe navigation
         const router = useRouter();
 
         useEffect(() => {
@@ -17,8 +18,7 @@ export default function withAuth(Component, allowedRoles = []) {
             } else if (allowedRoles.length > 0 && !allowedRoles.includes(role)) {
                 router.push('/login');
             }
-        }, [isAuthenticated]);
-
+        }, [isAuthenticated, role, allowedRoles]);
 
         if (!isAuthenticated || (allowedRoles.length > 0 && !allowedRoles.includes(role))) {
             return null;

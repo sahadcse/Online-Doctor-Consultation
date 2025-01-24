@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
-import { login } from '../../redux/slices/userSlice'; 
+import { login } from '../../redux/slices/userSlice';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -25,8 +25,8 @@ export default function AdminLoginPage() {
         password,
       });
       // Handle successful login
-      console.log("Response Data: ",response.data);
-      dispatch(login(response.data));
+      console.log("Response Data: ", response.data);
+      dispatch(login({ data: response.data, role: 'admin' }));
       Cookies.set('token', response.data.token);
       Cookies.set('admin', JSON.stringify(response.data));
       if (response.data) {

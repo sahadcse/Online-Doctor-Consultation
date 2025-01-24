@@ -10,6 +10,9 @@ import { useFormik } from 'formik';
 import { login } from '../../redux/slices/userSlice';
 import Cookies from 'js-cookie';
 import Navbar from "@/components/Navbar";
+import Logo from "../../images/Logo (2).png";
+import loginImage from "images/login.png";
+import Image from 'next/image';
 
 
 const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -62,8 +65,9 @@ const LoginPage = () => {
                 <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
                     <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
                         <div>
-                            <img src="../../images/Logo (2).png"
-                                className="w-mx-auto" />
+                            <Image src={Logo} alt="Logo" height={50} width={172} />
+                            {/* <img src="../../images/Logo (2).png"
+                                className="w-mx-auto" /> */}
                         </div>
                         <div className="mt-12 flex flex-col items-center">
                             <div className="w-full flex-1 mt-8">
@@ -77,7 +81,7 @@ const LoginPage = () => {
                                 <div className="mx-auto max-w-xs">
                                     <form onSubmit={formik.handleSubmit}>
                                         <select
-                                            className="w-full px-8 py-4 mb-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white "
+                                            className="w-full px-8 py-4  rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white "
                                             value={userC}
                                             onChange={(e) => setUserC(e.target.value)}
                                         >
@@ -90,7 +94,7 @@ const LoginPage = () => {
                                             name="email"
                                             type="text"
                                             placeholder="Email"
-                                            className={`w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white ${formik.touched.email && formik.errors.email ? 'input-error' : ''}`}
+                                            className={`w-full px-8 py-4 my-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white ${formik.touched.email && formik.errors.email ? 'input-error' : ''}`}
 
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
@@ -114,14 +118,14 @@ const LoginPage = () => {
                                         ) : null}
                                         {error && <p className="text-red-500 text-xs">{error}</p>}
                                         <button
-                                            className="mt-5 tracking-wide font-semibold bg-color-primary text-white-500 w-full py-4 rounded-lg hover:bg-color-secondary transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                                            className="mt-5 tracking-wide font-semibold bg-color-primary text-white w-full py-4 rounded-lg hover:bg-color-secondary transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                             <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" stroke-width="2"
                                                 stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
                                                 <circle cx="8.5" cy="7" r="4" />
                                                 <path d="M20 8v6M23 11h-6" />
                                             </svg>
-                                            <span className="ml- text-white-600">
+                                            <span className="ml- text-white">
                                                 Sign In
                                             </span>
                                         </button>
@@ -130,7 +134,7 @@ const LoginPage = () => {
 
                                     <p className="mt-6 text-xs text-gray-600 text-center">
                                         Don’t have an account?{" "}
-                                        
+
                                         <Link href="/registration" className="border-b border-gray-500 border-dotted">
                                             Create an account
                                         </Link>
@@ -140,9 +144,9 @@ const LoginPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex-1 bg-green-100 text-center hidden lg:flex">
+                    <div className="flex-1 bg-color-primary text-center hidden lg:flex">
                         <div className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
-                            style={{ backgroundImage: `url('https://drive.google.com/uc?export=view&id=1KZ_Ub_2lZ0dHbKV0fAIhxVhiQA183RCz')` }}>
+                            style={{ backgroundImage: `url('/images/login.png')` }}>
                         </div>
                     </div>
                 </div>

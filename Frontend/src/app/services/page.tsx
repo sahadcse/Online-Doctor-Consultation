@@ -55,7 +55,7 @@ const ServicesPage = () => {
                             </h2>
                             <p>If a dog chews shoes whose shoes does he choose?</p>
                             <div className="card-actions justify-start">
-                                <div className="badge badge-outline">Read More</div>
+                                <div className="badge badge-outline bg-color-primary text-white p-4">Read More</div>
 
                             </div>
                         </div>
@@ -73,7 +73,7 @@ const ServicesPage = () => {
                             </h2>
                             <p>If a dog chews shoes whose shoes does he choose?</p>
                             <div className="card-actions justify-start">
-                                <div className="badge badge-outline">Read More</div>
+                                <div className="badge badge-outline bg-color-primary text-white p-4">Read More</div>
 
                             </div>
                         </div>
@@ -90,8 +90,8 @@ const ServicesPage = () => {
                                 Diagnose & Research
                             </h2>
                             <p>If a dog chews shoes whose shoes does he choose?</p>
-                            <div className="card-actions justify-start">
-                                <div className="badge badge-outline">Read More</div>
+                            <div className="card-actions justify-start ">
+                                <div className="badge badge-outline bg-color-primary text-white p-4">Read More</div>
 
                             </div>
                         </div>
@@ -109,7 +109,7 @@ const ServicesPage = () => {
                             </h2>
                             <p className='font-dm-sans'>If a dog chews shoes whose shoes does he choose?</p>
                             <div className="card-actions justify-start">
-                                <div className="badge badge-outline">Read More</div>
+                                <div className="badge badge-outline bg-color-primary text-white p-4">Read More</div>
 
                             </div>
                         </div>
@@ -127,7 +127,7 @@ const ServicesPage = () => {
                             </h2>
                             <p>If a dog chews shoes whose shoes does he choose?</p>
                             <div className="card-actions justify-start">
-                                <div className="badge badge-outline">Read More</div>
+                                <div className="badge badge-outline bg-color-primary text-white p-4">Read More</div>
 
                             </div>
                         </div>
@@ -145,7 +145,7 @@ const ServicesPage = () => {
                             </h2>
                             <p>If a dog chews shoes whose shoes does he choose?</p>
                             <div className="card-actions justify-start">
-                                <div className="badge badge-outline">Read More</div>
+                                <div className="badge badge-outline bg-color-primary text-white p-4">Read More</div>
 
                             </div>
                         </div>

@@ -81,7 +81,7 @@ const Navbar = () => {
                     {isAuth ? (
                         <button
                             onClick={handleLogout}
-                            className="rounded-full bg-blue-600 px-4 py-2 text-white text-base"
+                            className="inline-flex items-center justify-center rounded-xl bg-color-primary py-3 px-6 font-dm text-base font-medium text-white transition-transform duration-200 ease-in-out hover:scale-[1.02]"
                         >
                             LOGOUT
                         </button>
@@ -111,7 +111,7 @@ const Navbar = () => {
                         {isAuth ? (
                             <button
                                 onClick={handleLogout}
-                                className="rounded-full bg-blue-600 px-4 py-2 text-white text-base"
+                                className="inline-flex items-center justify-center rounded-xl bg-color-primary py-3 px-6 font-dm text-base font-medium text-white transition-transform duration-200 ease-in-out hover:scale-[1.02]"
                             >
                                 LOGOUT
                             </button>
@@ -123,7 +123,7 @@ const Navbar = () => {
                                     </button>
                                 </Link>
                                 <Link href="/registration">
-                                    <button className="border border-sky-700 py-1 px-2 rounded-md">
+                                    <button className="inline-flex items-center justify-center rounded-xl bg-color-primary py-3 px-6 font-dm text-base font-medium text-white transition-transform duration-200 ease-in-out hover:scale-[1.02]">
                                         REGISTER
                                     </button>
                                 </Link>
