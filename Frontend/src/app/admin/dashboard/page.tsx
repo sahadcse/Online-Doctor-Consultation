@@ -1,5 +1,5 @@
 "use client";
-import AdminLayout from "@/components/AdminLayout";
+import AdminLayout from "@/components/Admin/AdminLayout";
 
 const AdminDashboard = () => {
     return (

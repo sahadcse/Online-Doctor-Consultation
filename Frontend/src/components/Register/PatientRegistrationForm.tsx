@@ -26,23 +26,30 @@ const PatientRegistrationForm = () => {
         };
         terms_accepted: boolean;
         consent_form_signed: boolean;
+        address: {
+            street: string;
+            city: string;
+            state: string;
+            postal_code: string;
+            country: string;
+        };
     }
 
-    interface Height {
-        feet: string;
-        inches: string;
-    }
+    // interface Height {
+    //     feet: string;
+    //     inches: string;
+    // }
 
-    interface Weight {
-        value: string;
-        unit: string;
-    }
+    // interface Weight {
+    //     value: string;
+    //     unit: string;
+    // }
 
-    interface EmergencyContact {
-        name: string;
-        phone_number: string;
-        relationship: string;
-    }
+    // interface EmergencyContact {
+    //     name: string;
+    //     phone_number: string;
+    //     relationship: string;
+    // }
 
     const [formData, setFormData] = useState<FormData>({
         full_name: '',
@@ -57,6 +64,13 @@ const PatientRegistrationForm = () => {
         emergency_contact: { name: '', phone_number: '', relationship: '' },
         terms_accepted: false,
         consent_form_signed: false,
+        address: {
+            street: '',
+            city: '',
+            state: '',
+            postal_code: '',
+            country: '',
+        },
     });
 
     const [showPassword, setShowPassword] = useState(false);
@@ -70,7 +84,7 @@ const PatientRegistrationForm = () => {
         const { name, value, type, checked } = e.target as HTMLInputElement;
         if (type === 'checkbox') {
             setFormData({ ...formData, [name]: checked });
-        } else if (name.includes('height') || name.includes('weight') || name.includes('emergency_contact')) {
+        } else if (name.includes('height') || name.includes('weight') || name.includes('emergency_contact') || name.includes('address')) {
             const [category, field] = name.split('.');
             setFormData({ 
                 ...formData, 
@@ -103,6 +117,11 @@ const PatientRegistrationForm = () => {
         if (!formData.emergency_contact.relationship) newErrors['emergency_contact.relationship'] = 'Emergency Contact Relationship is required';
         if (!formData.terms_accepted) newErrors.terms_accepted = 'You must accept the terms';
         if (!formData.consent_form_signed) newErrors.consent_form_signed = 'You must sign the consent form';
+        if (!formData.address.street) newErrors['address.street'] = 'Street is required';
+        if (!formData.address.city) newErrors['address.city'] = 'City is required';
+        if (!formData.address.state) newErrors['address.state'] = 'State is required';
+        if (!formData.address.postal_code) newErrors['address.postal_code'] = 'Postal Code is required';
+        if (!formData.address.country) newErrors['address.country'] = 'Country is required';
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -143,6 +162,13 @@ const PatientRegistrationForm = () => {
                 emergency_contact: { name: '', phone_number: '', relationship: '' },
                 terms_accepted: false,
                 consent_form_signed: false,
+                address: {
+                    street: '',
+                    city: '',
+                    state: '',
+                    postal_code: '',
+                    country: '',
+                },
             });
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -286,7 +312,48 @@ const PatientRegistrationForm = () => {
                     </div>
                 </div>
 
+                {/* Address Section */}
+                <h3 className="text-lg font-semibold">Address</h3>
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Street</span>
+                        </label>
+                        <input type="text" name="address.street" placeholder="Street" value={formData.address.street} onChange={handleChange} className="input input-bordered" />
+                        {errors['address.street'] && <span className="text-red-500">{errors['address.street']}</span>}
+                    </div>
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">City</span>
+                        </label>
+                        <input type="text" name="address.city" placeholder="City" value={formData.address.city} onChange={handleChange} className="input input-bordered" />
+                        {errors['address.city'] && <span className="text-red-500">{errors['address.city']}</span>}
+                    </div>
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">State</span>
+                        </label>
+                        <input type="text" name="address.state" placeholder="State" value={formData.address.state} onChange={handleChange} className="input input-bordered" />
+                        {errors['address.state'] && <span className="text-red-500">{errors['address.state']}</span>}
+                    </div>
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Postal Code</span>
+                        </label>
+                        <input type="text" name="address.postal_code" placeholder="Postal Code" value={formData.address.postal_code} onChange={handleChange} className="input input-bordered" />
+                        {errors['address.postal_code'] && <span className="text-red-500">{errors['address.postal_code']}</span>}
+                    </div>
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Country</span>
+                        </label>
+                        <input type="text" name="address.country" placeholder="Country" value={formData.address.country} onChange={handleChange} className="input input-bordered" />
+                        {errors['address.country'] && <span className="text-red-500">{errors['address.country']}</span>}
+                    </div>
+                </div>
+
                 {/* Emergency Contact Section */}
+                <h3 className="text-lg font-semibold">Emergency Contact</h3>
                 <div className="flex space-x-4">
                     <div className="form-control flex-1">
                         <label className="label">

@@ -16,6 +16,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "typeRoots": ["./node_modules/@types", "./types"],
     "plugins": [
       {
         "name": "next"
@@ -33,7 +34,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/utils/index.js"
+    "src/utils/index.js",
+    "src/**/*.ts", "src/**/*.tsx", "types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"
