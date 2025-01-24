@@ -20,8 +20,8 @@ const config: Config = {
         work: ['var(--font-work-sans)', ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        "color-primary": "#00A6FB",
-        "color-secondary": "#2AC28E",
+        "color-primary": "#08595a",
+        "color-secondary": "#15b697",
         "color-third": "#E0F5FF",
         "color-deepblue": "#4589F4",
         "para-color": "#5C728E",

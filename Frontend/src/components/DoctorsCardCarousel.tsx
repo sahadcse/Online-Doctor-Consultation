@@ -73,7 +73,7 @@ export const DoctorsCardCarosusel = () => {
 
             {doctors.map((doctor) => (
                 <SwiperSlide key={doctor.id}>
-                    <div className="card bg-base-100 w-full sm:w-96 shadow-xl">
+                    <div className="card bg-white-100 w-full sm:w-96 shadow-sm">
                         <figure>
                             <Image src={doctor.image} alt={doctor.name} className="rounded-xl" />
                         </figure>
@@ -83,6 +83,7 @@ export const DoctorsCardCarosusel = () => {
                             <p>{doctor.qualifications}</p>
                             <div className="card-actions justify-start">
                                 <button className="btn bg-color-primary text-white">Appointment</button>
+                                <button className="btn bg-color-primary text-white">Details</button>
                             </div>
                         </div>
                     </div>

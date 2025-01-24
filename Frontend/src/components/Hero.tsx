@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 
 const Hero = () => {
   return (
-    <div className="bg-[url('../images/banner_bg.jpg')] bg-cover bg-center pt-8 pb-12 sm:pt-16 sm:pb-20">
+    <div className="bg-[url('../images/banner_bg.jpg')] bg-cover bg-center sm:pt-16 sm:pb-20">
       <motion.div
         className="flex flex-col-reverse lg:flex-row-reverse items-center justify-between min-h-screen px-4 sm:px-8 lg:px-48 space-y-6 lg:space-y-0 lg:space-x-12"
         initial={{ opacity: 0 }}
@@ -32,7 +32,7 @@ const Hero = () => {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
         >
-          <p className="py-4 text-lg sm:text-xl font-dm-sans font-bold text-color-primary leading-tight">
+          <p className="py-4 text-lg sm:text-xl font-dm-sans font-bold text-color-secondary leading-tight">
             | Welcome to Online Doctor
           </p>
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-work-sans text-color-black leading-tight">

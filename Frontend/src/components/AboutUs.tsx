@@ -40,7 +40,7 @@ const AboutUs = () => {
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ duration: 1, delay: 0.5 }}
                 >
-                    <p className="py-2 text-lg sm:text-xl font-dm-sans font-bold text-color-primary leading-tight">
+                    <p className="py-2 text-lg sm:text-xl font-dm-sans font-bold text-color-secondary leading-tight">
                         | About Us
                     </p>
                     <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold font-work-sans text-color-black leading-tight">

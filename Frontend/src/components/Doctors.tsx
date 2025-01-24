@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { DoctorsCardCarosusel } from './DoctorsCardCarousel';
+import Link from 'next/link';
 
 
 const Doctors = () => {
@@ -10,7 +11,7 @@ const Doctors = () => {
         <div className="" >
             <div className="px-4 lg:px-64 py-24 text-center" style={{ backgroundColor: "#ffffff9c" }}>
                 <div className="text-center">
-                    <p className="py-4 text-xl font-dm-sans font-bold text-color-primary leading-tight">
+                    <p className="py-4 text-xl font-dm-sans font-bold text-color-secondary leading-tight">
                         | our team
                     </p>
                     <h1 className="text-4xl lg:text-5xl font-semibold font-work-sans text-color-black leading-tight">
@@ -21,12 +22,12 @@ const Doctors = () => {
                 <div className="my-12">
                     <DoctorsCardCarosusel />
                 </div>
-                <motion.button className="btn rounded-full bg-color-primary text-color-white text-base mt-4 lg:w-48"
+                <Link href="/doctor"><motion.button className="btn rounded-full bg-color-primary text-color-white text-base mt-4 lg:w-48"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                 >
                     View More
-                </motion.button>
+                </motion.button></Link>
             </div>
         </div >
 

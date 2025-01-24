@@ -10,11 +10,44 @@ import service3 from "../images/service-3.jpg";
 import Image from 'next/image';
 
 export const ServiceCardCarousel = () => {
+    const services = [
+        {
+            title: "Cardiology",
+            description:
+                "Comprehensive heart care and treatments, including ECG, stress tests, and advanced cardiac surgery.",
+            image: service1,
+        },
+        {
+            title: "Orthopedics",
+            description:
+                "Expert care for bone and joint issues, including fractures, arthritis, and joint replacement surgeries.",
+            image: service2,
+        },
+        {
+            title: "Pediatrics",
+            description:
+                "Compassionate care for children, from routine check-ups to immunizations and specialized treatments.",
+            image: service3,
+        },
+        {
+            title: "Dental Care",
+            description:
+                "State-of-the-art dental services including cleanings, fillings, root canals, and cosmetic dentistry.",
+            image: service1,
+        },
+        {
+            title: "Dermatology",
+            description:
+                "Advanced skin care services for conditions like acne, eczema, psoriasis, and cosmetic treatments.",
+            image: service3,
+        },
+    ];
+
     return (
         <Swiper
             modules={[Autoplay, Pagination, Scrollbar, A11y]}
-            spaceBetween={20} // Adjust space between slides for mobile
-            slidesPerView={1} // Default to showing 1 slide
+            spaceBetween={20}
+            slidesPerView={1}
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
             autoplay={{
@@ -22,7 +55,6 @@ export const ServiceCardCarousel = () => {
                 disableOnInteraction: false,
             }}
             breakpoints={{
-                // Adjust the number of slides visible based on screen width
                 640: {
                     slidesPerView: 1,
                     spaceBetween: 20,
@@ -37,25 +69,25 @@ export const ServiceCardCarousel = () => {
                 },
             }}
         >
-            {[service1, service2, service3, service2, service1].map((image, index) => (
+            {services.map((service, index) => (
                 <SwiperSlide key={index}>
                     <div className="card bg-base-100 shadow-xl mx-auto max-w-sm">
                         <figure className="px-5 pt-5">
                             <Image
-                                src={image}
-                                alt="Service"
+                                src={service.image}
+                                alt={service.title}
                                 className="rounded-xl"
                             />
                         </figure>
                         <div className="card-body">
                             <h2 className="card-title font-work-sans text-color-black text-xl md:text-2xl">
-                                Service Title {index + 1}
+                                {service.title}
                             </h2>
                             <p className="font-dm-sans text-sm md:text-base">
-                                Sample description text for the service. Customize as needed.
+                                {service.description}
                             </p>
-                            <div className="card-actions justify-start">
-                                <div className="badge badge-outline">Read More</div>
+                            <div className="card-actions justify-start ">
+                                <div className="badge badge-outline cursor-pointer">Read More</div>
                             </div>
                         </div>
                     </div>

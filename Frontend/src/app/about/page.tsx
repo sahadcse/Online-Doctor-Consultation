@@ -14,7 +14,7 @@ const AboutPage = () => {
     return (
         <>
             <Navbar />
-            <div>
+            <div >
 
                 <div className={`${styles.ourTeamTopContainer} relative`}>
                     <Image
@@ -47,7 +47,7 @@ const AboutPage = () => {
                 <Appointment />
                 <WorkingProcess />
                 <Doctors />
-                <EmergencyContact />
+                {/* <EmergencyContact /> */}
             </div>
             <Footer />
         </>

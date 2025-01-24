@@ -13,6 +13,7 @@ import NextPatientDetails from "@/components/DoctorHero/NextPatientDetails";
 import BarChart from "@/components/DoctorHero/BarChart";
 import AppointmentRequest from "@/components/DoctorHero/AppointmentRequest";
 import Calander from "@/components/DoctorHero/Calander";
+import withAuth from "../../../common/WithAuth";
 
 const chartData = [
   { label: 'Excellent', percentage: 80 },
@@ -49,7 +50,7 @@ const DoctorDashboard = () => {
   return (
     <DoctorLayout>
       {/* Hero Card Section */}
-      <DashboardHeroNav headName="Dashboard [Doctor]" />
+      <DashboardHeroNav headName="Welcome To Your Dashboard" />
 
       {/* Card section of Tota Patient, Today Patient, Today Appintments */}
       <div className="p-6">
@@ -93,8 +94,15 @@ const DoctorDashboard = () => {
 
           {/* Next Patient Details */}
           <div className="flex flex-col h-full">
-            <NextPatientDetails />
+            {/* <NextPatientDetails /> */}
+            {/* <h1 className="font-semibold">Patient Reviews</h1>
+            <BarChart data={chartData} /> */}
           </div>
+
+
+
+
+
         </div>
       </div>
 
@@ -102,26 +110,26 @@ const DoctorDashboard = () => {
       <div className="flex gap-6 justify-between my-6">
 
         {/* Patient Review */}
-        <div className="w-1/3 bg-gray-100 p-6 rounded-lg">
+        {/* <div className="w-1/3 bg-gray-100 p-6 rounded-lg">
           <h1 className="font-semibold">Patient Reviews</h1>
           <BarChart data={chartData} />
-        </div>
+        </div> */}
 
         {/* Appoinment Request */}
-        <div className="w-1/3 bg-gray-100 p-6 rounded-lg">
+        {/* <div className="w-1/3 bg-gray-100 p-6 rounded-lg">
           <h1 className="font-semibold">Appoinment Request</h1>
           <AppointmentRequest appointments={appointments} />
-        </div>
+        </div> */}
 
         {/* Calender */}
-        <div className="w-1/3 bg-gray-100 p-6 rounded-lg">
+        {/* <div className="w-1/3 bg-gray-100 p-6 rounded-lg">
           <h1 className="font-semibold">Calender</h1>
           <Calander />
-        </div>
+        </div> */}
 
       </div>
     </DoctorLayout>
   );
 };
 
-export default DoctorDashboard;
+export default withAuth(DoctorDashboard, ['doctor']);

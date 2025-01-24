@@ -36,8 +36,17 @@
     ".next/types/**/*.ts",
     "src/utils/index.js",
     "src/**/*.ts", "src/**/*.tsx", "types/**/*.d.ts"
-  ],
+, "src/app/doctor/appointments/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]
 }
+
+"src/utils/index.js",
+"src/**/*.ts", "src/**/*.tsx", "types/**/*.d.ts",
+"src/app/doctor/appointments/page.jsx"
+],
+"exclude": [
+  "node_modules"
+]
+
