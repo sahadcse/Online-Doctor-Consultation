@@ -1,5 +1,5 @@
 "use client";
-import PatientLayout from "@/components/PatientLayout";
+import PatientLayout from "@/components/Patient/PatientLayout";
 
 const PatientDashboard = () => {
     return (

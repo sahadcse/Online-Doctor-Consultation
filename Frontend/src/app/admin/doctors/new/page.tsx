@@ -1,6 +1,6 @@
 "use client";
 
-import AdminLayout from "@/components/AdminLayout";
+import AdminLayout from "@/components/Admin/AdminLayout";
 import DoctorForm from "@/components/DoctorForm";
 
 const NewDoctorPage = () => {
