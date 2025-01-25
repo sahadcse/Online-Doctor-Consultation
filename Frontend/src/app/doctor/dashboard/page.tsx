@@ -5,7 +5,7 @@ import DashboardHeroNav from "@/components/DoctorHero/DashboardHeroNav";
 import TotalCard from "@/components/DoctorHero/TotalCard";
 import TotalPatient from "../../../images/totalPatient.png";
 import TodayPatient from "../../../images/todayPatient.png";
-import TodayAppointments from "../../../images/TodayAppintments.png";
+import TodayAppointmentss from "../../../images/TodayAppintments.png";
 import getTodaysDate from "@/utils/getTodaysDate";
 import DonutChart from "@/components/DoctorHero/DonutChart";
 import AppointmentsCard from "@/components/DoctorHero/AppointmentsCard";
@@ -14,6 +14,8 @@ import BarChart from "@/components/DoctorHero/BarChart";
 import AppointmentRequest from "@/components/DoctorHero/AppointmentRequest";
 import Calander from "@/components/DoctorHero/Calander";
 import withAuth from "../../../common/WithAuth";
+import { useEffect, useState } from "react";
+import { authHeader } from "@/utils";
 
 const chartData = [
   { label: 'Excellent', percentage: 80 },
@@ -45,7 +47,58 @@ const appointments = [
 ];
 
 const DoctorDashboard = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [TodayAppointments, setTodayAppointments] = useState([]);
+  const [patientsData, setPatientsData] = useState({ today: 0, total: 0 });
   const todayDate = getTodaysDate();
+  const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      setIsLoading(true);
+      try {
+        // Fetch appointments and consultations
+        const appointmentsApi = await fetch(`${BACKEND_API_URL}/api/users/doctor/appointments`, {
+          headers: authHeader(),
+        });
+        const consultationsApi = await fetch(`${BACKEND_API_URL}/api/users/doctor/consultations`, {
+          headers: authHeader(),
+        });
+
+        if (!appointmentsApi.ok || !consultationsApi.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
+        const appointmentsData = await appointmentsApi.json();
+        const consultationsData = await consultationsApi.json();
+
+        // Filter today's appointments
+        const todayDate = new Date().toDateString();
+        const filterData = appointmentsData.filter((appointment) => {
+          const appointmentDate = new Date(appointment.appointment.appointment_date).toDateString();
+          return todayDate === appointmentDate;
+        });
+
+        // Filter today's consultations
+        const filterConsultations = consultationsData.filter((consultation) => {
+          const consultationDate = new Date(consultation.consultation_date).toDateString();
+          return todayDate === consultationDate;
+        });
+
+        // Update state
+        setTodayAppointments(filterData);
+        setPatientsData({ total: consultationsData.length, today: filterConsultations.length });
+
+      } catch (err) {
+        alert(err.message || "An error occurred while fetching appointments");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAppointments();
+  }, [authHeader, BACKEND_API_URL]);
+
 
   return (
     <DoctorLayout>
@@ -57,21 +110,21 @@ const DoctorDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <TotalCard
             cardTitle="Total Patients"
-            cardNumber={100}
+            cardNumber={patientsData.total}
             cardDate="Till Today"
             cardImgUrl={TotalPatient}
           />
           <TotalCard
             cardTitle="Today's Patients"
-            cardNumber={10}
+            cardNumber={patientsData.today}
             cardDate={todayDate}
             cardImgUrl={TodayPatient}
           />
           <TotalCard
             cardTitle="Today's Appointments"
-            cardNumber={5}
+            cardNumber={TodayAppointments?.length}
             cardDate={todayDate}
-            cardImgUrl={TodayAppointments}
+            cardImgUrl={TodayAppointmentss}
           />
         </div>
       </div>
@@ -89,7 +142,7 @@ const DoctorDashboard = () => {
 
           {/* Today Appoinment-Patient,Name/Diagonosis, Time */}
           <div className="flex flex-col h-full">
-            <AppointmentsCard />
+            <AppointmentsCard appointments={TodayAppointments} />
           </div>
 
           {/* Next Patient Details */}

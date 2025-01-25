@@ -2,73 +2,21 @@
 
 import Link from "next/link";
 
-const AppointmentsCard = () => {
-    const appointments = [
-        {
-            id: 1,
-            name: "M.J. Mical",
-            diagnosis: "Health Checkup",
-            time: "On Going",
-            image: "/images/patient1.jpg",
-            statusColor: "bg-blue-500",
-        },
-        {
-            id: 2,
-            name: "Sanath Deo",
-            diagnosis: "Health Checkup",
-            time: "12 : 30 PM",
-            image: "/images/patient2.jpg",
-            statusColor: "bg-blue-200",
-        },
-        {
-            id: 3,
-            name: "Loeara Phanj",
-            diagnosis: "Report",
-            time: "01 : 00 PM",
-            image: "/images/patient3.jpg",
-            statusColor: "bg-blue-200",
-        },
-        {
-            id: 4,
-            name: "Komola Haris",
-            diagnosis: "Common Cold",
-            time: "01 : 30 PM",
-            image: "/images/patient4.jpg",
-            statusColor: "bg-blue-200",
-        },
-        {
-            id: 5,
-            name: "Nina Brown",
-            diagnosis: "Dental Checkup",
-            time: "02 : 00 PM",
-            image: "/images/patient5.jpg",
-            statusColor: "bg-blue-200",
-        },
-        {
-            id: 6,
-            name: "John Doe",
-            diagnosis: "Eye Checkup",
-            time: "02 : 30 PM",
-            image: "/images/patient6.jpg",
-            statusColor: "bg-blue-200",
-        },
-        {
-            id: 7,
-            name: "Jane Smith",
-            diagnosis: "Skin Allergy",
-            time: "03 : 00 PM",
-            image: "/images/patient7.jpg",
-            statusColor: "bg-blue-200",
-        },
-        {
-            id: 8,
-            name: "Robert Johnson",
-            diagnosis: "Follow-up",
-            time: "03 : 30 PM",
-            image: "/images/patient8.jpg",
-            statusColor: "bg-blue-200",
-        },
-    ];
+const AppointmentsCard = ({ appointments }) => {
+    console.log(appointments)
+    const appointmentsData = appointments.map((item, index) => ({
+        'id': index,
+        'name': item.
+            appointment.patient_id
+            .full_name,
+        'diagnosis': item.appointment.reason_for_visit
+        ,
+        'time': item.appointment.time_slot,
+        'image': "/images/patient1.jpg",
+        'statusColor': "bg-blue-500",
+    }),
+    )
+
 
     return (
         <div className="bg-white rounded-lg shadow p-6 w-full max-w-sm h-full items-start">
@@ -79,7 +27,7 @@ const AppointmentsCard = () => {
                     <p>Patient</p>
                     <p>Time</p>
                 </div>
-                {appointments.slice(0, 5).map((appointment, index) => (
+                {appointmentsData.slice(0, 5).map((appointment, index) => (
                     <div key={appointment.id} className="flex items-center gap-4">
                         {/* <img
                             src={appointment.image}

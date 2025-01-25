@@ -17,6 +17,7 @@ const DoctorLayout = ({ children }: { children: ReactNode }) => {
     const { full_name, bio } = user;
     const isActive = (path: string): boolean => pathname === path;
 
+
     return (
         <>
             <div className="drawer lg:drawer-open font-work-sans">
@@ -30,7 +31,7 @@ const DoctorLayout = ({ children }: { children: ReactNode }) => {
                     <ul className="p-4 w-60  h-full  text-base-content font-medium text-base">
                         {/* Doctor Info */}
                         <div className="  rounded-lg p-4">
-                            <img src={`https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 100)}.jpg`} alt="Patient" className="rounded-full m-auto" />
+                            <img src={user?.profile_picture_url ? user?.profile_picture_url : `/images/user.png`} alt="Patient" className="rounded-full m-auto" />
                             <div className="text-center">
                                 <h1 className="text-lg font-semibold">{full_name}</h1>
                                 <p className="text-xs text-gray-500">{bio}</p>
@@ -95,7 +96,7 @@ const DoctorLayout = ({ children }: { children: ReactNode }) => {
                             </li>
                             <li className={isActive('/doctor/profile') ? 'bg-color-primary text-white rounded' : ''}>
                                 <Link href="/doctor/profile" passHref className=''>
-                                    <MdOutlineSettings /> Settings
+                                    <MdOutlineSettings /> Profile
                                 </Link>
                             </li>
                             <li className={isActive('/doctor/login') ? 'bg-color-primary text-white rounded' : ''}>
