@@ -63,6 +63,7 @@ const ConsultationDetailsPage = () => {
             }
           );
           setDoctor(doctorResponse.data);
+          // console.log("test: ", doctorResponse.data);
         }
       } catch (error) {
         console.error("Error fetching consultation or doctor details:", error);
@@ -136,7 +137,7 @@ const ConsultationDetailsPage = () => {
             className="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-700 transition"
             onClick={() => router.push("/patient/consultations/history")}
           >
-            Go Back 
+            Go Back
           </button>
           <button
             className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-700 transition"
