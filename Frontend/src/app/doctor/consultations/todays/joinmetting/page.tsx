@@ -1,10 +1,11 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 
 const socket = io("http://localhost:8081");
 
-export default function PatientDashboard() {
+export default function DoctorDashboard() {
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const localVideoRef = useRef<HTMLVideoElement | null>(null);
   const remoteVideoRef = useRef<HTMLVideoElement | null>(null);
@@ -14,7 +15,7 @@ export default function PatientDashboard() {
     const roomId = "patient-doctor-room"; // Replace with dynamic room ID
 
     // Join the room
-    socket.emit("join-room", roomId, "patient");
+    socket.emit("join-room", roomId, "doctor");
 
     const setupWebRTC = async () => {
       const localStream = await navigator.mediaDevices.getUserMedia({
@@ -69,11 +70,16 @@ export default function PatientDashboard() {
 
       socket.on("ice-candidate", async ({ candidate }) => {
         if (peerConnection.current) {
-          await peerConnection.current.addIceCandidate(
-            new RTCIceCandidate(candidate)
-          );
+          await peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
         }
       });
+
+      // Create an offer
+      if (peerConnection.current) {
+        const offer = await peerConnection.current.createOffer();
+        await peerConnection.current.setLocalDescription(offer);
+        socket.emit("offer", { roomId, sdp: offer });
+      }
     };
 
     setupWebRTC();
@@ -91,7 +97,7 @@ export default function PatientDashboard() {
 
   return (
     <div>
-      <h2>Patient Dashboard</h2>
+      <h2>Doctor Dashboard</h2>
       <video ref={localVideoRef} autoPlay playsInline muted />
       <video ref={remoteVideoRef} autoPlay playsInline />
     </div>
