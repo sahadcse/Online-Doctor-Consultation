@@ -9,185 +9,205 @@ import { useParams } from "next/navigation";
 import Swal from "sweetalert2";
 
 const ConsultationsDetails = () => {
-    const [consultation, setConsultation] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [isStarted, setIsStarted] = useState(false);
-    const [isComplete, setIsComplete] = useState(false);
-    const [prescription, setPrescription] = useState({
-        medications: [
-            { name: "", dosage: "", frequency: "", duration: "" },
-        ],
-        advice: "",
-        created_at: new Date().toISOString(),
+  const [consultation, setConsultation] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isStarted, setIsStarted] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const [prescription, setPrescription] = useState({
+    medications: [{ name: "", dosage: "", frequency: "", duration: "" }],
+    advice: "",
+    created_at: new Date().toISOString(),
+  });
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const params = useParams();
+
+  const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  useEffect(() => {
+    const fetchConsultation = async () => {
+      try {
+        const response = await fetch(
+          `${BACKEND_API_URL}/api/users/doctor/consultations/${params?.id}`,
+          {
+            headers: authHeader(),
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch consultation details");
+        }
+        const data = await response.json();
+        console.log("Consultation Details: ", data);
+        setConsultation(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchConsultation();
+  }, [params?.id]);
+
+  //   const handleStart = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `${BACKEND_API_URL}/api/users/doctor/consultations/${params?.id}/start`,
+  //         {
+  //           method: "POST",
+  //           headers: authHeader(),
+  //         }
+  //       );
+  //       if (!response.ok) {
+  //         throw new Error("Failed to start consultation");
+  //       }
+  //       setIsStarted(true);
+  //     } catch (err) {
+  //       setError(err.message);
+  //     }
+  //   };
+
+  const handleStart = async () => {
+    try {
+      window.location.href = `/doctor/consultations/todays/joinmetting`;
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleComplete = async () => {
+    try {
+      const response = await fetch(
+        `${BACKEND_API_URL}/api/users/doctor/consultations/${params?.id}/complete`,
+        {
+          method: "POST",
+          headers: authHeader(),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to complete consultation");
+      }
+      setIsComplete(true);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleCancel = async () => {
+    try {
+      const response = await fetch(
+        `${BACKEND_API_URL}/api/users/doctor/consultations/${params?.id}/cancel`,
+        {
+          method: "PUT",
+          headers: authHeader(),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to cancel consultation");
+      }
+      alert("Consultation canceled successfully!");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleInputChange = (index, field, value) => {
+    const updatedMedications = [...prescription.medications];
+    updatedMedications[index][field] = value;
+    setPrescription({ ...prescription, medications: updatedMedications });
+  };
+
+  const handleAddMedication = () => {
+    setPrescription({
+      ...prescription,
+      medications: [
+        ...prescription.medications,
+        { name: "", dosage: "", frequency: "", duration: "" },
+      ],
     });
-    const [submitStatus, setSubmitStatus] = useState(null);
-    const params = useParams();
+  };
 
-    const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const handleRemoveMedication = (index) => {
+    const updatedMedications = prescription.medications.filter(
+      (_, i) => i !== index
+    );
+    setPrescription({ ...prescription, medications: updatedMedications });
+  };
 
-    useEffect(() => {
-        const fetchConsultation = async () => {
-            try {
-                const response = await fetch(
-                    `${BACKEND_API_URL}/api/users/doctor/consultations/${params?.id}`,
-                    {
-                        headers: authHeader(),
-                    }
-                );
-                if (!response.ok) {
-                    throw new Error("Failed to fetch consultation details");
-                }
-                const data = await response.json();
-                setConsultation(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchConsultation();
-    }, [params?.id]);
-
-    const handleStart = async () => {
-        try {
-            const response = await fetch(
-                `${BACKEND_API_URL}/api/users/doctor/consultations/${params?.id}/start`,
-                {
-                    method: "POST",
-                    headers: authHeader(),
-                }
-            );
-            if (!response.ok) {
-                throw new Error("Failed to start consultation");
-            }
-            setIsStarted(true);
-        } catch (err) {
-            setError(err.message);
+  const handleSubmitPrescription = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(
+        `${BACKEND_API_URL}/api/users/doctor/consultations/${params?.id}/prescription`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...authHeader(),
+          },
+          body: JSON.stringify({ prescription }),
         }
-    };
-
-    const handleComplete = async () => {
-        try {
-            const response = await fetch(
-                `${BACKEND_API_URL}/api/users/doctor/consultations/${params?.id}/complete`,
-                {
-                    method: "POST",
-                    headers: authHeader(),
-                }
-            );
-            if (!response.ok) {
-                throw new Error("Failed to complete consultation");
-            }
-            setIsComplete(true);
-        } catch (err) {
-            setError(err.message);
-        }
-    };
-
-    const handleCancel = async () => {
-        try {
-            const response = await fetch(
-                `${BACKEND_API_URL}/api/users/doctor/consultations/${params?.id}/cancel`,
-                {
-                    method: "PUT",
-                    headers: authHeader(),
-                }
-            );
-            if (!response.ok) {
-                throw new Error("Failed to cancel consultation");
-            }
-            alert("Consultation canceled successfully!");
-        } catch (err) {
-            setError(err.message);
-        }
-    };
-
-    const handleInputChange = (index, field, value) => {
-        const updatedMedications = [...prescription.medications];
-        updatedMedications[index][field] = value;
-        setPrescription({ ...prescription, medications: updatedMedications });
-    };
-
-    const handleAddMedication = () => {
-        setPrescription({
-            ...prescription,
-            medications: [
-                ...prescription.medications,
-                { name: "", dosage: "", frequency: "", duration: "" },
-            ],
-        });
-    };
-
-    const handleRemoveMedication = (index) => {
-        const updatedMedications = prescription.medications.filter((_, i) => i !== index);
-        setPrescription({ ...prescription, medications: updatedMedications });
-    };
-
-    const handleSubmitPrescription = async (event) => {
-        event.preventDefault();
-        try {
-            const response = await fetch(
-                `${BACKEND_API_URL}/api/users/doctor/consultations/${params?.id}/prescription`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        ...authHeader(),
-                    },
-                    body: JSON.stringify({ prescription }),
-                }
-            );
-            if (!response.ok) {
-                throw new Error("Failed to submit prescription");
-            }
-            setSubmitStatus("Prescription submitted successfully!");
-            Swal.fire({
-                title: "Success!",
-                text: "Prescription submitted successfully!",
-                icon: "success"
-            });
-        } catch (err) {
-            setSubmitStatus(`Error: ${err.message}`);
-        }
-    };
-
-    if (loading) {
-        return (
-            <DoctorLayout>
-                <DashboardHeroNav headName="Consultation Details" />
-                <div className="p-6 flex justify-center items-center">Loading consultation details...</div>
-            </DoctorLayout>
-        );
+      );
+      if (!response.ok) {
+        throw new Error("Failed to submit prescription");
+      }
+      setSubmitStatus("Prescription submitted successfully!");
+      Swal.fire({
+        title: "Success!",
+        text: "Prescription submitted successfully!",
+        icon: "success",
+      });
+    } catch (err) {
+      setSubmitStatus(`Error: ${err.message}`);
     }
+  };
 
-    if (error) {
-        return (
-            <DoctorLayout>
-                <DashboardHeroNav headName="Consultation Details" />
-                <div className="p-6 text-red-500">Error: {error}</div>
-            </DoctorLayout>
-        );
-    }
-
+  if (loading) {
     return (
-        <DoctorLayout>
-            <DashboardHeroNav headName="Consultation Details" />
-            <div className="p-6 bg-gray-100 min-h-screen">
-                <div className="bg-white p-6 rounded-lg shadow-lg max-w-3xl mx-auto">
-                    <h2 className="text-2xl font-bold mb-4 text-blue-600">Consultation Details</h2>
-                    <div className="space-y-4">
-                        <div>
-                            <strong className="block text-gray-600">Patient ID:</strong>
-                            <p className="text-gray-800">{consultation.patient_id}</p>
-                        </div>
-                        <div>
-                            <strong className="block text-gray-600">Appointment ID:</strong>
-                            <p className="text-gray-800">{consultation.appointment_id}</p>
-                        </div>
-                    </div>
-                    <div className="mt-6 flex space-x-4">
+      <DoctorLayout>
+        <DashboardHeroNav headName="Consultation Details" />
+        <div className="p-6 flex justify-center items-center">
+          Loading consultation details...
+        </div>
+      </DoctorLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <DoctorLayout>
+        <DashboardHeroNav headName="Consultation Details" />
+        <div className="p-6 text-red-500">Error: {error}</div>
+      </DoctorLayout>
+    );
+  }
+
+  return (
+    <DoctorLayout>
+      <DashboardHeroNav headName="Consultation Details" />
+      <div className="p-6 bg-gray-100 min-h-screen">
+        <div className="bg-white p-6 rounded-lg shadow-lg max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold mb-4 text-blue-600">
+            Consultation Details
+          </h2>
+          <div className="space-y-4">
+            <div>
+              <strong className="block text-gray-600">Patient ID:</strong>
+              <p className="text-gray-800">{consultation.patient_id}</p>
+            </div>
+            <div>
+              <strong className="block text-gray-600">Appointment ID:</strong>
+              <p className="text-gray-800">{consultation.appointment_id}</p>
+            </div>
+          </div>
+          <button
+            onClick={handleStart}
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            Start
+          </button>
+
+          {/* <div className="mt-6 flex space-x-4">
                         {!isStarted ? (
                             <button
                                 onClick={handleStart}
@@ -294,11 +314,11 @@ const ConsultationsDetails = () => {
                                 {submitStatus && <p className="mt-2 text-gray-700">{submitStatus}</p>}
                             </form>
                         )}
-                    </div>
-                </div>
-            </div>
-        </DoctorLayout>
-    );
+                    </div> */}
+        </div>
+      </div>
+    </DoctorLayout>
+  );
 };
 
 export default withAuth(ConsultationsDetails, ["doctor"]);

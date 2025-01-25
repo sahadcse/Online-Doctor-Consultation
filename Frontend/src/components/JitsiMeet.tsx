@@ -10,19 +10,19 @@ declare global {
 
 interface JitsiMeetProps {
   roomName: string;
-  displayName: string;
+  userName: string;
 }
 
-const JitsiMeet = ({ roomName, displayName }: JitsiMeetProps) => {
+const JitsiMeet = ({ roomName, userName }: JitsiMeetProps) => {
   useEffect(() => {
     const domain = 'meet.jit.si';
     const options = {
-      roomName: roomName,
+      roomName,
       width: '100%',
       height: 700,
       parentNode: document.querySelector('#jitsi-container'),
       userInfo: {
-        displayName: displayName
+        displayName: userName
       }
     };
     const api = new window.JitsiMeetExternalAPI(domain, options);
@@ -32,7 +32,7 @@ const JitsiMeet = ({ roomName, displayName }: JitsiMeetProps) => {
         api.dispose();
       }
     };
-  }, [roomName, displayName]);
+  }, [roomName, userName]);
 
   return <div id="jitsi-container" style={{ width: '100%', height: '700px' }} />;
 };

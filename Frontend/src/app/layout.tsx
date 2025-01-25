@@ -3,6 +3,7 @@ import { DM_Sans, Work_Sans } from 'next/font/google';
 import localFont from "next/font/local";
 import "./globals.css";
 import ClientProvider from "@/common/ClientProvider";
+import Script from "next/script"; 
 
 // Local Fonts
 const geistSans = localFont({
@@ -41,6 +42,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Add the Jitsi Meet script */}
+        <Script
+          src="https://meet.jit.si/external_api.js"
+          strategy="beforeInteractive"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${dmSans.variable} ${workSans.variable} antialiased`}
       >

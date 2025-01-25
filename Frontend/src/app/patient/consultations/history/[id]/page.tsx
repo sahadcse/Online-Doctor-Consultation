@@ -30,8 +30,8 @@ interface Doctor {
 
 const ConsultationDetailsPage = () => {
   const router = useRouter();
-  const params = useParams<{ id: string }>();
-  const id = params?.id; // Ensure id is correctly extracted
+  const params = useParams();
+  const id = params?.id as string;
   const [consultation, setConsultation] = useState<Consultation | null>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [doctor, setDoctor] = useState<Doctor | null>(null);
@@ -141,7 +141,7 @@ const ConsultationDetailsPage = () => {
           </button>
           <button
             className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-700 transition"
-            onClick={() => router.push(`/patient/consultations/start/${id}`)}
+            onClick={() => router.push("/patient/consultations/joinmetting")}
           >
             Start Consultation
           </button>
