@@ -29,7 +29,8 @@ const AppointmentsDoc = () => {
                 const filterData = data.filter((appointment) => {
                     const today = new Date();
                     const appointmentDate = new Date(appointment.appointment.appointment_date);
-                    return today.toDateString() < appointmentDate.toDateString();
+                    // return today.toDateString() < appointmentDate.toDateString();//Rezwan
+                    return today <= appointmentDate; // Sahad
                 });
                 setAppointments(filterData);
             } catch (err) {

@@ -392,7 +392,7 @@ const PatientProfile = () => {
                     name="address_street"
                     placeholder="Street"
                     className="border border-gray-300 rounded-md p-3 w-full shadow-sm focus:ring-2 focus:ring-green-500 h-12"
-                    defaultValue={patient.address.street}
+                    defaultValue={patient.address?.street}
                   />
                   <input
                     type="text"
@@ -400,7 +400,7 @@ const PatientProfile = () => {
                     name="address_city"
                     placeholder="City"
                     className="border border-gray-300 rounded-md p-3 w-full shadow-sm focus:ring-2 focus:ring-green-500 h-12"
-                    defaultValue={patient.address.city}
+                    defaultValue={patient.address?.city}
                   />
                   <input
                     type="text"
@@ -408,7 +408,7 @@ const PatientProfile = () => {
                     name="address_state"
                     placeholder="State"
                     className="border border-gray-300 rounded-md p-3 w-full shadow-sm focus:ring-2 focus:ring-green-500 h-12"
-                    defaultValue={patient.address.state}
+                    defaultValue={patient.address?.state}
                   />
                   <input
                     type="text"
@@ -416,7 +416,7 @@ const PatientProfile = () => {
                     name="address_postal_code"
                     placeholder="Postal Code"
                     className="border border-gray-300 rounded-md p-3 w-full shadow-sm focus:ring-2 focus:ring-green-500 h-12"
-                    defaultValue={patient.address.postal_code}
+                    defaultValue={patient.address?.postal_code}
                   />
                   <input
                     type="text"
@@ -424,7 +424,7 @@ const PatientProfile = () => {
                     name="address_country"
                     placeholder="Country"
                     className="border border-gray-300 rounded-md p-3 w-full shadow-sm focus:ring-2 focus:ring-green-500 h-12"
-                    defaultValue={patient.address.country}
+                    defaultValue={patient.address?.country}
                   />
                   {/* Emergency Contact */}
                   <input
