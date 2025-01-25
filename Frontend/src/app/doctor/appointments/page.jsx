@@ -6,6 +6,7 @@ import { authHeader } from "@/utils";
 import { FaCheckCircle, FaTimesCircle, FaEye } from "react-icons/fa"; // React Icons
 import Swal from "sweetalert2"; // SweetAlert2
 import withAuth from "@/common/WithAuth";
+import { useRouter } from "next/navigation";
 
 const AppointmentsDoc = () => {
     const [appointments, setAppointments] = useState([]);
@@ -13,6 +14,7 @@ const AppointmentsDoc = () => {
     const [error, setError] = useState(null);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const router = useRouter();
 
     const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -45,6 +47,10 @@ const AppointmentsDoc = () => {
     const handleViewDetails = (appointment) => {
         setSelectedAppointment(appointment);
         setIsModalOpen(true);
+    };
+
+    const handleViewPatientDetails = (appointment) => {
+        router.push(`/doctor/appointments/patient/${appointment.appointment.patient_id._id}`)
     };
 
     const handleCloseModal = () => {
@@ -193,6 +199,7 @@ const AppointmentsDoc = () => {
                             <table className="min-w-full table-auto border-collapse border border-gray-200">
                                 <thead className="bg-blue-400">
                                     <tr>
+                                        <th className="px-4 py-2 border">Sl.</th>
                                         <th className="px-4 py-2 border">Patient</th>
                                         <th className="px-4 py-2 border">Time</th>
                                         <th className="px-4 py-2 border">Type</th>
@@ -201,11 +208,14 @@ const AppointmentsDoc = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {appointments.map((appointment) => (
+                                    {appointments.map((appointment, index) => (
                                         <tr
                                             key={appointment.appointment._id}
                                             className="hover:bg-gray-50"
                                         >
+                                            <td className="px-4 py-2 border">
+                                                {index + 1}
+                                            </td>
                                             <td className="px-4 py-2 border">
                                                 {appointment.appointment.patient_id?.full_name}
                                             </td>
@@ -228,12 +238,24 @@ const AppointmentsDoc = () => {
                                                 </span>
                                             </td>
                                             <td className="px-4 py-2 border">
-                                                <button
-                                                    onClick={() => handleViewDetails(appointment)}
-                                                    className="text-blue-500 hover:underline flex items-center"
-                                                >
-                                                    <FaEye className="mr-2" /> View Details
-                                                </button>
+                                                <div className="dropdown">
+                                                    <div tabIndex={0} role="button" className="btn m-1">Action</div>
+                                                    <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                                        <li><a><button
+                                                            onClick={() => handleViewDetails(appointment)}
+                                                            className="text-blue-500 hover:underline flex items-center"
+                                                        >
+                                                            <FaEye className="mr-2" />Approve
+                                                        </button></a></li>
+                                                        <li><a><button
+                                                            onClick={() => handleViewPatientDetails(appointment)}
+                                                            className="text-blue-500 hover:underline flex items-center"
+                                                        >
+                                                            <FaEye className="mr-2" />view Patient
+                                                        </button></a></li>
+                                                    </ul>
+                                                </div>
+
                                             </td>
                                         </tr>
                                     ))}
