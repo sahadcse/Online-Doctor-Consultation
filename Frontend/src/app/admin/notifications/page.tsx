@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 const Cookies = require("js-cookie");
 import AdminLayout from "@/components/Admin/AdminLayout";
+import withAuth from "@/common/WithAuth";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -176,4 +177,4 @@ const NotificationForm = () => {
   );
 };
 
-export default NotificationForm;
+export default withAuth(NotificationForm,['admin']);

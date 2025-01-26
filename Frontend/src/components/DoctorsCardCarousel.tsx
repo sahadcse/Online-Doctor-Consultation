@@ -1,3 +1,4 @@
+'use client';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import { Pagination } from 'swiper/modules';
@@ -13,32 +14,55 @@ import service1 from "../images/team-2.jpg";
 import service2 from "../images/team-3.jpg";
 import service3 from "../images/team-4.jpg";
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { authHeader } from '@/utils';
 
 export const DoctorsCardCarosusel = () => {
+    const [doctors, setDoctors] = useState([]);
 
-    const doctors = [
-        {
-            id: 1,
-            name: 'Toma Islam',
-            specialty: 'Ophthalmology',
-            qualifications: 'MBBS, FCPS, FRCS',
-            image: service1,
-        },
-        {
-            id: 2,
-            name: 'Rezwan Rahim',
-            specialty: 'Ophthalmology',
-            qualifications: 'MBBS, FCPS, FRCS',
-            image: service2,
-        },
-        {
-            id: 3,
-            name: 'Tazy Farzana',
-            specialty: 'Research Specialty',
-            qualifications: 'MBBS, FCPS, FRCS',
-            image: service3,
-        },
-    ];
+    useEffect(() => {
+        const baseURL = process.env.NEXT_PUBLIC_API_URL;
+        const fetchDoctors = async () => {
+            try {
+                const response = await axios.get(`${baseURL}/api/admins/admin/doctors/all`, {
+                    headers: authHeader(),
+                });
+
+                setDoctors(response.data);
+            } catch (err) {
+                console.error('Error deleting item:', err);
+            }
+        }
+
+        fetchDoctors();
+    }, []);
+
+
+
+    // const doctors = [
+    //     {
+    //         id: 1,
+    //         name: 'Toma Islam',
+    //         specialty: 'Ophthalmology',
+    //         qualifications: 'MBBS, FCPS, FRCS',
+    //         image: service1,
+    //     },
+    //     {
+    //         id: 2,
+    //         name: 'Rezwan Rahim',
+    //         specialty: 'Ophthalmology',
+    //         qualifications: 'MBBS, FCPS, FRCS',
+    //         image: service2,
+    //     },
+    //     {
+    //         id: 3,
+    //         name: 'Tazy Farzana',
+    //         specialty: 'Research Specialty',
+    //         qualifications: 'MBBS, FCPS, FRCS',
+    //         image: service3,
+    //     },
+    // ];
 
     return (
         <Swiper
@@ -72,15 +96,15 @@ export const DoctorsCardCarosusel = () => {
         >
 
             {doctors.map((doctor) => (
-                <SwiperSlide key={doctor.id}>
+                <SwiperSlide key={doctor._id}>
                     <div className="card bg-white-100 w-full sm:w-96 shadow-sm">
                         <figure>
-                            <Image src={doctor.image} alt={doctor.name} className="rounded-xl" />
+                            <Image src={doctor.profile_picture_url ? doctor.profile_picture_url : `/images/user.png`} alt={doctor.full_name} className="rounded-xl" width={100} height={100} />
                         </figure>
                         <div className="card-body text-start">
-                            <h2 className="card-title">{doctor.name}</h2>
-                            <p>{doctor.specialty}</p>
-                            <p>{doctor.qualifications}</p>
+                            <h2 className="card-title">{doctor.full_name}</h2>
+                            <p>{doctor.specialization}</p>
+                            {/* <p>{doctor.qualifications}</p> */}
                             <div className="card-actions justify-start">
                                 <button className="btn bg-color-primary text-white">Appointment</button>
                                 <button className="btn bg-color-primary text-white">Details</button>
