@@ -1,105 +1,69 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import io from "socket.io-client";
-
-const socket = io("http://localhost:8081");
+import { useState, useEffect } from "react";
+import DoctorLayout from "@/components/DoctorLayout";
+import VideoCall from "@/components/VideoCall";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 export default function DoctorDashboard() {
-  const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
-  const localVideoRef = useRef<HTMLVideoElement | null>(null);
-  const remoteVideoRef = useRef<HTMLVideoElement | null>(null);
-  const peerConnection = useRef<RTCPeerConnection | null>(null);
+  const [room_name, setRoomName] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);  // Add loading state
 
   useEffect(() => {
-    const roomId = "patient-doctor-room"; // Replace with dynamic room ID
-
-    // Join the room
-    socket.emit("join-room", roomId, "doctor");
-
-    const setupWebRTC = async () => {
-      const localStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
-
-      if (localVideoRef.current) {
-        localVideoRef.current.srcObject = localStream;
-      }
-
-      peerConnection.current = new RTCPeerConnection({
-        iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
-      });
-
-      localStream.getTracks().forEach((track) => {
-        peerConnection.current?.addTrack(track, localStream);
-      });
-
-      peerConnection.current.onicecandidate = (event) => {
-        if (event.candidate) {
-          socket.emit("ice-candidate", { roomId, candidate: event.candidate });
-        }
-      };
-
-      peerConnection.current.ontrack = (event) => {
-        setRemoteStream(event.streams[0]);
-      };
-
-      // Listen for incoming signals
-      socket.on("offer", async ({ sdp }) => {
-        if (peerConnection.current) {
-          await peerConnection.current.setRemoteDescription(
-            new RTCSessionDescription(sdp)
-          );
-
-          if (sdp.type === "offer") {
-            const answer = await peerConnection.current.createAnswer();
-            await peerConnection.current.setLocalDescription(answer);
-            socket.emit("answer", { roomId, sdp: answer });
+    const fetchRoomId = async (id: string): Promise<void> => {
+      setIsLoading(true);  // Start loading
+      try {
+        const token = Cookies.get("token");
+        const response = await axios.get<{ room_name: string }>(
+          `http://192.168.0.104:8081/api/users/doctor/consultations/room/collect/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
+        );
+        if (response.data.room_name) {
+          setRoomName(response.data.room_name);
+        } else {
+          setError("No room name received from server");
         }
-      });
-
-      socket.on("answer", async ({ sdp }) => {
-        if (peerConnection.current) {
-          await peerConnection.current.setRemoteDescription(
-            new RTCSessionDescription(sdp)
-          );
-        }
-      });
-
-      socket.on("ice-candidate", async ({ candidate }) => {
-        if (peerConnection.current) {
-          await peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
-        }
-      });
-
-      // Create an offer
-      if (peerConnection.current) {
-        const offer = await peerConnection.current.createOffer();
-        await peerConnection.current.setLocalDescription(offer);
-        socket.emit("offer", { roomId, sdp: offer });
+      } catch (error) {
+        console.error("Error fetching room ID:", error);
+        setError("Failed to fetch room ID. Please try again later.");
+      } finally {
+        setIsLoading(false);  // End loading
       }
     };
 
-    setupWebRTC();
-
-    return () => {
-      socket.disconnect();
-    };
+    const query = new URLSearchParams(window.location.search);
+    const idFromQuery = query.get("id");
+    if (idFromQuery) {
+      fetchRoomId(idFromQuery);
+    } else {
+      setError("No consultation ID provided");
+      setIsLoading(false);
+    }
   }, []);
 
-  useEffect(() => {
-    if (remoteStream && remoteVideoRef.current) {
-      remoteVideoRef.current.srcObject = remoteStream;
-    }
-  }, [remoteStream]);
-
   return (
-    <div>
-      <h2>Doctor Dashboard</h2>
-      <video ref={localVideoRef} autoPlay playsInline muted />
-      <video ref={remoteVideoRef} autoPlay playsInline />
-    </div>
+    <DoctorLayout>
+      <div className="">
+        <h2>Doctor Dashboard</h2>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <p className="error">{error}</p>
+        ) : room_name ? (
+          <>
+            <p>Room Name: {room_name}</p>
+            <VideoCall room_name={room_name} role="doctor" />
+          </>
+        ) : (
+          <p>No room available</p>
+        )}
+      </div>
+    </DoctorLayout>
   );
 }

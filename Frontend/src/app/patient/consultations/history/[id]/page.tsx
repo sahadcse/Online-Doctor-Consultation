@@ -139,12 +139,12 @@ const ConsultationDetailsPage = () => {
           >
             Go Back
           </button>
-          <button
+            <button
             className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-700 transition"
-            onClick={() => router.push("/patient/consultations/joinmetting")}
-          >
+            onClick={() => router.push(`/patient/consultations/joinmetting?id=${id}`)}
+            >
             Start Consultation
-          </button>
+            </button>
           {/* Action Buttons */}
           <button
             className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
