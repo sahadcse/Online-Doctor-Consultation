@@ -1,99 +1,78 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import io from "socket.io-client";
-
-const socket = io("http://localhost:8081");
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import PatientLayout from "@/components/Patient/PatientLayout";
+import VideoCall from "@/components/VideoCall";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 export default function PatientDashboard() {
-  const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
-  const localVideoRef = useRef<HTMLVideoElement | null>(null);
-  const remoteVideoRef = useRef<HTMLVideoElement | null>(null);
-  const peerConnection = useRef<RTCPeerConnection | null>(null);
+  const [room_name, setRoomId] = useState("");
+  const [joined, setJoined] = useState(false);
+  const [id, setId] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const router = useRouter();
 
   useEffect(() => {
-    const roomId = "patient-doctor-room"; // Replace with dynamic room ID
-
-    // Join the room
-    socket.emit("join-room", roomId, "patient");
-
-    const setupWebRTC = async () => {
-      const localStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
-
-      if (localVideoRef.current) {
-        localVideoRef.current.srcObject = localStream;
-      }
-
-      peerConnection.current = new RTCPeerConnection({
-        iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
-      });
-
-      localStream.getTracks().forEach((track) => {
-        peerConnection.current?.addTrack(track, localStream);
-      });
-
-      peerConnection.current.onicecandidate = (event) => {
-        if (event.candidate) {
-          socket.emit("ice-candidate", { roomId, candidate: event.candidate });
-        }
-      };
-
-      peerConnection.current.ontrack = (event) => {
-        setRemoteStream(event.streams[0]);
-      };
-
-      // Listen for incoming signals
-      socket.on("offer", async ({ sdp }) => {
-        if (peerConnection.current) {
-          await peerConnection.current.setRemoteDescription(
-            new RTCSessionDescription(sdp)
-          );
-
-          if (sdp.type === "offer") {
-            const answer = await peerConnection.current.createAnswer();
-            await peerConnection.current.setLocalDescription(answer);
-            socket.emit("answer", { roomId, sdp: answer });
-          }
-        }
-      });
-
-      socket.on("answer", async ({ sdp }) => {
-        if (peerConnection.current) {
-          await peerConnection.current.setRemoteDescription(
-            new RTCSessionDescription(sdp)
-          );
-        }
-      });
-
-      socket.on("ice-candidate", async ({ candidate }) => {
-        if (peerConnection.current) {
-          await peerConnection.current.addIceCandidate(
-            new RTCIceCandidate(candidate)
-          );
-        }
-      });
-    };
-
-    setupWebRTC();
-
-    return () => {
-      socket.disconnect();
-    };
+    const query = new URLSearchParams(window.location.search);
+    const idFromQuery = query.get("id");
+    if (idFromQuery) {
+      setId(idFromQuery);
+      fetchRoomName(idFromQuery);
+    }
   }, []);
 
-  useEffect(() => {
-    if (remoteStream && remoteVideoRef.current) {
-      remoteVideoRef.current.srcObject = remoteStream;
+  const fetchRoomName = async (id: string) => {
+    try {
+      setIsLoading(true);
+      const token = Cookies.get("token");
+      const response = await axios.get(`http://192.168.0.104:8081/api/users/patient/consultations/join/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.data.room_name) {
+        setRoomId(response.data.room_name);
+      } else {
+        setError("No room name received from server");
+      }
+    } catch (error) {
+      console.error("Error fetching room name:", error);
+      setError("Failed to fetch room details");
+    } finally {
+      setIsLoading(false);
     }
-  }, [remoteStream]);
+  };
+
+  const handleJoin = () => {
+    if (room_name) {
+      setJoined(true);
+    }
+  };
 
   return (
-    <div>
-      <h2>Patient Dashboard</h2>
-      <video ref={localVideoRef} autoPlay playsInline muted />
-      <video ref={remoteVideoRef} autoPlay playsInline />
-    </div>
+    <PatientLayout>
+      <div>
+        <h2>Patient Dashboard</h2>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <p className="error">{error}</p>
+        ) : !joined ? (
+          <div>
+            <button onClick={handleJoin} disabled={!room_name}>
+              Join Meeting
+            </button>
+          </div>
+        ) : room_name ? (
+          <VideoCall room_name={room_name} role="patient" />
+        ) : (
+          <p>No room available</p>
+        )}
+      </div>
+    </PatientLayout>
   );
 }
+

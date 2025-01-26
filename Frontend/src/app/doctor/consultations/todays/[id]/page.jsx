@@ -69,7 +69,7 @@ const ConsultationsDetails = () => {
 
   const handleStart = async () => {
     try {
-      window.location.href = `/doctor/consultations/todays/joinmetting`;
+      window.location.href = `/doctor/consultations/todays/joinmetting?id=${params?.id}`;
     } catch (err) {
       setError(err.message);
     }
