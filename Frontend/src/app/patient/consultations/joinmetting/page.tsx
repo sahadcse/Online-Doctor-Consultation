@@ -13,6 +13,8 @@ export default function PatientDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const baseURL = process.env.NEXT_PUBLIC_API_URL;
+
   const router = useRouter();
 
   useEffect(() => {
@@ -28,11 +30,14 @@ export default function PatientDashboard() {
     try {
       setIsLoading(true);
       const token = Cookies.get("token");
-      const response = await axios.get(`http://192.168.0.104:8081/api/users/patient/consultations/join/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `${baseURL}/api/users/patient/consultations/join/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.data.room_name) {
         setRoomId(response.data.room_name);
       } else {
@@ -75,4 +80,3 @@ export default function PatientDashboard() {
     </PatientLayout>
   );
 }
-

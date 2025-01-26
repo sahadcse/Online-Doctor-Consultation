@@ -6,18 +6,20 @@ import VideoCall from "@/components/VideoCall";
 import Cookies from "js-cookie";
 import axios from "axios";
 
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function DoctorDashboard() {
   const [room_name, setRoomName] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);  // Add loading state
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     const fetchRoomId = async (id: string): Promise<void> => {
-      setIsLoading(true);  // Start loading
+      setIsLoading(true); // Start loading
       try {
         const token = Cookies.get("token");
         const response = await axios.get<{ room_name: string }>(
-          `http://192.168.0.104:8081/api/users/doctor/consultations/room/collect/${id}`,
+          `${baseURL}/api/users/doctor/consultations/room/collect/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -33,7 +35,7 @@ export default function DoctorDashboard() {
         console.error("Error fetching room ID:", error);
         setError("Failed to fetch room ID. Please try again later.");
       } finally {
-        setIsLoading(false);  // End loading
+        setIsLoading(false); // End loading
       }
     };
 
