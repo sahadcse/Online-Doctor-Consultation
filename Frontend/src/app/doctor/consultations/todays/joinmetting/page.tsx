@@ -12,6 +12,7 @@ export default function DoctorDashboard() {
   const [room_name, setRoomName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [isJoining, setIsJoining] = useState(false);
 
   useEffect(() => {
     const fetchRoomId = async (id: string): Promise<void> => {
@@ -51,17 +52,17 @@ export default function DoctorDashboard() {
 
   return (
     <DoctorLayout>
-      <div className="">
-        <h2>Doctor Dashboard</h2>
+      <div className="container mx-auto p-4">
+        <h2 className="text-2xl font-bold mb-4">Consultation Room</h2>
         {isLoading ? (
-          <div>Loading...</div>
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500 mx-auto"></div>
+            <p className="mt-2">Loading consultation room...</p>
+          </div>
         ) : error ? (
-          <p className="error">{error}</p>
+          <p className="text-red-500">{error}</p>
         ) : room_name ? (
-          <>
-            <p>Room Name: {room_name}</p>
-            <VideoCall room_name={room_name} role="doctor" />
-          </>
+          <VideoCall room_name={room_name} role="doctor" />
         ) : (
           <p>No room available</p>
         )}

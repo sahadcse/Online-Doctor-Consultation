@@ -12,6 +12,7 @@ export default function PatientDashboard() {
   const [id, setId] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isActive, setIsActive] = useState(false); // Add this state
 
   const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -40,6 +41,7 @@ export default function PatientDashboard() {
       );
       if (response.data.room_name) {
         setRoomId(response.data.room_name);
+        setIsActive(response.data.isActive); // Add this line to get isActive status
       } else {
         setError("No room name received from server");
       }
@@ -59,17 +61,29 @@ export default function PatientDashboard() {
 
   return (
     <PatientLayout>
-      <div>
-        <h2>Patient Dashboard</h2>
+      <div className="container mx-auto p-4">
+        <h2 className="text-2xl font-bold mb-4">Consultation Room</h2>
         {isLoading ? (
-          <div>Loading...</div>
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500 mx-auto"></div>
+            <p className="mt-2">Loading consultation room...</p>
+          </div>
         ) : error ? (
-          <p className="error">{error}</p>
+          <p className="text-red-500">{error}</p>
         ) : !joined ? (
-          <div>
-            <button onClick={handleJoin} disabled={!room_name}>
+          <div className="text-center">
+            <button 
+              onClick={handleJoin} 
+              disabled={!room_name}
+              className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-300"
+            >
               Join Meeting
             </button>
+            {!isActive && room_name && (
+              <p className="mt-3 text-yellow-600 bg-yellow-100 p-2 rounded">
+                Please wait. The doctor hasn't joined the consultation yet.
+              </p>
+            )}
           </div>
         ) : room_name ? (
           <VideoCall room_name={room_name} role="patient" />
