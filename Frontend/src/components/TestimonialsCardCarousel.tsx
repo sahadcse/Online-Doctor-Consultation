@@ -17,6 +17,9 @@ interface TestimonialCardCarouselProps {
 }
 
 export const TestimonialCardCarousel = ({ data }: TestimonialCardCarouselProps) => {
+    function getRandomInt() {
+        return Math.floor(Math.random() * (10000 - 5)) + 4;
+      }
     return (
         <Swiper
             modules={[Autoplay, Pagination, Scrollbar, A11y]}
@@ -68,7 +71,7 @@ export const TestimonialCardCarousel = ({ data }: TestimonialCardCarouselProps) 
                         <div className="flex items-center gap-4">
                             <div className="w-12 h-12 relative rounded-full overflow-hidden">
                                 <Image
-                                    src={testimonial.image}
+                                    src={"http://graph.facebook.com/v2.5/" + getRandomInt() + "/picture?height=200&height=200"}
                                     alt={testimonial.name}
                                     width={48}
                                     height={48}

@@ -19,7 +19,7 @@ const DoctorsPage = () => {
         const baseURL = process.env.NEXT_PUBLIC_API_URL;
         const fetchDoctors = async () => {
             try {
-                const response = await axios.get(`${baseURL}/api/admins/admin/doctors/all`, {
+                const response = await axios.get(`${baseURL}/api/public/doctor/all`, {
                     headers: authHeader(),
                 });
                 setDoctors(response.data);
