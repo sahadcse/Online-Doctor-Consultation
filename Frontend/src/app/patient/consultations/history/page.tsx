@@ -64,17 +64,15 @@ const ConsultationsPage = () => {
               <thead>
                 <tr>
                   <th className="py-2 px-4 border-b text-left">Status</th>
+
                   <th className="py-2 px-4 border-b text-left">
-                    Consultation Fee
-                  </th>
-                  <th className="py-2 px-4 border-b text-left">
-                    Payment Status
+                    Payment
                   </th>
                   <th className="py-2 px-4 border-b text-left">Issues</th>
                   <th className="py-2 px-4 border-b text-left">
-                    Consultation Date
+                    Date
                   </th>
-                  <th className="py-2 px-4 border-b text-left">Start Time</th>
+                  <th className="py-2 px-4 border-b text-left">Time</th>
                   <th className="py-2 px-4 border-b text-left">Actions</th>
                 </tr>
               </thead>
@@ -82,15 +80,23 @@ const ConsultationsPage = () => {
                 {consultations.map((consultation, index) => (
                   <tr key={`${consultation._id}-${index}`} className="border-b">
                     <td className="py-2 px-4">{consultation.status}</td>
-                    <td className="py-2 px-4">
-                      ${consultation.consultation_fee}
-                    </td>
                     <td className="py-2 px-4">{consultation.payment_status}</td>
                     <td className="py-2 px-4">{consultation.issues}</td>
                     <td className="py-2 px-4">
-                      {new Date(
-                        consultation.consultation_date
-                      ).toLocaleDateString()}
+                      {new Date(consultation.consultation_date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
+                      })}
+                      <button className={`ml-2 px-2 py-1 rounded text-xs ${
+                      new Date(consultation.consultation_date) < new Date() 
+                      ? 'bg-red-100 text-red-800' 
+                      : 'bg-green-100 text-green-800'
+                      }`}>
+                      {new Date(consultation.consultation_date) < new Date() 
+                      ? 'Past' 
+                      : 'Upcoming'}
+                      </button>
                     </td>
                     <td className="py-2 px-4">{consultation.start_time}</td>
                     <td className="py-2 px-4">

@@ -1,8 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { DoctorsCardCarosusel } from './DoctorsCardCarousel';
 import Link from 'next/link';
+import DoctorsCardCarousel from './DoctorsCardCarousel';
 
 
 const Doctors = () => {
@@ -20,7 +20,7 @@ const Doctors = () => {
                 </div>
 
                 <div className="my-12">
-                    <DoctorsCardCarosusel />
+                    <DoctorsCardCarousel />
                 </div>
                 <Link href="/doctor"><motion.button className="btn rounded-full bg-color-primary text-color-white text-base mt-4 lg:w-48"
                     whileHover={{ scale: 1.1 }}

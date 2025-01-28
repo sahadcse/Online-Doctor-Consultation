@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "@/components/Admin/AdminLayout";
 import Cookies from "js-cookie";
+import withAuth from "@/common/WithAuth";
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 interface Patient {
@@ -115,4 +116,4 @@ const DeletePatientPage = () => {
   );
 };
 
-export default DeletePatientPage;
+export default withAuth(DeletePatientPage,['admin']);

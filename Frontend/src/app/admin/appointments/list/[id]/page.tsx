@@ -4,6 +4,7 @@ import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
 import AdminLayout from "@/components/Admin/AdminLayout";
+import withAuth from "@/common/WithAuth";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -139,4 +140,4 @@ const AppointmentDetails = () => {
   );
 };
 
-export default AppointmentDetails;
+export default withAuth(AppointmentDetails,['admin']);

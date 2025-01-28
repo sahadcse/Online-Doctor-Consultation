@@ -4,6 +4,7 @@ import AboutImg1 from "../images/about-img1.jpg"
 import AboutImg2 from "../images/about_img2.jpg"
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import Link from "next/link"
 
 const AboutUs = () => {
     return (
@@ -90,13 +91,13 @@ const AboutUs = () => {
                             <p>Emergency Contact Our Phone Number.</p>
                         </div>
                     </div>
-                    <motion.button
+                    <Link href="/about"><motion.button
                         className="btn rounded-full bg-color-primary text-color-white text-sm sm:text-base mt-4 px-6 py-2"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                     >
                         Discover More
-                    </motion.button>
+                    </motion.button></Link>
                 </motion.div>
             </motion.div>
         </div>

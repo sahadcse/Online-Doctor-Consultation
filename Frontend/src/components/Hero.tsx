@@ -3,8 +3,10 @@
 import BannerImg from "../images/home-banner-tow.png"
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import Link from "next/link"
 
 const Hero = () => {
+
   return (
     <div className="bg-[url('../images/banner_bg.jpg')] bg-cover bg-center sm:pt-16 sm:pb-20">
       <motion.div
@@ -42,13 +44,13 @@ const Hero = () => {
             We are dedicated to providing the best care for your well-being. At Online Doctor, we ensure you receive the attention and support you deserve on your journey to better health.
           </p>
           <div className="flex justify-center lg:justify-start">
-            <motion.button
+            <Link href="/doctor"><motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               className="btn rounded-full bg-color-primary text-color-white text-sm sm:text-base mt-4 px-6 py-2"
             >
               Meet A Doctor
-            </motion.button>
+            </motion.button></Link>
           </div>
         </motion.div>
       </motion.div>

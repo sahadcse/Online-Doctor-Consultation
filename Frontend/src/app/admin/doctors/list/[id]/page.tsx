@@ -4,6 +4,7 @@ import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
 import AdminLayout from "@/components/Admin/AdminLayout";
+import withAuth from "@/common/WithAuth";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -156,11 +157,10 @@ const DoctorDetails = () => {
           <div>
             <button
               onClick={handleBlockUnblock}
-              className={`${
-                doctor.status === "blocked"
-                  ? "bg-green-500 text-white hover:bg-green-600"
-                  : "bg-red-500 text-white hover:bg-red-600"
-              } text-white px-4 py-2 rounded-md`}
+              className={`${doctor.status === "blocked"
+                ? "bg-green-500 text-white hover:bg-green-600"
+                : "bg-red-500 text-white hover:bg-red-600"
+                } text-white px-4 py-2 rounded-md`}
             >
               {doctor.status === "blocked"
                 ? "✅ Unblock Doctor"
@@ -436,26 +436,26 @@ const DoctorDetails = () => {
               <ul className="space-y-4">
                 {doctor.documents && doctor.documents.length > 0 ? (
                   doctor.documents.map((document, index) => (
-                  <li
-                    key={index}
-                    className="p-4 bg-gray-50 rounded-md shadow-sm"
-                  >
-                    <p>
-                    <span className="font-semibold text-gray-600">Type:</span>{" "}
-                    {document.type}
-                    </p>
-                    <p>
-                    <span className="font-semibold text-gray-600">URL:</span>{" "}
-                    <a
-                      href={document.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 hover:underline break-all"
+                    <li
+                      key={index}
+                      className="p-4 bg-gray-50 rounded-md shadow-sm"
                     >
-                      Download Document
-                    </a>
-                    </p>
-                  </li>
+                      <p>
+                        <span className="font-semibold text-gray-600">Type:</span>{" "}
+                        {document.type}
+                      </p>
+                      <p>
+                        <span className="font-semibold text-gray-600">URL:</span>{" "}
+                        <a
+                          href={document.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 hover:underline break-all"
+                        >
+                          Download Document
+                        </a>
+                      </p>
+                    </li>
                   ))
                 ) : (
                   <p className="text-gray-600">No documents available.</p>
@@ -511,4 +511,4 @@ const DoctorDetails = () => {
   );
 };
 
-export default DoctorDetails;
+export default withAuth(DoctorDetails, ['admin']);

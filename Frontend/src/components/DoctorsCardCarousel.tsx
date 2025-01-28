@@ -1,94 +1,104 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
-import { Pagination } from 'swiper/modules';
-import { Scrollbar } from 'swiper/modules';
-import { A11y } from 'swiper/modules';
-
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-
-import service1 from "../images/team-2.jpg";
-import service2 from "../images/team-3.jpg";
-import service3 from "../images/team-4.jpg";
+'use client';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { authHeader } from '@/utils';
+import { FaLinkedin, FaTwitter } from 'react-icons/fa';
 
-export const DoctorsCardCarosusel = () => {
+const DoctorsCardCarousel = () => {
+    const [doctors, setDoctors] = useState([]);
 
-    const doctors = [
-        {
-            id: 1,
-            name: 'Toma Islam',
-            specialty: 'Ophthalmology',
-            qualifications: 'MBBS, FCPS, FRCS',
-            image: service1,
-        },
-        {
-            id: 2,
-            name: 'Rezwan Rahim',
-            specialty: 'Ophthalmology',
-            qualifications: 'MBBS, FCPS, FRCS',
-            image: service2,
-        },
-        {
-            id: 3,
-            name: 'Tazy Farzana',
-            specialty: 'Research Specialty',
-            qualifications: 'MBBS, FCPS, FRCS',
-            image: service3,
-        },
-    ];
+    useEffect(() => {
+        const baseURL = process.env.NEXT_PUBLIC_API_URL;
+        const fetchDoctors = async () => {
+            try {
+                const response = await axios.get(`${baseURL}/api/public/doctor/all`, {
+                    headers: authHeader(),
+                });
+                setDoctors(response.data);
+            } catch (err) {
+                console.error('Error fetching doctors:', err);
+            }
+        };
+
+        fetchDoctors();
+    }, []);
 
     return (
-        <Swiper
-            // Install Swiper modules
-            modules={[Autoplay, Pagination, Scrollbar, A11y]}
-            spaceBetween={30}
-            slidesPerView={3}
-            navigation={false}
-            pagination={{ clickable: true }}
-            scrollbar={{ draggable: true }}
-            autoplay={{
-                delay: 3000, // Delay between slides in ms (3 seconds)
-                disableOnInteraction: false, // Autoplay won't stop on user interactions
-            }}
-            breakpoints={{
-                320: {
-                    slidesPerView: 1,  // 1 slide on mobile
-                    spaceBetween: 10,  // Space between slides on mobile
-                },
-                640: {
-                    slidesPerView: 2,  // 2 slides on tablet
-                    spaceBetween: 20,  // Space between slides on tablet
-                },
-                1024: {
-                    slidesPerView: 3,  // 3 slides on desktop
-                    spaceBetween: 30,  // Space between slides on desktop
-                },
-            }}
-            onSwiper={(swiper) => console.log(swiper)}
-            onSlideChange={() => console.log('slide change')}
-        >
-
-            {doctors.map((doctor) => (
-                <SwiperSlide key={doctor.id}>
-                    <div className="card bg-white-100 w-full sm:w-96 shadow-sm">
-                        <figure>
-                            <Image src={doctor.image} alt={doctor.name} className="rounded-xl" />
-                        </figure>
-                        <div className="card-body text-start">
-                            <h2 className="card-title">{doctor.name}</h2>
-                            <p>{doctor.specialty}</p>
-                            <p>{doctor.qualifications}</p>
-                            <div className="card-actions justify-start">
-                                <button className="btn bg-color-primary text-white">Appointment</button>
-                                <button className="btn bg-color-primary text-white">Details</button>
+        <div className="container mx-auto px-4 py-6">
+            <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {doctors.map((doctor) => (
+                    <div
+                        key={doctor._id}
+                        className="card bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between h-full"
+                    >
+                        {/* Doctor Profile Section */}
+                        <div className="flex flex-col items-center gap-4">
+                            <Image
+                                src={doctor.profile_picture_url || '/images/user.png'}
+                                alt={doctor.full_name}
+                                className=""
+                                width={120} // Increased image size
+                                height={120}
+                            />
+                            <div className="text-center">
+                                <h2 className="text-lg font-semibold text-gray-800">{doctor.full_name}</h2>
+                                <p className="text-sm text-gray-500">{doctor.specialization}</p>
+                                <p className="text-sm text-gray-400">{`Experience: ${doctor.experience_years} years`}</p>
                             </div>
                         </div>
+
+                        {/* Bio and Fee Section */}
+                        <div className="mt-4 flex-grow">
+                            <p className="text-sm text-gray-600">{doctor.bio}</p>
+                            <p className="text-sm font-medium mt-3">
+                                Consultation Fee: <span className="text-color-primary">${doctor.consultation_fee}</span>
+                            </p>
+                        </div>
+
+                        {/* Social Links and Ratings Section */}
+                        <div className="flex items-center justify-between mt-4">
+                            <div className="flex gap-3">
+                                {doctor.social_links.linkedin && (
+                                    <a
+                                        href={doctor.social_links.linkedin}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:opacity-80"
+                                    >
+                                        <FaLinkedin className="text-blue-600" size={20} />
+                                    </a>
+                                )}
+                                {doctor.social_links.twitter && (
+                                    <a
+                                        href={doctor.social_links.twitter}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:opacity-80"
+                                    >
+                                        <FaTwitter className="text-blue-400" size={20} />
+                                    </a>
+                                )}
+                            </div>
+                            <p className="text-sm text-gray-500">
+                                Rating: {doctor.ratings.average_rating} ({doctor.ratings.total_reviews} reviews)
+                            </p>
+                        </div>
+
+                        {/* Action Buttons Section */}
+                        <div className="mt-4 flex flex-col gap-3">
+                            <button className="btn bg-color-primary text-white w-full rounded-lg py-2 hover:opacity-90">
+                                Book Appointment
+                            </button>
+                            <button className="btn bg-gray-100 text-gray-800 w-full rounded-lg py-2 hover:bg-gray-200">
+                                View Details
+                            </button>
+                        </div>
                     </div>
-                </SwiperSlide>
-            ))}
-        </Swiper>
+                ))}
+            </div>
+        </div>
     );
 };
+
+export default DoctorsCardCarousel;

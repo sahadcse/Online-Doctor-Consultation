@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "@/components/Admin/AdminLayout";
 import Cookies from "js-cookie";
+import withAuth from "@/common/WithAuth";
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 interface Doctor {
@@ -83,7 +84,7 @@ const DeleteDoctorPage = () => {
                 <td className="py-2 px-4 border border-gray-300">{doctor.status}</td>
                 <td className="py-2 px-4 border border-gray-300">{doctor.reason}</td>
                 <td className="py-2 px-4 border border-gray-300">
-                    {new Date(doctor.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase().replace(/ /g, '-')}
+                  {new Date(doctor.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase().replace(/ /g, '-')}
                 </td>
                 <td className="py-2 px-4 border border-gray-300">{doctor.userId}</td>
                 <td className="py-2 px-4 border border-gray-300">
@@ -115,4 +116,4 @@ const DeleteDoctorPage = () => {
   );
 };
 
-export default DeleteDoctorPage;
+export default withAuth(DeleteDoctorPage, ['admin']);
