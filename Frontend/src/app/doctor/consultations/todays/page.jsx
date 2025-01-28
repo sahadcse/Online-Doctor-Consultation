@@ -28,10 +28,12 @@ const TodaysConsultations = () => {
                     throw new Error("Failed to fetch consultations");
                 }
                 const data = await response.json();
-                const filterData = data.filter((consultations) => {
+                const filterData = data.filter((consultation) => {
                     const today = new Date();
-                    const consultationsDate = new Date(consultations.consultation_date);
-                    return today.toDateString() === consultationsDate.toDateString();
+                    const consultationDate = new Date(consultation.consultation_date);
+
+                    // Check if the date matches today's date
+                    return today.toDateString() === consultationDate.toDateString();
                 });
                 setConsultations(filterData);
             } catch (err) {
@@ -43,6 +45,7 @@ const TodaysConsultations = () => {
 
         fetchConsultations();
     }, []);
+
 
     const handleViewDetails = (consultation) => {
         router.push(`/doctor/consultations/todays/${consultation._id}`)
