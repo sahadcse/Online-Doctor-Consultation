@@ -10,7 +10,7 @@ const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 const socket = io(`${baseURL}`, {
   transports: ["websocket"],
-  reconnectionAttempts: 5,
+  reconnectionAttempts: 5,                                                                              
   reconnectionDelay: 5000,
 }); // Replace with your backend URL in production
 
@@ -301,7 +301,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ room_name, role }) => {
   }
 
   return (
-    <div className="flex flex-col bg-gradient-to-r from-blue-100 to-teal-100 w-[50%]">
+    <div className="flex flex-col bg-gradient-to-r from-blue-100 to-teal-100">
       {/* End Call Message Overlay */}
       {isEnding && (
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -328,7 +328,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ room_name, role }) => {
       )}
 
       {/* Add connection status indicator */}
-      <div className="absolute top-4 left-4 z-10 bg-white px-3 py-1 rounded-full shadow">
+      {/* <div className="absolute top-4 left-4 z-10 bg-white px-3 py-1 rounded-full shadow">
         <span
           className={`inline-block w-2 h-2 rounded-full mr-2 ${
             connectionStatus === "connected" ? "bg-green-500" : "bg-yellow-500"
@@ -336,7 +336,7 @@ const VideoCall: React.FC<VideoCallProps> = ({ room_name, role }) => {
         ></span>
         {isDoctor ? "Doctor" : "Patient"} -{" "}
         {connectionStatus || "connecting..."}
-      </div>
+      </div> */}
 
       {/* Main Content */}
       <div className="flex flex-1">

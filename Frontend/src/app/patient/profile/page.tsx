@@ -4,6 +4,7 @@ import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
+import PdfViewer from "@/components/PdfViewer";
 
 import PatientLayout from "@/components/Patient/PatientLayout";
 
@@ -47,6 +48,7 @@ const PatientProfile = () => {
     date_of_birth: string;
     gender: string;
     profile_picture: string;
+    medical_reports: Array<{ type: string; url: string; _id: string }>;
     blood_group: string;
     height: { feet: number; inches: number };
     weight: { value: number; unit: string };
@@ -203,6 +205,40 @@ const PatientProfile = () => {
     }
   };
 
+  // handle medical reports upload
+  const handleMedicalReportsUpload = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = e.target.files;
+    if (files) {
+      const formData = new FormData();
+      Array.from(files).forEach((file) => {
+        formData.append("medical_reports", file);
+      });
+
+      const token = Cookies.get("token");
+      axios
+        .post(
+          `${baseURL}/api/users/patient/medical-reports`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((response) => {
+          setPatient(response.data);
+        })
+        .catch((error) => {
+          console.error(
+            "There was an error uploading the medical reports!",
+            error
+          );
+        });
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -254,6 +290,7 @@ const PatientProfile = () => {
     handleUpdate(updatedData); // Call the update function with the JSON data
   };
 
+  console.log("appointments: ", patient.medical_reports);
 
   return (
     <PatientLayout>
@@ -553,6 +590,15 @@ const PatientProfile = () => {
                     className="border border-gray-300 rounded-md px-2 w-full shadow-sm focus:ring-2 focus:ring-green-500 h-12 overflow-y-hidden"
                     defaultValue={patient.family_medical_history.join(",")}
                   />
+                  {/* medical reports upload */}
+                  <input
+                    type="file"
+                    id="medical_reports"
+                    name="medical_reports"
+                    multiple
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    onChange={handleMedicalReportsUpload}
+                  />
                 </div>
                 <div className="flex justify-end mt-4">
                   <button
@@ -683,68 +729,32 @@ const PatientProfile = () => {
           {/* Details Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Left Column */}
-            {/* Appointments Section */}
+
+            {/* Medical Reports Section */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                Appointments
+                Medical Reports
               </h3>
               <ul className="space-y-4">
-                {patient.appointments && patient.appointments.length > 0 ? (
-                  patient.appointments.map((appointment) => (
+                {patient.medical_reports &&
+                patient.medical_reports.length > 0 ? (
+                  patient.medical_reports.map((report) => (
                     <li
-                      key={appointment.appointment_id}
-                      className="p-4 bg-gray-50 rounded-md shadow-sm"
+                      key={report._id}
+                      className=" bg-gray-50 rounded-md shadow-sm flex justify-between items-center py-1 px-2"
                     >
-                      <p>
-                        <span className="font-semibold text-gray-600">
-                          Appointment ID:
-                        </span>{" "}
-                        {appointment.appointment_id}
+                      <p className="font-semibold text-gray-600 mb-2">
+                        Document {patient.medical_reports.indexOf(report) + 1}
                       </p>
-                      <p>
-                        <span className="font-semibold text-gray-600">
-                          Doctor ID:
-                        </span>{" "}
-                        {appointment.doctor_id}
-                      </p>
-                      <p>
-                        <span className="font-semibold text-gray-600">
-                          Date:
-                        </span>{" "}
-                        {formatDate(appointment.date)}
-                      </p>
-                      <p>
-                        <span className="font-semibold text-gray-600">
-                          Status:
-                        </span>{" "}
-                        {appointment.status}
-                      </p>
-                      <p>
-                        <span className="font-semibold text-gray-600">
-                          Prescription URL:
-                        </span>{" "}
-                        <a
-                          href={appointment.prescription_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-500 hover:underline"
-                        >
-                          {appointment.prescription_url}
-                        </a>
-                      </p>
-                      <p>
-                        <span className="font-semibold text-gray-600">
-                          Notes:
-                        </span>{" "}
-                        {appointment.notes}
-                      </p>
+                      <PdfViewer fileUrl={report.url} />
                     </li>
                   ))
                 ) : (
-                  <p className="text-gray-600">No appointments available.</p>
+                  <p className="text-gray-600">No medical reports available.</p>
                 )}
               </ul>
             </div>
+
             {/* Right Column */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-4 text-gray-800">

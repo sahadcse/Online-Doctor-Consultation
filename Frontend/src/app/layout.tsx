@@ -45,11 +45,6 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* Add the Jitsi Meet script */}
-        <Script
-          src="https://meet.jit.si/external_api.js"
-          strategy="beforeInteractive"
-        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${dmSans.variable} ${workSans.variable} antialiased`}

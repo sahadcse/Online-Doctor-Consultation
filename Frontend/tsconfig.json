@@ -39,7 +39,7 @@
     "src/**/*.tsx", 
     "types/**/*.d.ts",
     "src/app/doctor/appointments/page.jsx"
-  ],
+, "src/utils/prescriptionPdfGenerator.js"  ],
   "exclude": [
     "node_modules"
   ]
