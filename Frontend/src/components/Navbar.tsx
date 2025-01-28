@@ -20,8 +20,9 @@ const Navbar = () => {
         { name: 'HOME', href: '/' },
         { name: 'ABOUT', href: '/about' },
         { name: 'SERVICES', href: '/services' },
-        { name: 'CONTACT', href: '/contact' },
+        { name: 'DOCTORS', href: '/doctor' },
         { name: 'APPOINTMENT', href: '/appointment' },
+        { name: 'CONTACT', href: '/contact' },
     ];
 
     if (isAuth) {

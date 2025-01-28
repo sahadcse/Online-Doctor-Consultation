@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Logo from "../images/Logo (2).png";
 
 const Footer = () => {
     const sections = [
@@ -58,7 +57,7 @@ const Footer = () => {
         <footer className=" bg-color-primary text-white">
             <div className="footer  text-base-content px-4 lg:px-64 py-28 font-dm-sans text-xl">
                 <aside>
-                    <Image src={Logo} alt="Logo" width={100} height={100} />
+                    <Image src="/images/Logo-secondary.png" alt="Logo" width={172} height={50} />
                     <p className="text-[#9CBDBD]">Providing compassionate care and expert medical services for every stage of life.</p>
 
                 </aside>

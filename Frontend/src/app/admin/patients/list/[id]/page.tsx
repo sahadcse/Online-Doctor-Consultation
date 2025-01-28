@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 import AdminLayout from "@/components/Admin/AdminLayout";
+import withAuth from "@/common/WithAuth";
 
 const PatientDetails = () => {
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -390,4 +391,4 @@ const PatientDetails = () => {
   );
 };
 
-export default PatientDetails;
+export default withAuth(PatientDetails,['admin']);

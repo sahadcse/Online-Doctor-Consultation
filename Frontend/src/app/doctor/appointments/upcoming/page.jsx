@@ -6,6 +6,7 @@ import { authHeader } from "@/utils";
 import { FaCheckCircle, FaTimesCircle, FaEye } from "react-icons/fa"; // React Icons
 import Swal from "sweetalert2"; // SweetAlert2
 import withAuth from "@/common/WithAuth";
+import { useRouter } from "next/navigation";
 
 const AppointmentsDoc = () => {
     const [appointments, setAppointments] = useState([]);
@@ -13,6 +14,7 @@ const AppointmentsDoc = () => {
     const [error, setError] = useState(null);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const router = useRouter();
 
     const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -29,8 +31,7 @@ const AppointmentsDoc = () => {
                 const filterData = data.filter((appointment) => {
                     const today = new Date();
                     const appointmentDate = new Date(appointment.appointment.appointment_date);
-                    // return today.toDateString() < appointmentDate.toDateString();//Rezwan
-                    return today <= appointmentDate; // Sahad
+                    return today.toDateString() < appointmentDate.toDateString();
                 });
                 setAppointments(filterData);
             } catch (err) {
@@ -48,18 +49,24 @@ const AppointmentsDoc = () => {
         setIsModalOpen(true);
     };
 
+    const handleViewPatientDetails = (appointment) => {
+        router.push(`/doctor/appointments/patient/${appointment.appointment.patient_id._id}`)
+    };
+
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setSelectedAppointment(null);
     };
 
+    console.log("ap", appointments);
+    console.log("app", selectedAppointment);
     const handleApprove = async () => {
         Swal.fire({
             title: "Are you sure?",
             text: "You are about to confirm this appointment!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
+            confirmButtonColor: "#08595a",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, confirm it!",
         }).then(async (result) => {
@@ -81,12 +88,12 @@ const AppointmentsDoc = () => {
                         throw new Error("Failed to approve the appointment");
                     }
 
-                    // const updatedAppointments = appointments.map((appointment) =>
-                    //     appointment.appointment._id === selectedAppointment.appointment._id
-                    //         ? { ...appointments.appointment, status: "Confirmed" }
-                    //         : appointment
-                    // );
-                    // setAppointments(updatedAppointments);
+                    const updatedAppointments = appointments.map((appointment) =>
+                        appointment.appointment._id === selectedAppointment.appointment._id
+                            ? { ...appointments.appointment, status: "Confirmed" }
+                            : appointment
+                    );
+                    setAppointments(updatedAppointments);
                     setIsModalOpen(false);
 
                     Swal.fire({
@@ -114,7 +121,7 @@ const AppointmentsDoc = () => {
             text: "You won't be able to revert this!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
+            confirmButtonColor: "#08595a",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, cancel it!",
         }).then(async (result) => {
@@ -136,12 +143,12 @@ const AppointmentsDoc = () => {
                         throw new Error("Failed to cancel the appointment");
                     }
 
-                    // const updatedAppointments = appointments.map((appointment) =>
-                    //     appointment._id === selectedAppointment._id
-                    //         ? { ...appointment, status: "Cancelled" }
-                    //         : appointment
-                    // );
-                    // setAppointments(updatedAppointments);
+                    const updatedAppointments = appointments.map((appointment) =>
+                        appointment.appointment._id === selectedAppointment.appointment._id
+                            ? { ...appointments.appointment, status: "Cancelled" }
+                            : appointment
+                    );
+                    setAppointments(updatedAppointments);
                     setIsModalOpen(false);
 
                     Swal.fire({
@@ -188,53 +195,72 @@ const AppointmentsDoc = () => {
                 <div className="grid grid-cols-1 gap-6">
                     <section className="bg-white p-6 rounded-lg shadow w-full">
                         <h2 className="text-xl font-medium mb-4">
-                            Up-Coming Appointments ({appointments.length})
+                            Upcoming Appointments ({appointments.length})
                         </h2>
                         <div className="overflow-x-auto">
                             <table className="min-w-full table-auto border-collapse border border-gray-200">
-                                <thead className="bg-blue-400">
+                                <thead className="bg-color-primary text-white">
                                     <tr>
+                                        <th className="px-4 py-2 border">Sl.</th>
                                         <th className="px-4 py-2 border">Patient</th>
+                                        <th className="px-4 py-2 border">Resion</th>
                                         <th className="px-4 py-2 border">Time</th>
-                                        <th className="px-4 py-2 border">Type</th>
                                         <th className="px-4 py-2 border">Status</th>
                                         <th className="px-4 py-2 border">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {appointments.map((appointment) => (
+                                    {appointments.map((appointment, index) => (
                                         <tr
-                                            key={appointment.appointment._id}
+                                            key={appointment.appointment?._id}
                                             className="hover:bg-gray-50"
                                         >
                                             <td className="px-4 py-2 border">
-                                                {appointment.appointment.patient_id?.full_name}
+                                                {index + 1}
+                                            </td>
+
+                                            <td className="px-4 py-2 border">
+                                                {appointment.appointment?.patient_id?.full_name}
+                                            </td>
+
+                                            <td className="px-4 py-2 border">
+                                                {appointment.appointment?.
+                                                    reason_for_visit}
                                             </td>
                                             <td className="px-4 py-2 border">
-                                                {appointment.appointment.time_slot}
-                                            </td>
-                                            <td className="px-4 py-2 border">
-                                                {appointment.appointment.consultation_type}
+                                                {appointment.appointment?.time_slot}
                                             </td>
                                             <td className="px-4 py-2 border">
                                                 <span
-                                                    className={`px-2 py-1 rounded-full text-sm ${appointment.appointment.status === "Pending"
+                                                    className={`px-2 py-1 rounded-full text-sm ${appointment.appointment?.status === "Pending"
                                                         ? "bg-yellow-100 text-yellow-800"
-                                                        : appointment.appointment.status === "Confirmed"
+                                                        : appointment.appointment?.status === "Confirmed"
                                                             ? "bg-green-200 text-green-800"
                                                             : "bg-red-200 text-gray-800"
                                                         }`}
                                                 >
-                                                    {appointment.appointment.status}
+                                                    {appointment.appointment?.status}
                                                 </span>
                                             </td>
                                             <td className="px-4 py-2 border">
-                                                <button
-                                                    onClick={() => handleViewDetails(appointment)}
-                                                    className="text-blue-500 hover:underline flex items-center"
-                                                >
-                                                    <FaEye className="mr-2" /> View Details
-                                                </button>
+                                                <div className="dropdown">
+                                                    <div tabIndex={0} role="button" className="btn m-1 bg-color-primary text-white">Action</div>
+                                                    <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                                        <li><a><button
+                                                            onClick={() => handleViewDetails(appointment)}
+                                                            className="text-blue-500 hover:underline flex items-center"
+                                                        >
+                                                            <FaEye className="mr-2" />Approve
+                                                        </button></a></li>
+                                                        <li><a><button
+                                                            onClick={() => handleViewPatientDetails(appointment)}
+                                                            className="text-blue-500 hover:underline flex items-center"
+                                                        >
+                                                            <FaEye className="mr-2" />view Patient
+                                                        </button></a></li>
+                                                    </ul>
+                                                </div>
+
                                             </td>
                                         </tr>
                                     ))}
@@ -255,11 +281,11 @@ const AppointmentsDoc = () => {
                         <div className="space-y-4 text-gray-700">
                             <div className="flex justify-between">
                                 <span className="font-medium">Patient ID:</span>
-                                <span>{selectedAppointment.appointment.patient_id?._id}</span>
+                                <span>{selectedAppointment.appointment?.patient_id?._id}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="font-medium">Patient Name:</span>
-                                <span>{selectedAppointment.appointment.patient_id?.full_name}</span>
+                                <span>{selectedAppointment.appointment?.patient_id?.full_name}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="font-medium">Date:</span>
@@ -280,20 +306,24 @@ const AppointmentsDoc = () => {
                         </div>
 
                         <div className="flex justify-end gap-4 mt-6">
-                            <button
-                                onClick={handleApprove}
-                                className="px-4 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600"
-                            >
-                                <FaCheckCircle className="inline mr-2" />
-                                Approve
-                            </button>
-                            <button
-                                onClick={handleCancel}
-                                className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600"
-                            >
-                                <FaTimesCircle className="inline mr-2" />
-                                Cancel
-                            </button>
+                            {selectedAppointment.appointment.status === "Pending" &&
+
+                                <><button
+                                    onClick={handleApprove}
+                                    className="px-4 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600"
+                                >
+                                    <FaCheckCircle className="inline mr-2" />
+                                    Approve
+                                </button>
+                                    <button
+                                        onClick={handleCancel}
+                                        className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600"
+                                    >
+                                        <FaTimesCircle className="inline mr-2" />
+                                        Cancel
+                                    </button></>
+
+                            }
                             <button
                                 onClick={handleCloseModal}
                                 className="px-4 py-2 bg-gray-500 text-white rounded shadow hover:bg-gray-600"

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import AdminLayout from "@/components/Admin/AdminLayout";
+import withAuth from "@/common/WithAuth";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -437,4 +438,4 @@ const ApproveRejectDoctors = () => {
   );
 };
 
-export default ApproveRejectDoctors;
+export default withAuth(ApproveRejectDoctors,['admin']);

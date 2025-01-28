@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import AdminLayout from "@/components/Admin/AdminLayout";
+import withAuth from "@/common/WithAuth";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -172,4 +173,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default withAuth(ProfilePage,['admin']);

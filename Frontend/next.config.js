@@ -8,7 +8,12 @@ const nextConfig = {
     },
     images: {
         // domains: ["example.com", "rezwan-rahim.web.app"],
-        remotePatterns:[
+        remotePatterns: [
+            {
+                protocol: 'http',
+                hostname: 'graph.facebook.com',
+                // pathname: '/images/**',
+            },
             {
                 protocol: 'https',
                 hostname: 'rezwan-rahim.web.app',
@@ -16,9 +21,15 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
+                hostname: 'res.cloudinary.com',
+                // pathname: '/images/**',
+            },
+            {
+                protocol: 'https',
                 hostname: 'example.com',
                 // pathname: '/images/**',
-            }
+            },
+
         ]
     }
 };
