@@ -8,6 +8,8 @@ import DoctorLayout from "@/components/DoctorLayout";
 import DashboardHeroNav from "@/components/DoctorHero/DashboardHeroNav";
 import { DoctorProfileData } from "@/data/doctorProfileData";
 import useUserData from "@/hooks/useUserData";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 interface ProfileData {
   _id: string;
@@ -64,6 +66,7 @@ interface ProfileData {
   video_call_link: object;
   documents: string[];  // Added documents array
   notifications_enabled: boolean;
+  profile_picture_url:""
 }
 
 
@@ -71,7 +74,7 @@ const DoctorProfilePage = () => {
   const user = useUserData();
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [error, setError] = useState<string | null>(null);
-
+  const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     const getProfileData = async () => {
@@ -98,6 +101,45 @@ const DoctorProfilePage = () => {
     return <p className="text-center mt-4">Loading...</p>;
   }
 
+
+
+  // handleProfilePictureChange Function
+  const handleProfilePictureChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = e.target.files?.[0];
+    if (files) {
+      const formData = new FormData();
+      formData.append("profile_picture_url", files);
+
+      const token = Cookies.get("token");
+      axios
+        .put(`${baseURL}/api/users/doctor/update`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          // setPatient((prevPatient) => {
+          //   // if (prevPatient) {
+          //   //   return {
+          //   //     ...prevPatient,
+          //   //     profile_picture: response.data.profile_picture,
+          //   //   };
+          //   // }
+          //   // return prevPatient;
+          // });
+        })
+        .catch((error) => {
+          console.error(
+            "There was an error uploading the profile picture!",
+            error
+          );
+        });
+    }
+  };
+
   return (
     <>
 
@@ -111,19 +153,42 @@ const DoctorProfilePage = () => {
                 <div className="bg-white shadow rounded-lg p-6">
                   <div className="flex flex-col items-center">
                     <img
-                      src="https://randomuser.me/api/portraits/men/94.jpg"
+                      src={profileData?.profile_picture_url}
                       alt="Doctor Profile"
                       className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
                     />
                     <h1 className="text-xl font-bold">{profileData.full_name}</h1>
                     <p className="text-gray-700">{profileData.specialization}</p>
                     <div className="mt-6 flex flex-wrap gap-4 justify-center">
-                      <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+                      {/* <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
                         <FaPhoneAlt className="inline mr-2" /> Contact
+                      </button> */}
+                      <button className="bg-color-primary text-white py-2 px-4 rounded" onClick={() =>
+                              document.getElementById("profile_picture")?.click()
+                            }>
+                        <FaUserEdit className="inline mr-2" /> Change Image
                       </button>
-                      <button className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded">
-                        <FaUserEdit className="inline mr-2" /> Update
-                      </button>
+
+                      <div className="relative group">
+                        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-opacity duration-300">
+                          {/* <button
+                            type="button"
+                            className="bg-black text-white px-1 rounded-md text-xs"
+                            onClick={() =>
+                              document.getElementById("profile_picture")?.click()
+                            }
+                          >
+                            Change Image
+                          </button> */}
+                          <input
+                            type="file"
+                            id="profile_picture"
+                            name="profile_picture"
+                            className="hidden"
+                            onChange={handleProfilePictureChange}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <hr className="my-6 border-t border-gray-300" />
