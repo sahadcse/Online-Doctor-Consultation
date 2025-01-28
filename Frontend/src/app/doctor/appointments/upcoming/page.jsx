@@ -30,9 +30,18 @@ const AppointmentsDoc = () => {
                 const data = await response.json();
                 const filterData = data.filter((appointment) => {
                     const today = new Date();
+                    today.setHours(0, 0, 0, 0); // Set to midnight to ignore time
+
                     const appointmentDate = new Date(appointment.appointment.appointment_date);
-                    return today.toDateString() < appointmentDate.toDateString();
+                    appointmentDate.setHours(0, 0, 0, 0); // Set to midnight to ignore time
+
+                    console.log('Today:', today.toString());
+                    console.log('Appointment Date:', appointmentDate.toString());
+
+                    return today < appointmentDate; // Compare only the dates, ignoring time
                 });
+
+                console.log('Filtered Appointments:', filterData); // Debugging filtered data
                 setAppointments(filterData);
             } catch (err) {
                 setError(err.message);
@@ -43,6 +52,8 @@ const AppointmentsDoc = () => {
 
         fetchAppointments();
     }, []);
+
+
 
     const handleViewDetails = (appointment) => {
         setSelectedAppointment(appointment);
