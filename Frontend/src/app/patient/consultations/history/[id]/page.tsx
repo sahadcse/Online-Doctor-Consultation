@@ -4,6 +4,8 @@ import { useRouter, useParams } from "next/navigation";
 import PatientLayout from "@/components/Patient/PatientLayout";
 import axios from "axios";
 import Cookies from "js-cookie";
+import generatePrescriptionPdf from "@/utils/prescriptionPdfGenerator";
+import FileUpload from "@/components/Patient/FileUpload";
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -28,12 +30,51 @@ interface Doctor {
   // Add other relevant fields
 }
 
+interface Prescription {
+  patient: {
+    name: string;
+    age: number;
+    gender: string;
+    weight: string;
+  };
+  vitals: {
+    bp: string;
+    temp: string;
+    heartRate: number;
+  };
+  doctor: {
+    name: string;
+    registrationNo: string;
+  };
+  _id: string;
+  consultation_id: string;
+  symptoms: string[];
+  diagnosis: string;
+  allergies: string;
+  prescription: {
+    medicine: string;
+    dosage: string;
+    frequency: string;
+    duration: string;
+    instructions: string;
+    _id: string;
+  }[];
+  lifestyleRecommendations: string[];
+  recommendedTests: string[];
+  followUp: string;
+  date: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
 const ConsultationDetailsPage = () => {
   const router = useRouter();
   const params = useParams();
   const id = params?.id as string;
   const [consultation, setConsultation] = useState<Consultation | null>(null);
-  const [files, setFiles] = useState<File[]>([]);
+  const [prescription, setPrescription] = useState<Prescription | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const [doctor, setDoctor] = useState<Doctor | null>(null);
 
   useEffect(() => {
@@ -49,10 +90,14 @@ const ConsultationDetailsPage = () => {
             },
           }
         );
-        setConsultation(response.data);
+        setConsultation(response.data.consultation);
+        if (response.data.prescription) {
+          setPrescription(response.data.prescription);
+          // console.log("Prescription: ", response.data.prescription);
+        }
 
         // Fetch doctor details using appointment id
-        const appointmentId = response.data.appointment_id;
+        const appointmentId = response.data.consultation.appointment_id;
         if (appointmentId) {
           const doctorResponse = await axios.get(
             `${baseURL}/api/users/patient/appointments/${appointmentId}/doctor`,
@@ -73,58 +118,11 @@ const ConsultationDetailsPage = () => {
     fetchConsultation();
   }, [id]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFiles(Array.from(event.target.files));
-    }
-  };
-
-  const handleUpload = async () => {
-    if (consultation && files.length > 0) {
-      const formData = new FormData();
-      files.forEach((file) => formData.append("medical_reports", file));
-
-      try {
-        const token = Cookies.get("token");
-        await axios.post(
-          `${baseURL}/api/users/patient/consultations/${id}/files`, // Ensure id is used here
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        alert("Files uploaded successfully");
-      } catch (error) {
-        console.error("Error uploading files:", error);
-      }
-    }
-  };
-
   const handleDownloadPrescription = async () => {
-    if (consultation) {
-      try {
-        const token = Cookies.get("token");
-        const response = await axios.get(
-          `${baseURL}/api/users/patient/consultations/${consultation.id}/prescription`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            responseType: "blob",
-          }
-        );
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "prescription.pdf");
-        document.body.appendChild(link);
-        link.click();
-      } catch (error) {
-        console.error("Error downloading prescription:", error);
-      }
+    if (prescription) {
+      generatePrescriptionPdf(prescription);
+    } else {
+      setMessage("No Prescription found");
     }
   };
 
@@ -133,25 +131,39 @@ const ConsultationDetailsPage = () => {
       <div className="bg-gray-50 min-h-screen">
         {/* Go Back Button */}
         <div className="p-4 flex justify-between items-center">
+          {/* Go Back Button */}
           <button
             className="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-700 transition"
             onClick={() => router.push("/patient/consultations/history")}
           >
             Go Back
           </button>
-            <button
-            className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-700 transition"
-            onClick={() => router.push(`/patient/consultations/joinmetting?id=${id}`)}
-            >
-            Start Consultation
-            </button>
-          {/* Action Buttons */}
+
+          {/* Start Consultation Button */}
           <button
-            className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
-            onClick={handleDownloadPrescription}
+            className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-700 transition"
+            onClick={() =>
+              router.push(`/patient/consultations/joinmetting?id=${id}`)
+            }
           >
-            Download Prescription
+            Start Consultation
           </button>
+
+          {/* Action Buttons */}
+          <div className="relative">
+            <button
+              className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+              onClick={() => {
+                handleDownloadPrescription();
+                setTimeout(() => {
+                  setMessage(null);
+                }, 2000);
+              }}
+            >
+              Download Prescription
+            </button>
+            <span className="absolute left-7 top-12">{message && <p className="text-red-500">{message}</p>}</span>
+          </div>
         </div>
 
         {/* Container */}
@@ -223,24 +235,8 @@ const ConsultationDetailsPage = () => {
               </div>
 
               {/* File Upload */}
-              <div className="mt-4">
-                <div className="">
-                  {/* <label className=" text-sm font-medium text-gray-700 mb-2">
-                    Upload Medical Reports
-                  </label> */}
-                  <input
-                    type="file"
-                    multiple
-                    className="w-52 text-sm text-gray-800 border border-gray-300 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500"
-                    onChange={handleFileChange}
-                  />
-                </div>
-                <button
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 mt-4 transition"
-                  onClick={handleUpload}
-                >
-                  Upload Medical Reports
-                </button>
+              <div className="mt-4 max-w-72">
+                <FileUpload consultationId={id} />
               </div>
             </div>
           ) : (

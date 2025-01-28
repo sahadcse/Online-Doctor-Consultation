@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-const defaultTheme = require('tailwindcss/defaultTheme');
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 const config: Config = {
   content: [
@@ -10,14 +10,14 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        'dm-sans': ['var(--font-dm-sans)', 'sans-serif'],
-        'work-sans': ['var(--font-work-sans)', 'sans-serif'],
-        'geist-sans': ['var(--font-geist-sans)', 'sans-serif'],
-        'geist-mono': ['var(--font-geist-mono)', 'monospace'],
-        sans: ['var(--font-geist-sans)', ...defaultTheme.fontFamily.sans],
-        mono: ['var(--font-geist-mono)', ...defaultTheme.fontFamily.mono],
-        dm: ['var(--font-dm-sans)', ...defaultTheme.fontFamily.sans],
-        work: ['var(--font-work-sans)', ...defaultTheme.fontFamily.sans],
+        "dm-sans": ["var(--font-dm-sans)", "sans-serif"],
+        "work-sans": ["var(--font-work-sans)", "sans-serif"],
+        "geist-sans": ["var(--font-geist-sans)", "sans-serif"],
+        "geist-mono": ["var(--font-geist-mono)", "monospace"],
+        sans: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
+        mono: ["var(--font-geist-mono)", ...defaultTheme.fontFamily.mono],
+        dm: ["var(--font-dm-sans)", ...defaultTheme.fontFamily.sans],
+        work: ["var(--font-work-sans)", ...defaultTheme.fontFamily.sans],
       },
       colors: {
         "color-primary": "#08595a",
@@ -33,13 +33,16 @@ const config: Config = {
         foreground: "var(--foreground)",
       },
       backgroundImage: {
-        'service-3': "url('./images/breadcrumb_bg.jpg')", // Update path if needed
+        "service-3": "url('./images/breadcrumb_bg.jpg')", // Update path if needed
       },
     },
   },
   plugins: [
-    require('daisyui'),
-    require('tailwind-scrollbar'),
+    require("daisyui"),
+    require("tailwind-scrollbar"),
+    require("@tailwindcss/forms")({
+      strategy: 'class',
+    }),
   ],
 };
 export default config;
