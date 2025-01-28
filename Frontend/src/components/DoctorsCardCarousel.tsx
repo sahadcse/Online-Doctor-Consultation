@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { authHeader } from '@/utils';
 import { FaLinkedin, FaTwitter } from 'react-icons/fa';
+import Link from 'next/link';
 
 const DoctorsCardCarousel = () => {
     const [doctors, setDoctors] = useState([]);
@@ -87,12 +88,12 @@ const DoctorsCardCarousel = () => {
 
                         {/* Action Buttons Section */}
                         <div className="mt-4 flex flex-col gap-3">
-                            <button className="btn bg-color-primary text-white w-full rounded-lg py-2 hover:opacity-90">
+                            <Link href="/appointment"><button className="btn bg-color-primary text-white w-full rounded-lg py-2 hover:opacity-90">
                                 Book Appointment
-                            </button>
-                            <button className="btn bg-gray-100 text-gray-800 w-full rounded-lg py-2 hover:bg-gray-200">
+                            </button></Link>
+                            {/* <button className="btn bg-gray-100 text-gray-800 w-full rounded-lg py-2 hover:bg-gray-200">
                                 View Details
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 ))}
