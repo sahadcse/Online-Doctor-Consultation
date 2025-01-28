@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,9 +19,7 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     "target": "ES2017"
   },
@@ -35,13 +29,12 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/utils/index.js",
-    "src/**/*.ts", 
-    "src/**/*.tsx", 
+    "src/**/*.ts",
+    "src/**/*.tsx",
     "types/**/*.d.ts",
     "src/app/doctor/appointments/page.jsx",
-    "src/utils/prescriptionPdfGenerator.js", 
-    "src/components/Appointment.tsx"  ],
-    "exclude": [
-    "node_modules"
-  ]
+    "src/utils/prescriptionPdfGenerator.js",
+    "src/components/Appointment.tsx"
+  ],
+  "exclude": ["node_modules"]
 }

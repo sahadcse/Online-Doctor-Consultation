@@ -80,6 +80,9 @@ const ConsultationDetailsPage = () => {
   useEffect(() => {
     const fetchConsultation = async () => {
       if (!id) return; // Ensure id is defined before making the request
+      
+        // Fetch doctor details using appointment id
+        let appointmentId;
       try {
         const token = Cookies.get("token");
         const response = await axios.get(
@@ -90,14 +93,16 @@ const ConsultationDetailsPage = () => {
             },
           }
         );
-        setConsultation(response.data.consultation);
-        if (response.data.prescription) {
+        if (response.data.consultation && response.data.prescription) {
+          setConsultation(response.data.consultation);
           setPrescription(response.data.prescription);
-          // console.log("Prescription: ", response.data.prescription);
+          appointmentId = response.data.consultation.appointment_id;
+        } else {
+          setConsultation(response.data);
+          appointmentId = response.data.appointment_id;
         }
+        console.log("Response data:", response.data);
 
-        // Fetch doctor details using appointment id
-        const appointmentId = response.data.consultation.appointment_id;
         if (appointmentId) {
           const doctorResponse = await axios.get(
             `${baseURL}/api/users/patient/appointments/${appointmentId}/doctor`,

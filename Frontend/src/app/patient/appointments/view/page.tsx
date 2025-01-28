@@ -106,11 +106,24 @@ const AppointmentsPage = () => {
               {appointments.map((appointment) => (
                 <tr key={appointment._id} className="hover:bg-gray-50">
                   {/* Date */}
-                  <td className="py-3 px-6 text-sm text-gray-800">
-                    {new Date(
-                      appointment.appointment_date
-                    ).toLocaleDateString()}
-                  </td>
+                    <td className="py-3 px-6 text-sm text-gray-800">
+                    <div className="flex items-center">
+                      {new Date(appointment.appointment_date).toLocaleDateString()}
+                      {new Date(appointment.appointment_date).toDateString() === new Date().toDateString() ? (
+                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                        Today
+                      </span>
+                      ) : new Date(appointment.appointment_date) < new Date() ? (
+                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                        Past
+                      </span>
+                      ) : (
+                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                        Incoming
+                      </span>
+                      )}
+                    </div>
+                    </td>
 
                   {/* Time Slot */}
                   <td className="py-3 px-6 text-sm text-gray-800">
