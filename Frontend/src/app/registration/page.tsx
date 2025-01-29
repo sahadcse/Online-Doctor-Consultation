@@ -1,8 +1,6 @@
 "use client";
-
 import Link from "next/link";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import DoctorRegistrationForm from "@/components/Register/DoctorRegistrationForm";
@@ -15,8 +13,7 @@ const roleRedirects = {
 
 const RegistrationPage = () => {
   const [error, setError] = useState(null);
-  const [role, setRole] = useState<keyof typeof roleRedirects | "">("");
-  const dispatch = useDispatch();
+  const [role, setRole] = useState<"doctor" | "patient" | "">("");
 
   return (
     <>

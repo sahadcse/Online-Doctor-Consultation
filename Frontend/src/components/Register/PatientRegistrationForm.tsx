@@ -1,3 +1,4 @@
+"use client";
 import { useState, ChangeEvent, FormEvent } from "react";
 
 const baseURl = process.env.NEXT_PUBLIC_API_URL;

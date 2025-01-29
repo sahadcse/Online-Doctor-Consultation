@@ -7,7 +7,7 @@ const nextConfig = {
         ignoreDuringBuilds: true,
     },
     images: {
-        // domains: ["example.com", "rezwan-rahim.web.app"],
+        unoptimized: true,
         remotePatterns: [
             {
                 protocol: 'http',

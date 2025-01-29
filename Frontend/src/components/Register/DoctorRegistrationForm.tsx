@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+"use client";
+import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { login } from '@/redux/slices/userSlice';
@@ -82,10 +83,8 @@ const DoctorRegistrationForm = () => {
     const [languagesSpoken, setLanguagesSpoken] = useState<string[]>(['']);
     const [hospitalAffiliations, setHospitalAffiliations] = useState<{ name: string; address: { street: string; city: string; state: string; postal_code: string; country: string } }[]>([{ name: '', address: { street: '', city: '', state: '', postal_code: '', country: '' } }]);
     const [awardsAndRecognitions, setAwardsAndRecognitions] = useState<string[]>(['']);
-
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
     const dispatch = useDispatch();
     const router = useRouter();
     
