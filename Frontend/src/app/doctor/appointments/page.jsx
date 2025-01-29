@@ -50,7 +50,7 @@ const AppointmentsDoc = () => {
     };
 
     const handleViewPatientDetails = (appointment) => {
-        router.push(`/doctor/appointments/patient/${appointment.appointment.patient_id._id}`)
+        router.push(`/doctor/appointments/patient/${appointment.appointment._id}`)
     };
 
     const handleCloseModal = () => {

@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
+import DoctorLayout from "@/components/DoctorLayout";
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
-
-import AdminLayout from "@/components/Admin/AdminLayout";
 
 const PatientDetails = () => {
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -16,7 +15,7 @@ const PatientDetails = () => {
   useEffect(() => {
     const token = Cookies.get("token");
     axios
-      .get(`${baseURL}/api/admins/admin/patients/${id}`, {
+      .get(`${baseURL}/api/users/doctor/appointments/${id}/patient`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -128,7 +127,7 @@ const PatientDetails = () => {
   };
 
   return (
-    <AdminLayout>
+    <DoctorLayout>
       <div className="container mx-auto px-4 mb-4">
         <div className="flex justify-between mb-6">
           <button
@@ -137,21 +136,10 @@ const PatientDetails = () => {
           >
             Go Back
           </button>
-            <div>
-            <button
-              onClick={handleBlockUnblock}
-              className={`${
-              patient.status === "blocked"
-                ? "bg-green-500 hover:bg-green-600"
-                : "bg-red-500 hover:bg-red-600"
-              } text-white px-4 py-2 rounded-md`}
-            >
-              {patient.status === "blocked" ? "Unblock Patient" : "Block Patient"}
-            </button>
-            </div>
+         
         </div>
 
-        
+
         <div className="bg-gray-100 p-6 rounded-lg shadow-lg">
           <h1 className="text-4xl font-extrabold text-center mb-6 text-gray-800">
             Patient Details
@@ -386,7 +374,7 @@ const PatientDetails = () => {
           </div>
         </div>
       </div>
-    </AdminLayout>
+    </DoctorLayout>
   );
 };
 

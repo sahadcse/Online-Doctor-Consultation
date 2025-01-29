@@ -5,9 +5,14 @@ import axios from 'axios';
 import { authHeader } from '@/utils';
 import { FaLinkedin, FaTwitter } from 'react-icons/fa';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import { selectedDoctor } from '@/redux/slices/doctorSlice';
+import { useRouter } from 'next/navigation';
 
 const DoctorsCardCarousel = () => {
     const [doctors, setDoctors] = useState([]);
+    const dispatch = useDispatch();
+    const router = useRouter();
 
     useEffect(() => {
         const baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -25,9 +30,16 @@ const DoctorsCardCarousel = () => {
         fetchDoctors();
     }, []);
 
+
+    const handleViewDoctor = (doctor) => {
+        dispatch(selectedDoctor(doctor));
+        router.push('/doctor/details');
+    };
+
     return (
         <div className="container mx-auto px-4 py-6">
             <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+
                 {doctors.map((doctor) => (
                     <div
                         key={doctor._id}
@@ -38,8 +50,7 @@ const DoctorsCardCarousel = () => {
                             <Image
                                 src={doctor.profile_picture_url || '/images/user.png'}
                                 alt={doctor.full_name}
-                                className=""
-                                width={120} // Increased image size
+                                width={120}
                                 height={120}
                             />
                             <div className="text-center">
@@ -88,12 +99,17 @@ const DoctorsCardCarousel = () => {
 
                         {/* Action Buttons Section */}
                         <div className="mt-4 flex flex-col gap-3">
-                            <Link href="/appointment"><button className="btn bg-color-primary text-white w-full rounded-lg py-2 hover:opacity-90">
-                                Book Appointment
-                            </button></Link>
-                            {/* <button className="btn bg-gray-100 text-gray-800 w-full rounded-lg py-2 hover:bg-gray-200">
+                            <Link href="/appointment">
+                                <button className="btn bg-color-primary text-white w-full rounded-lg py-2 hover:opacity-90">
+                                    Book Appointment
+                                </button>
+                            </Link>
+                            <button
+                                className="btn bg-gray-100 text-gray-800 w-full rounded-lg py-2 hover:bg-gray-200"
+                                onClick={() => handleViewDoctor(doctor)}
+                            >
                                 View Details
-                            </button> */}
+                            </button>
                         </div>
                     </div>
                 ))}

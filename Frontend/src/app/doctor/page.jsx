@@ -12,9 +12,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { authHeader } from "@/utils";
 import { FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 const DoctorsPage = () => {
+
     const [doctors, setDoctors] = useState([]);
+    const dispatch = useDispatch();
+    const router = useRouter();
     useEffect(() => {
         const baseURL = process.env.NEXT_PUBLIC_API_URL;
         const fetchDoctors = async () => {
@@ -30,6 +35,11 @@ const DoctorsPage = () => {
 
         fetchDoctors();
     }, []);
+
+    const handleViewDoctor = (doctor) => {
+        dispatch(selectedDoctor(doctor));
+        router.push('/doctor/details');
+    };
 
     return (
         <>
@@ -125,7 +135,10 @@ const DoctorsPage = () => {
                             <button className="btn bg-color-primary text-white w-full rounded-lg py-2 hover:opacity-90">
                                 Book Appointment
                             </button>
-                            <button className="btn bg-gray-100 text-gray-800 w-full rounded-lg py-2 hover:bg-gray-200">
+                            <button
+                                className="btn bg-gray-100 text-gray-800 w-full rounded-lg py-2 hover:bg-gray-200"
+                                onClick={() => handleViewDoctor(doctor)}
+                            >
                                 View Details
                             </button>
                         </div>
