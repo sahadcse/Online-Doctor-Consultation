@@ -147,7 +147,7 @@ const PatientRegistrationForm = () => {
 
     try {
       const response = await fetch(
-        `http://192.168.0.101:8082/api/users/patient/register`,
+        `${baseURl}/api/users/patient/register`,
         {
           method: "POST",
           headers: {

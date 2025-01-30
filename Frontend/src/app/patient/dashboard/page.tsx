@@ -78,6 +78,44 @@ const PatientDashboard = () => {
             <p className="text-2xl">{doctors.length}</p>
           </div>
         </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-4 bg-white shadow rounded">
+            <h3 className="text-xl font-semibold mb-3">Health Tips</h3>
+            <ul className="space-y-2">
+              <li className="border-b pb-2">Stay hydrated - Drink 8 glasses of water daily</li>
+              <li className="border-b pb-2">Get 7-8 hours of sleep for better health</li>
+              <li className="border-b pb-2">Exercise at least 30 minutes daily</li>
+              <li className="border-b pb-2">Maintain a balanced diet with fruits and vegetables</li>
+              <li className="border-b pb-2">Take regular health check-ups</li>
+            </ul>
+          </div>
+          <div className="p-4 bg-white shadow rounded">
+            <h3 className="text-xl font-semibold mb-3">COVID-19 Precautions</h3>
+            <ul className="space-y-2">
+              <li className="border-b pb-2">Wear masks in crowded places</li>
+              <li className="border-b pb-2">Maintain social distancing</li>
+              <li className="border-b pb-2">Wash hands frequently</li>
+              <li className="border-b pb-2">Get vaccinated and boosted</li>
+              <li className="border-b pb-2">Stay home if feeling unwell</li>
+            </ul>
+          </div>
+        <div className="p-4 bg-white shadow rounded mt-4 md:col-span-2">
+        <h3 className="text-xl font-semibold mb-3">Mental Health Awareness</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ul className="space-y-2">
+          <li className="border-b pb-2">Practice mindfulness and meditation</li>
+          <li className="border-b pb-2">Maintain work-life balance</li>
+          <li className="border-b pb-2">Stay connected with loved ones</li>
+          </ul>
+          <ul className="space-y-2">
+          <li className="border-b pb-2">Take regular breaks during work</li>
+          <li className="border-b pb-2">Seek professional help when needed</li>
+          <li className="border-b pb-2">Exercise regularly to boost mood</li>
+          </ul>
+        </div>
+        </div>
+      </div>
       </PatientLayout>
     </>
   );
