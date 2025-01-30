@@ -1,5 +1,6 @@
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
+import Cookies from "js-cookie";
 
 const baseURl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -89,7 +90,7 @@ const PatientRegistrationForm = () => {
       setFormData({ ...formData, [name]: value });
     }
   };
-  
+
   const validate = (): boolean => {
     const newErrors: { [key: string]: string } = {};
 
@@ -145,19 +146,24 @@ const PatientRegistrationForm = () => {
     if (!validate()) return;
 
     try {
-      const response = await fetch(`${baseURl}/api/users/patient/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `http://192.168.0.101:8082/api/users/patient/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
+      Cookies.set("token", data.token);
+      Cookies.set("user", JSON.stringify(data.patient));
       window.location.href = "/patient/dashboard";
       console.log("Form submitted successfully:", data);
 
