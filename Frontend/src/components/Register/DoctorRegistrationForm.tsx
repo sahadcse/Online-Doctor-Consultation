@@ -1,4 +1,9 @@
-import { useState, useEffect } from 'react';
+"use client";
+import { useState } from 'react';
+import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { login } from '@/redux/slices/userSlice';
+import { useRouter } from 'next/navigation';
 
 const baseURl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -78,10 +83,11 @@ const DoctorRegistrationForm = () => {
     const [languagesSpoken, setLanguagesSpoken] = useState<string[]>(['']);
     const [hospitalAffiliations, setHospitalAffiliations] = useState<{ name: string; address: { street: string; city: string; state: string; postal_code: string; country: string } }[]>([{ name: '', address: { street: '', city: '', state: '', postal_code: '', country: '' } }]);
     const [awardsAndRecognitions, setAwardsAndRecognitions] = useState<string[]>(['']);
-
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
+    const dispatch = useDispatch();
+    const router = useRouter();
+    
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -209,12 +215,13 @@ const DoctorRegistrationForm = () => {
                 if (!response.ok) {
                     throw new Error(`Error: ${response.status} ${response.statusText}`);
                 }
-                
-                // Redirect to the dashboard
-                window.location.href = '/doctor/dashboard';
+
 
                 const data = await response.json();
-                console.log('Success:', data);
+                dispatch(login({ data: data, role: 'doctor' }));
+                Cookies.set('token', data.token);
+                Cookies.set('user', JSON.stringify(data.doctor));
+                router.push('/doctor/dashboard');
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -378,7 +385,7 @@ const DoctorRegistrationForm = () => {
                 </div>
                 {errors.languages_spoken && <p className="text-red-500 text-sm">{errors.languages_spoken}</p>}
             </div>
-            
+
             {/* Hospital Affiliations */}
             <div className="form-control flex-1">
                 <label className="label">

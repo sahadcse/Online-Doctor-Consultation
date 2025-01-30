@@ -8,6 +8,12 @@ import DoctorLayout from "@/components/DoctorLayout";
 import DashboardHeroNav from "@/components/DoctorHero/DashboardHeroNav";
 import { DoctorProfileData } from "@/data/doctorProfileData";
 import useUserData from "@/hooks/useUserData";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { update } from "@/redux/slices/userSlice";
+import Swal from "sweetalert2";
+import withAuth from "@/common/WithAuth";
 
 interface ProfileData {
   _id: string;
@@ -64,6 +70,7 @@ interface ProfileData {
   video_call_link: object;
   documents: string[];  // Added documents array
   notifications_enabled: boolean;
+  profile_picture_url: ""
 }
 
 
@@ -71,7 +78,10 @@ const DoctorProfilePage = () => {
   const user = useUserData();
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [error, setError] = useState<string | null>(null);
-
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const baseURL = process.env.NEXT_PUBLIC_API_URL;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getProfileData = async () => {
@@ -98,6 +108,76 @@ const DoctorProfilePage = () => {
     return <p className="text-center mt-4">Loading...</p>;
   }
 
+
+
+  // handleProfilePictureChange Function
+  const handleProfilePictureChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = e.target.files?.[0];
+    if (files) {
+      const formData = new FormData();
+      formData.append("profile_picture_url", files);
+
+      const token = Cookies.get("token");
+      axios
+        .put(`${baseURL}/api/users/doctor/update`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log("Profile picture uploaded successfully!", response);
+          setProfileData({ ...profileData, profile_picture_url: response.data.profile_picture_url });
+          const updatedData = { ...profileData,role:'doctor', profile_picture_url: response.data.profile_picture_url };
+          dispatch(update(updatedData));
+        })
+        .catch((error) => {
+          console.error(
+            "There was an error uploading the profile picture!",
+            error
+          );
+        });
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.[0]) {
+      setSelectedFile(e.target.files[0]); // Store selected file
+    }
+  };
+
+
+  const handleUpload = async () => {
+    if (!selectedFile) return Swal.fire("Error", "Please select a file first!", "error");
+
+    const formData = new FormData();
+    formData.append("documents", selectedFile);
+
+    const token = Cookies.get("token");
+    try {
+      setUploading(true);
+      const response = await axios.put(`${baseURL}/api/users/doctor/update`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setProfileData({ ...profileData, documents: response.data.documents });
+      const updatedData = { ...profileData,role:'doctor', documents: response.data.documents };
+      dispatch(update(updatedData));
+      Swal.fire("Success", "Document uploaded successfully!", "success");
+      setSelectedFile(null); // Reset file after upload
+    } catch (error) {
+      console.error("Upload error:", error);
+      Swal.fire("Error", "Failed to upload document!", "error");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <>
 
@@ -111,19 +191,42 @@ const DoctorProfilePage = () => {
                 <div className="bg-white shadow rounded-lg p-6">
                   <div className="flex flex-col items-center">
                     <img
-                      src="https://randomuser.me/api/portraits/men/94.jpg"
+                      src={profileData?.profile_picture_url}
                       alt="Doctor Profile"
                       className="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0"
                     />
                     <h1 className="text-xl font-bold">{profileData.full_name}</h1>
                     <p className="text-gray-700">{profileData.specialization}</p>
                     <div className="mt-6 flex flex-wrap gap-4 justify-center">
-                      <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+                      {/* <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
                         <FaPhoneAlt className="inline mr-2" /> Contact
+                      </button> */}
+                      <button className="bg-color-primary text-white py-2 px-4 rounded" onClick={() =>
+                        document.getElementById("profile_picture")?.click()
+                      }>
+                        <FaUserEdit className="inline mr-2" /> Change Image
                       </button>
-                      <button className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded">
-                        <FaUserEdit className="inline mr-2" /> Update
-                      </button>
+
+                      <div className="relative group">
+                        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-opacity duration-300">
+                          {/* <button
+                            type="button"
+                            className="bg-black text-white px-1 rounded-md text-xs"
+                            onClick={() =>
+                              document.getElementById("profile_picture")?.click()
+                            }
+                          >
+                            Change Image
+                          </button> */}
+                          <input
+                            type="file"
+                            id="profile_picture"
+                            name="profile_picture"
+                            className="hidden"
+                            onChange={handleProfilePictureChange}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <hr className="my-6 border-t border-gray-300" />
@@ -233,6 +336,50 @@ const DoctorProfilePage = () => {
                     </tbody>
                   </table>
 
+                  <h2 className="text-xl font-bold mt-6 mb-4">Documents</h2>
+                  <div className="flex flex-wrap gap-4">
+                    {profileData.documents.map((document, index) => (
+                      <div key={index} className="bg-gray-200 p-4 rounded-lg flex items-center justify-between w-full">
+                        <p className="text-sm font-semibold">{document.type}</p>
+                        <a
+                          href={document.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-color-primary text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                        >
+                          Open Document
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+
+
+                  <div>
+                    <h2 className="text-xl font-bold mt-6 mb-4">Documents</h2>
+
+                    {/* File Upload Section */}
+                    <div className="mb-4 flex items-center gap-4">
+                      <input
+                        type="file"
+                        id="documents"
+                        name="documents"
+                        accept="application/pdf"
+                        onChange={handleFileChange} // Capture file selection
+                        className="border p-2 rounded"
+                      />
+
+                      <button
+                        onClick={handleUpload} // Upload on button click
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                        disabled={uploading}
+                      >
+                        {uploading ? "Uploading..." : "Upload Document"}
+                      </button>
+                    </div>
+
+
+                  </div>
+
                   <h2 className="text-xl font-bold mt-6 mb-4">Account & Security</h2>
                   <table className="min-w-full table-auto border-collapse">
                     <tbody>
@@ -273,4 +420,4 @@ const DoctorProfilePage = () => {
   );
 };
 
-export default DoctorProfilePage;
+export default withAuth(DoctorProfilePage, ['doctor']);

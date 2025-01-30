@@ -3,10 +3,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
 import Cookies from "js-cookie";
-const baseURL = process.env.NEXT_PUBLIC_API_URL;
-
-import PatientLayout from "@/components/Patient/PatientLayout";
 import useUserData from "@/hooks/useUserData";
+import DoctorLayout from "@/components/DoctorLayout";
 
 const DoctorProfile = () => {
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -17,6 +15,9 @@ const DoctorProfile = () => {
   const params = useParams<{ id: string }>();
   const id = params?.id;
   const userData = useUserData();
+
+
+  const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
   // Fetch Patient Data
   useEffect(() => {
@@ -175,7 +176,7 @@ const DoctorProfile = () => {
     const files = e.target.files?.[0];
     if (files) {
       const formData = new FormData();
-      formData.append("profile_picture_url", files);
+      formData.append("documents", files);
 
       const token = Cookies.get("token");
       axios
@@ -258,7 +259,7 @@ const DoctorProfile = () => {
 
 
   return (
-    <PatientLayout>
+    <DoctorLayout>
       <div className="container mx-auto px-4 mb-4">
         <div className="flex justify-between mb-6">
           {/* Going back Button */}
@@ -270,12 +271,7 @@ const DoctorProfile = () => {
           </button>
 
           {/* Profile Edit button */}
-          <button
-            onClick={() => setShowUpdateForm(true)}
-            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-          >
-            Update Profile
-          </button>
+
 
           {/* Delete Profile */}
           <div className="">
@@ -680,6 +676,12 @@ const DoctorProfile = () => {
                 </p>
               </div> */}
             </div>
+            <button
+              onClick={() => setShowUpdateForm(true)}
+              className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+            >
+              Update Profile
+            </button>
           </div>
 
           {/* Details Section */}
@@ -834,7 +836,7 @@ const DoctorProfile = () => {
           </div> */}
         </div>
       </div>
-    </PatientLayout>
+    </DoctorLayout>
   );
 };
 

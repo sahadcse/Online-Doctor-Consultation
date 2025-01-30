@@ -10,7 +10,7 @@ const userSlice = createSlice({
     },
     reducers: {
         login: (state, action) => {
-         
+
             if (action.payload.role === 'doctor') {
                 state.userInfo = action.payload.data.doctor;
             } else if (action.payload.role === 'patient') {
@@ -26,9 +26,12 @@ const userSlice = createSlice({
             state.token = null;
             state.isAuthenticated = false;
             Cookies.remove('token');
+        },
+        update: (state, action) => {
+            state.userInfo = action.payload;
         }
     }
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, update } = userSlice.actions;
 export default userSlice.reducer;

@@ -3,7 +3,6 @@ import { DM_Sans, Work_Sans } from 'next/font/google';
 import localFont from "next/font/local";
 import "./globals.css";
 import ClientProvider from "@/common/ClientProvider";
-import Script from "next/script"; 
 
 // Local Fonts
 const geistSans = localFont({

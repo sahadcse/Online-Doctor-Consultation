@@ -44,7 +44,15 @@ const DoctorLayout = ({ children }: { children: ReactNode }) => {
                                     <MdDashboard /> Dashboard
                                 </Link>
                             </li>
-                            <li >
+
+
+                            {/* <li className={isActive('/doctor/patientRecords') ? 'bg-sky-200 rounded' : ''}>
+                                <Link href="/doctor/patientRecords" passHref>
+                                    <MdOutlineFiberSmartRecord /> Patient Records
+                                </Link>
+                            </li> */}
+
+                            {user?.documents?.length > 0 && <> <li >
                                 <Link href="" passHref>
                                     <MdCalendarMonth /> Appointments
                                 </Link>
@@ -63,37 +71,33 @@ const DoctorLayout = ({ children }: { children: ReactNode }) => {
 
                                 </ul>
                             </li>
+                                <li className={isActive('/doctor/consultHistory') ? 'bg-color-primary text-white rounded' : ''}>
+                                    <Link href="/doctor/consultHistory" passHref className=''>
+                                        <MdHistory /> Consultations
+                                    </Link>
 
-                            {/* <li className={isActive('/doctor/patientRecords') ? 'bg-sky-200 rounded' : ''}>
-                                <Link href="/doctor/patientRecords" passHref>
-                                    <MdOutlineFiberSmartRecord /> Patient Records
-                                </Link>
-                            </li> */}
-                            <li className={isActive('/doctor/consultHistory') ? 'bg-color-primary text-white rounded' : ''}>
-                                <Link href="/doctor/consultHistory" passHref className=''>
-                                    <MdHistory /> Consultations
-                                </Link>
+                                    {/* Child links */}
+                                    <ul className="ml-4 mt-2">
+                                        <li className={isActive('/doctor/consultations/todays') ? 'bg-color-primary text-white rounded' : ''}>
+                                            <Link href="/doctor/consultations/todays" passHref className=''>
+                                                Today's Consultations
+                                            </Link>
+                                        </li>
+                                        <li className={isActive('/doctor/consultations/upComing') ? 'bg-color-primary text-white rounded' : ''}>
+                                            <Link href="/doctor/consultations/upComing" passHref className=''>
+                                                Upcoming Consultations
+                                            </Link>
+                                        </li>
 
-                                {/* Child links */}
-                                <ul className="ml-4 mt-2">
-                                    <li className={isActive('/doctor/consultations/todays') ? 'bg-color-primary text-white rounded' : ''}>
-                                        <Link href="/doctor/consultations/todays" passHref className=''>
-                                            Today's Consultations
-                                        </Link>
-                                    </li>
-                                    <li className={isActive('/doctor/consultations/upComing') ? 'bg-color-primary text-white rounded' : ''}>
-                                        <Link href="/doctor/consultations/upComing" passHref className=''>
-                                            Upcoming Consultations
-                                        </Link>
-                                    </li>
+                                    </ul>
+                                </li>
+                                <li className={isActive('/doctor/avilability') ? 'bg-color-primary text-white rounded' : ''}>
+                                    <Link href="/doctor/avilability" passHref className=''>
+                                        <MdOutlinePayment /> Availability Management
+                                    </Link>
+                                </li></>}
 
-                                </ul>
-                            </li>
-                            <li className={isActive('/doctor/avilability') ? 'bg-color-primary text-white rounded' : ''}>
-                                <Link href="/doctor/avilability" passHref className=''>
-                                    <MdOutlinePayment /> Availability Management
-                                </Link>
-                            </li>
+
                             <li className={isActive('/doctor/profile') ? 'bg-color-primary text-white rounded' : ''}>
                                 <Link href="/doctor/profile" passHref className=''>
                                     <MdOutlineSettings /> Profile
