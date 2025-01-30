@@ -1,6 +1,7 @@
 "use client";
 
-import AdminLayout from "@/components/AdminLayout";
+import withAuth from "@/common/WithAuth";
+import AdminLayout from "@/components/Admin/AdminLayout";
 import DoctorForm from "@/components/DoctorForm";
 
 const NewDoctorPage = () => {
@@ -14,4 +15,4 @@ const NewDoctorPage = () => {
     );
 };
 
-export default NewDoctorPage;
+export default withAuth(NewDoctorPage,['admin']);

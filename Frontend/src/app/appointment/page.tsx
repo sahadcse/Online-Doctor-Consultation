@@ -5,6 +5,7 @@ import ImgFile from "../../images/breadcrumb_bg.jpg";
 import Appointment from "@/components/Appointment";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import Doctors from "@/components/Doctors";
 
 const AppointmentPage = () => {
     return (
@@ -38,6 +39,8 @@ const AppointmentPage = () => {
 
                 </div>
                 <Appointment />
+
+                <Doctors />
             </div>
             <Footer />
         </>

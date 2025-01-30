@@ -60,7 +60,7 @@ const WorkingProcess = () => {
                     className="mx-auto max-w-2xl lg:text-center"
                     variants={itemVariants}
                 >
-                    <p className="py-4 text-lg font-dm-sans font-bold text-color-primary leading-snug">
+                    <p className="py-4 text-lg font-dm-sans font-bold text-color-secondary leading-snug">
                         | How We Work
                     </p>
                     <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold font-work-sans text-color-black leading-tight">

@@ -1,5 +1,6 @@
 "use client";
-import AdminLayout from "@/components/AdminLayout";
+import withAuth from "@/common/WithAuth";
+import AdminLayout from "@/components/Admin/AdminLayout";
 
 const AdminDashboard = () => {
     return (
@@ -9,4 +10,4 @@ const AdminDashboard = () => {
     );
 };
 
-export default AdminDashboard; 
+export default withAuth(AdminDashboard,['admin']);

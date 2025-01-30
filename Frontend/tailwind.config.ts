@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 const config: Config = {
   content: [
@@ -9,14 +10,18 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        'dm-sans': ['var(--font-dm-sans)', 'sans-serif'],
-        'work-sans': ['var(--font-work-sans)', 'sans-serif'],
-        'geist-sans': ['var(--font-geist-sans)', 'sans-serif'],
-        'geist-mono': ['var(--font-geist-mono)', 'monospace'],
+        "dm-sans": ["var(--font-dm-sans)", "sans-serif"],
+        "work-sans": ["var(--font-work-sans)", "sans-serif"],
+        "geist-sans": ["var(--font-geist-sans)", "sans-serif"],
+        "geist-mono": ["var(--font-geist-mono)", "monospace"],
+        sans: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
+        mono: ["var(--font-geist-mono)", ...defaultTheme.fontFamily.mono],
+        dm: ["var(--font-dm-sans)", ...defaultTheme.fontFamily.sans],
+        work: ["var(--font-work-sans)", ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        "color-primary": "#00A6FB",
-        "color-secondary": "#2AC28E",
+        "color-primary": "#08595a",
+        "color-secondary": "#15b697",
         "color-third": "#E0F5FF",
         "color-deepblue": "#4589F4",
         "para-color": "#5C728E",
@@ -28,12 +33,16 @@ const config: Config = {
         foreground: "var(--foreground)",
       },
       backgroundImage: {
-        'service-3': "url('./images/breadcrumb_bg.jpg')", // Update path if needed
+        "service-3": "url('./images/breadcrumb_bg.jpg')", // Update path if needed
       },
     },
   },
   plugins: [
-    require('daisyui'),
+    require("daisyui"),
+    require("tailwind-scrollbar"),
+    require("@tailwindcss/forms")({
+      strategy: 'class',
+    }),
   ],
 };
 export default config;

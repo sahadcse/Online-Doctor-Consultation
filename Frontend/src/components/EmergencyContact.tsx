@@ -28,7 +28,7 @@ const EmergencyContact = () => {
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ duration: 1, delay: 0.5 }}
                 >
-                    <p className="py-4 text-xl font-dm-sans font-bold text-color-primary leading-tight">
+                    <p className="py-4 text-xl font-dm-sans font-bold text-color-secondary leading-tight">
                         | Emergency helpline
                     </p>
                     <h1 className="text-4xl lg:text-5xl font-semibold font-work-sans text-color-black leading-tight">
